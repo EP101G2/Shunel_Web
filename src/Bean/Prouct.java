@@ -1,9 +1,11 @@
 package Bean;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Prouct {
+public class Prouct implements Serializable{
 
+	//宣告區
 	private int prouct_ID;
 	private String prouct_Name;
 	private String prouct_Color;
@@ -13,6 +15,8 @@ public class Prouct {
 	private String prouct_Status;
 	private Timestamp prouct_MODIFY_DATE;
 	
+	
+	//建構區
 	public Prouct(int prouct_ID, String prouct_Name, String prouct_Color, int prouct_Price, String prouct_Ditail,
 			int prouct_Category_ID, String prouct_Status, Timestamp prouct_MODIFY_DATE) {
 		super();
@@ -26,6 +30,7 @@ public class Prouct {
 		this.prouct_MODIFY_DATE = prouct_MODIFY_DATE;
 	}
 
+	//方法區
 	public int getProuct_ID() {
 		return prouct_ID;
 	}
