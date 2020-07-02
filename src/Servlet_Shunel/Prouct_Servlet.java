@@ -17,8 +17,8 @@ import org.apache.jasper.tagplugins.jstl.core.Out;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import Bean.Prouct;
-import DAO.Prouct_DAO;
+import Bean.Product;
+import DAO.Product_DAO;
 import DAO_Interface.Prouct_DAO_Interface;
 
 
@@ -30,7 +30,7 @@ public class Prouct_Servlet extends HttpServlet {
 	private static final String TAG = "TAG_Prouct_Servlet";
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "text/html; charset=utf-8";
-	Prouct_DAO prouct_DAO = null;
+	Product_DAO product_DAO = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -48,10 +48,10 @@ public class Prouct_Servlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		if (prouct_DAO == null) {
-			prouct_DAO = new Prouct_DAO_Interface();
+		if (product_DAO == null) {
+			product_DAO = new Prouct_DAO_Interface();
 		}
-		List<Prouct> proucts = prouct_DAO.getAll();
+		List<Product> proucts = product_DAO.getAll();
 
 		writeText(response, new Gson().toJson(proucts));
 	}
@@ -75,8 +75,8 @@ public class Prouct_Servlet extends HttpServlet {
 		System.out.println("Input:" + jsonIn);
 
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
-		if (prouct_DAO == null) {
-			prouct_DAO = new Prouct_DAO_Interface();
+		if (product_DAO == null) {
+			product_DAO = new Prouct_DAO_Interface();
 		}
 
 		//
@@ -84,7 +84,7 @@ public class Prouct_Servlet extends HttpServlet {
 
 		switch (action) {
 		case "getAll": {
-			List<Prouct> proucts = prouct_DAO.getAll();
+			List<Product> proucts = product_DAO.getAll();
 			writeText(response, gson.toJson(proucts));
 
 		}
@@ -93,7 +93,7 @@ public class Prouct_Servlet extends HttpServlet {
 			OutputStream os = response.getOutputStream();
 			int id = jsonObject.get("id").getAsInt();
 			int imageSize = jsonObject.get("imageSize").getAsInt();
-			byte[] image = prouct_DAO.getImage(id);
+			byte[] image = product_DAO.getImage(id);
 			if (image != null) {
 				image = ImageUtil.shrink(image, imageSize);
 				response.setContentType("image/jpeg");

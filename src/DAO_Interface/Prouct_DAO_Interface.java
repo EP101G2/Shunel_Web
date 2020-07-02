@@ -10,11 +10,11 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import Bean.Prouct;
-import DAO.Prouct_DAO;
+import Bean.Product;
+import DAO.Product_DAO;
 import Servlet_Shunel.ServiceLocator;
 
-public class Prouct_DAO_Interface implements Prouct_DAO {
+public class Prouct_DAO_Interface implements Product_DAO {
 
 	DataSource dataSource;
 
@@ -22,37 +22,30 @@ public class Prouct_DAO_Interface implements Prouct_DAO {
 		dataSource = ServiceLocator.getInstance().getDataSource();
 	}
 
-	@Override
-	public void insert(Prouct prouct) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void update(Prouct prouct) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	@Override
 	public void delete(int id) {
 		// TODO Auto-generated method stub
+		
+		
+		
 
 	}
 
 	@Override
-	public Prouct findById(int prouct_id) {
+	public Product findById(int prouct_id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Prouct> getAll() {
+	public List<Product> getAll() {
 		// TODO Auto-generated method stub
 
 		String sql = "SELECT * FROM PRODUCT;";
 
-		List<Prouct> prouctList = new ArrayList<Prouct>();
+		List<Product> prouctList = new ArrayList<Product>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 
@@ -72,7 +65,7 @@ public class Prouct_DAO_Interface implements Prouct_DAO {
 				int prouct_Status = rs.getInt("PRODUCT_STATUS");
 				Timestamp prouct_Time = rs.getTimestamp("MODIFY_DATE");
 
-				Prouct prouct = new Prouct(id, prouct_Name, prouct_Color, prouct_Price, prouct_Dital,
+				Product prouct = new Product(id, prouct_Name, prouct_Color, prouct_Price, prouct_Dital,
 						prouct_Category_ID, prouct_Status, prouct_Time);
 				prouctList.add(prouct);
 			}
@@ -102,6 +95,32 @@ public class Prouct_DAO_Interface implements Prouct_DAO {
 			e.printStackTrace();
 		} 
 		return image;
+	}
+
+
+
+	@Override
+	public void insert(Product prouct, byte[] image) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void update(Product prouct, byte[] image) {
+		// TODO Auto-generated method stub
+		
+		int count = 0;
+		String sql="";
+		if (image!=null) {
+			sql="UPDATE PRODUCT SET PRODUCT_NAME= ?,COLOR=?";
+			
+			
+		}else {
+			
+		}
+		
 	}
 
 }
