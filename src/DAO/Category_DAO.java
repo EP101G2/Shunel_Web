@@ -3,7 +3,7 @@ package DAO;
 import java.util.List;
 
 import Bean.Category;
-import Bean.Prouct;
+//import Bean.Prouct;
 
 public interface Category_DAO {
 	

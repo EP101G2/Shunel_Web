@@ -114,12 +114,19 @@ public class Prouct_DAO_Interface implements Product_DAO {
 		int count = 0;
 		String sql="";
 		if (image!=null) {
-			sql="UPDATE PRODUCT SET PRODUCT_NAME= ?,COLOR=?";
-			
-			
+			sql="UPDATE PRODUCT SET PRODUCT_NAME= ?,PRODUCT_IMG1=?,COLOR=?,PRICE=?,DITAL=?,CATEGORY_ID=?,PRODUCT_STATUS=?,MODIFY_DATE=?"+"WHERE PRODUCT_ID=?";	
 		}else {
-			
+			sql="UPDATE PRODUCT SET PRODUCT_NAME= ?,COLOR=?,PRICE=?,DITAL=?,CATEGORY_ID=?,PRODUCT_STATUS=?,MODIFY_DATE=?"+"WHERE PRODUCT_ID=?";	
 		}
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);
+				){
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
 		
 	}
 

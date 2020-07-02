@@ -2,7 +2,7 @@ package DAO;
 
 import java.util.List;
 
-import Bean.Prouct;
+//import Bean.Prouct;
 import Bean.User_Account;
 
 public interface Uesr_Account_DAO {
