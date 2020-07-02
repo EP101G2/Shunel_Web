@@ -12,13 +12,16 @@ public class Prouct implements Serializable{
 	private int prouct_Price;
 	private String prouct_Ditail;
 	private int prouct_Category_ID;
-	private String prouct_Status;
+	private int prouct_Status;
 	private Timestamp prouct_MODIFY_DATE;
 	
 	
 	//建構區
+	
+	
+	
 	public Prouct(int prouct_ID, String prouct_Name, String prouct_Color, int prouct_Price, String prouct_Ditail,
-			int prouct_Category_ID, String prouct_Status, Timestamp prouct_MODIFY_DATE) {
+			int prouct_Category_ID, int prouct_Status, Timestamp prouct_MODIFY_DATE) {
 		super();
 		this.prouct_ID = prouct_ID;
 		this.prouct_Name = prouct_Name;
@@ -29,6 +32,15 @@ public class Prouct implements Serializable{
 		this.prouct_Status = prouct_Status;
 		this.prouct_MODIFY_DATE = prouct_MODIFY_DATE;
 	}
+	
+	
+
+	public Prouct(int prouct_ID) {
+		super();
+		this.prouct_ID = prouct_ID;
+	}
+
+
 
 	//方法區
 	public int getProuct_ID() {
@@ -79,11 +91,11 @@ public class Prouct implements Serializable{
 		this.prouct_Category_ID = prouct_Category_ID;
 	}
 
-	public String getProuct_Status() {
+	public int getProuct_Status() {
 		return prouct_Status;
 	}
 
-	public void setProuct_Status(String prouct_Status) {
+	public void setProuct_Status(int prouct_Status) {
 		this.prouct_Status = prouct_Status;
 	}
 

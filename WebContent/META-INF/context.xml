@@ -2,7 +2,7 @@
 <Context docBase="Shunel_Web" path="/Shunel_Web"
 	reloadable="true">
 	
-	<Resource name="jdbc/" 
+	<Resource name="jdbc/Shunel_MySQL" 
 		auth="Container"
 		type="javax.sql.DataSource" 
 		driverClassName="com.mysql.cj.jdbc.Driver"
