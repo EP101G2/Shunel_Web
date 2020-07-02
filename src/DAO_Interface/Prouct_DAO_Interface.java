@@ -3,6 +3,7 @@ package DAO_Interface;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +85,23 @@ public class Prouct_DAO_Interface implements Prouct_DAO {
 		}
 
 		return prouctList;
+	}
+
+	@Override
+	public byte[] getImage(int id) {
+		String sql = "SELECT image FROM PRODUCT WHERE PRODUCT_ID = ?;";
+		byte[] image = null;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				image = rs.getBytes(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return image;
 	}
 
 }

@@ -14,6 +14,8 @@ public interface Prouct_DAO {
 	Prouct findById(int prouct_id);
 	List<Prouct> getAll();
 
+	byte[] getImage(int id);
+
 	
 	
 }

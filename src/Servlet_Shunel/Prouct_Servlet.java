@@ -2,6 +2,7 @@ package Servlet_Shunel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -20,84 +21,103 @@ import Bean.Prouct;
 import DAO.Prouct_DAO;
 import DAO_Interface.Prouct_DAO_Interface;
 
+
 /**
  * Servlet implementation class Prouct_Servlet
  */
 @WebServlet("/Prouct_Servlet")
 public class Prouct_Servlet extends HttpServlet {
-	private static final String TAG="TAG_Prouct_Servlet";
+	private static final String TAG = "TAG_Prouct_Servlet";
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "text/html; charset=utf-8";
-	Prouct_DAO prouct_DAO=null;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Prouct_Servlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	Prouct_DAO prouct_DAO = null;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public Prouct_Servlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		if (prouct_DAO==null) {
-			prouct_DAO=new Prouct_DAO_Interface();
+		if (prouct_DAO == null) {
+			prouct_DAO = new Prouct_DAO_Interface();
 		}
-		List<Prouct> proucts =prouct_DAO.getAll();
-		
+		List<Prouct> proucts = prouct_DAO.getAll();
+
 		writeText(response, new Gson().toJson(proucts));
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		doGet(request, response);
 		Gson gson = new Gson();
 		BufferedReader br = request.getReader();
 		StringBuilder jsonIn = new StringBuilder();
 		String line = "";
-		while((line=br.readLine())!=null) {
+		while ((line = br.readLine()) != null) {
 			jsonIn.append(line);
 		}
-		
-		System.out.println("Input:"+jsonIn);
-		
+
+		System.out.println("Input:" + jsonIn);
+
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
-		if (prouct_DAO==null) {
-			prouct_DAO=new Prouct_DAO_Interface();
+		if (prouct_DAO == null) {
+			prouct_DAO = new Prouct_DAO_Interface();
 		}
-		
+
 		//
 		String action = jsonObject.get("action").getAsString();
-		
+
 		switch (action) {
 		case "getAll": {
 			List<Prouct> proucts = prouct_DAO.getAll();
-			writeText(response,gson.toJson(proucts));
-			
+			writeText(response, gson.toJson(proucts));
+
 		}
+
+		case "getImage": {
+			OutputStream os = response.getOutputStream();
+			int id = jsonObject.get("id").getAsInt();
+			int imageSize = jsonObject.get("imageSize").getAsInt();
+			byte[] image = prouct_DAO.getImage(id);
+			if (image != null) {
+				image = ImageUtil.shrink(image, imageSize);
+				response.setContentType("image/jpeg");
+				response.setContentLength(image.length);
+				os.write(image);
+			}
+		}
+		
+		
+
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
 		}
-		
-		
-		
+
 	}
 
-	private void writeText(HttpServletResponse response,String outText) throws IOException {
+	private void writeText(HttpServletResponse response, String outText) throws IOException {
 		// TODO Auto-generated method stub
 		response.setContentType(CONTENT_TYPE);
 		PrintWriter out = response.getWriter();
 		out.print(outText);
 		// 將輸出資料列印出來除錯用
-		 System.out.println("output: " + outText);
-		
+		System.out.println("output: " + outText);
+
 	}
 
 }
