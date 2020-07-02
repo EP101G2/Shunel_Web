@@ -10,9 +10,9 @@ import Bean.Product;
 
 public interface Product_DAO {
 
-	void insert(Product product, byte[] image);
-	void update(Product product, byte[] image);
-	void delete(int id);
+	int insert(Product product, byte[] image,byte[] image2,byte[] image3);
+	int update(Product product, byte[] image,byte[] image2,byte[] image3);
+	int delete(int id);
 	Product findById(int prouct_id);
 	List<Product> getAll();
 

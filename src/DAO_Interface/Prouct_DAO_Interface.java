@@ -22,14 +22,10 @@ public class Prouct_DAO_Interface implements Product_DAO {
 		dataSource = ServiceLocator.getInstance().getDataSource();
 	}
 
-	
-
 	@Override
-	public void delete(int id) {
+	public int delete(int id) {
+		return id;
 		// TODO Auto-generated method stub
-		
-		
-		
 
 	}
 
@@ -93,41 +89,108 @@ public class Prouct_DAO_Interface implements Product_DAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		}
 		return image;
 	}
 
-
-
 	@Override
-	public void insert(Product prouct, byte[] image) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	@Override
-	public void update(Product prouct, byte[] image) {
-		// TODO Auto-generated method stub
-		
+	public  int insert(Product prouct, byte[] image, byte[] image2, byte[] image3) {
 		int count = 0;
-		String sql="";
-		if (image!=null) {
-			sql="UPDATE PRODUCT SET PRODUCT_NAME= ?,PRODUCT_IMG1=?,COLOR=?,PRICE=?,DITAL=?,CATEGORY_ID=?,PRODUCT_STATUS=?,MODIFY_DATE=?"+"WHERE PRODUCT_ID=?";	
-		}else {
-			sql="UPDATE PRODUCT SET PRODUCT_NAME= ?,COLOR=?,PRICE=?,DITAL=?,CATEGORY_ID=?,PRODUCT_STATUS=?,MODIFY_DATE=?"+"WHERE PRODUCT_ID=?";	
+		String sql= "INSERT INTO PRODUCT";
+		
+		if (image!=null && image2==null && image3==null) {
+			sql+="(PRODUCT_NAME,COLOR,PRICE,DITAL,CATEGORY_ID,PRODUCT_STATUS,PRODUCT_IMG1)";
+			sql+="VALUES(?,?,?,?,?,?,?);";
+		}else if (image!=null && image2!=null && image3 ==null) {
+			sql+="(PRODUCT_NAME,COLOR,PRICE,DITAL,CATEGORY_ID,PRODUCT_STATUS,PRODUCT_IMG1,PRODUCT_IMG2)";
+			sql+="VALUES(?,?,?,?,?,?,?,?);";
+		}else if (image!=null && image2!=null && image3 !=null) {
+			sql+="(PRODUCT_NAME,COLOR,PRICE,DITAL,CATEGORY_ID,PRODUCT_STATUS,PRODUCT_IMG1,PRODUCT_IMG2,PRODUCT_IMG3)";
+			sql+="VALUES(?,?,?,?,?,?,?,?,?);";
+		}else if (image!=null && image2!=null && image3 !=null) {
+			sql+="(PRODUCT_NAME,COLOR,PRICE,DITAL,CATEGORY_ID,PRODUCT_STATUS)";
+			sql+="VALUES(?,?,?,?,?,?);";
 		}
-		try (Connection connection = dataSource.getConnection();
+		
+		try(Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);
-				){
-			
+				) {
+			ps.setString(1, prouct.getProduct_Name());
+			ps.setString(2, prouct.getProduct_Color());
+			ps.setInt(3, prouct.getProduct_Price());
+			ps.setString(4, prouct.getProduct_Ditail());
+			ps.setInt(5, prouct.getProduct_Category_ID());
+			ps.setInt(6, prouct.getProduct_Status());
+			if (image!=null) {
+				ps.setBytes(7, image);
+				
+				if (image2!=null) {
+					ps.setBytes(8, image2);
+					if (image3!=null) {
+						ps.setBytes(9, image3);
+					}
+				}
+				count=ps.executeUpdate();
+			}else {
+				count=ps.executeUpdate();
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
-		
-		
-		
+		return count;
+
+	}
+
+	@Override
+	public int update(Product prouct, byte[] image, byte[] image2, byte[] image3) {
+		// TODO Auto-generated method stub
+
+		int count = 0;
+		String sql = "UPDATE PRODUCT SET PRODUCT_NAME= ?,COLOR=?,PRICE=?,DITAL=?,CATEGORY_ID=?,PRODUCT_STATUS=?,MODIFY_DATE=?";
+		if (image != null) {
+//			
+			sql += ",PRODUCT_IMG1=?";
+			if (image2 != null) {
+				sql += ",PRODUCT_IMG2=?";
+				if (image3 != null) {
+					sql += ",PRODUCT_IMG3=?";
+				}
+			}
+
+		}
+		sql += "WHERE PRODUCT_ID=?";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, prouct.getProduct_Name());
+			ps.setString(2, prouct.getProduct_Color());
+			ps.setInt(3, prouct.getProduct_Price());
+			ps.setString(4, prouct.getProduct_Ditail());
+			ps.setInt(5, prouct.getProduct_Category_ID());
+			ps.setInt(6, prouct.getProduct_Status());
+			ps.setTimestamp(7, prouct.getProduct_MODIFY_DATE());
+
+			if (image != null) {
+				ps.setBytes(8, image);
+				ps.setInt(9, prouct.getProduct_ID());
+				if (image2 != null) {
+					ps.setBytes(9, image2);
+					ps.setInt(10, prouct.getProduct_ID());
+					if (image3 != null) {
+						ps.setBytes(10, image3);
+						ps.setInt(11, prouct.getProduct_ID());
+					}
+				}
+
+			} else {
+				ps.setInt(8, prouct.getProduct_ID());
+			}
+			count = ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 }
