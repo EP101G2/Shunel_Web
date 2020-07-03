@@ -5,7 +5,7 @@ import java.util.List;
 import Bean.Admin;
 
 
-interface Admin_DAO {
+public interface Admin_DAO {
 
 	void insert(Admin admin);
 	void update(Admin admin);

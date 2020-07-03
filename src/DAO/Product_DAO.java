@@ -3,7 +3,7 @@ package DAO;
 import java.awt.Image;
 import java.util.List;
 
-import Bean.Product;
+
 import Bean.Product;
 
 
