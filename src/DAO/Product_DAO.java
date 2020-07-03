@@ -15,6 +15,7 @@ public interface Product_DAO {
 	int delete(int id);
 	Product findById(int prouct_id);
 	List<Product> getAll();
+	
 
 	byte[] getImage(int id);
 

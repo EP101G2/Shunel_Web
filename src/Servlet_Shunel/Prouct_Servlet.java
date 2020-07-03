@@ -90,7 +90,12 @@ public class Prouct_Servlet extends HttpServlet {
 			writeText(response, gson.toJson(proucts));
 
 		}
+		
+		case "getLogin": {
+			List<Product> proucts = product_DAO.getAll();
+			writeText(response, gson.toJson(proucts));
 
+		}
 		case "getImage": {
 			OutputStream os = response.getOutputStream();
 			int id = jsonObject.get("id").getAsInt();
