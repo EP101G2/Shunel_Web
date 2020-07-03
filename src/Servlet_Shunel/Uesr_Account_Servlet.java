@@ -80,6 +80,12 @@ public class Uesr_Account_Servlet extends HttpServlet {
 			
 			
 		}
+		
+		case"getLogin":{
+			List<User_Account> user_Accounts=account_DAO.login(phonenumber, password);
+		}
+		
+		
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
 		}

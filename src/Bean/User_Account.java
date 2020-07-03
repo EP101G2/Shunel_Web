@@ -29,6 +29,13 @@ public class User_Account implements Serializable {
 	}
 
 
+	public User_Account(String account_Phone, String account_Password) {
+		super();
+		Account_Phone = account_Phone;
+		Account_Password = account_Password;
+	}
+
+
 	public int getAccount_ID() {
 		return Account_ID;
 	}
