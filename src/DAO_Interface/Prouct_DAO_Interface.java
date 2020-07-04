@@ -18,8 +18,9 @@ public class Prouct_DAO_Interface implements Product_DAO {
 
 	DataSource dataSource;
 
-	public Prouct_DAO_Interface() {
+	 public Prouct_DAO_Interface(){
 		dataSource = ServiceLocator.getInstance().getDataSource();
+		
 	}
 
 	@Override
@@ -193,4 +194,5 @@ public class Prouct_DAO_Interface implements Product_DAO {
 		return count;
 	}
 
+	
 }

@@ -15,6 +15,13 @@ public class User_Account implements Serializable {
 	private Timestamp Account_Modify_Date;
 	
 	
+	
+	
+	public User_Account() {
+		super();
+	}
+
+
 	public User_Account(int account_ID, String account_Phone, String account_Password, String account_Addres,
 			int account_Total_Price, int account_Notice_Status, int account_Status, Timestamp account_Modify_Date) {
 		super();
@@ -26,6 +33,13 @@ public class User_Account implements Serializable {
 		Account_Notice_Status = account_Notice_Status;
 		Account_Status = account_Status;
 		Account_Modify_Date = account_Modify_Date;
+	}
+
+
+	public User_Account(String account_Phone, String account_Password) {
+		super();
+		Account_Phone = account_Phone;
+		Account_Password = account_Password;
 	}
 
 

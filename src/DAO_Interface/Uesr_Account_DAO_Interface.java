@@ -15,12 +15,9 @@ import Bean.User_Account;
 import DAO.Uesr_Account_DAO;
 import Servlet_Shunel.ServiceLocator;
 
-
 public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
-	
+
 	DataSource dataSource;
-	
-	
 
 	public Uesr_Account_DAO_Interface() {
 		dataSource = ServiceLocator.getInstance().getDataSource();
@@ -54,32 +51,71 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 	public List<User_Account> getAll() {
 		// TODO Auto-generated method stub
 		String sql = "SELECT * FROM USER_ACCOUNT;";
-		
+
 		List<User_Account> accounts = new ArrayList<>();
-		try(Connection connection = dataSource.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql);
-				) {
-			ResultSet rs =ps.executeQuery();
-			while(rs.next()) {
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
 				int id = rs.getInt("ACCOUNT_ID");
-				String phone= rs.getString("PHONE");
-				String password =rs.getString("PASSWORD");
-				String addres=rs.getString("ADDRESS");
+				String phone = rs.getString("PHONE");
+				String password = rs.getString("PASSWORD");
+				String addres = rs.getString("ADDRESS");
 				int price = rs.getInt("TOTAL_PRICE");
 				int notoce_status = rs.getInt("NOTICE_STATUS");
-				int account_status=rs.getInt("ACCOUNT_STATUS");
-				Timestamp time =rs.getTimestamp("MODIFY_DATE");
-				User_Account account = new User_Account(id, phone, password, addres, price, notoce_status, account_status, time);
+				int account_status = rs.getInt("ACCOUNT_STATUS");
+				Timestamp time = rs.getTimestamp("MODIFY_DATE");
+				User_Account account = new User_Account(id, phone, password, addres, price, notoce_status,
+						account_status, time);
 				accounts.add(account);
 			}
 			return accounts;
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+
 		return accounts;
+	}
+
+	@Override
+	public List<User_Account> login(User_Account user_Account) {
+		// TODO Auto-generated method stub
+		String sql = "select * from USER_ACCOUNT where PHONE = ? and PASSWORD = ? ;";
+		List<User_Account> accountList = null;
+
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				
+				
+//				preparedStatement.setString(1, user_Account.getAccount_Phone());
+//				preparedStatement.setString(2, user_Account.getAccount_Password());
+				
+				
+//				int id = rs.getInt("ACCOUNT_ID");
+//				String phone = rs.getString("PHONE");
+//				String password = rs.getString("PASSWORD");
+//				String addres = rs.getString("ADDRESS");
+//				int price = rs.getInt("TOTAL_PRICE");
+//				int notoce_status = rs.getInt("NOTICE_STATUS");
+//				int account_status = rs.getInt("ACCOUNT_STATUS");
+//				Timestamp time = rs.getTimestamp("MODIFY_DATE");
+//				User_Account account = new User_Account(id, phone, password, addres, price, notoce_status,
+//						account_status, time);
+//				User_Account account = new User_Account(phone, password);
+//				
+//				accountList.add(account);
+			}
+			return accountList;
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return accountList;
 	}
 
 }
