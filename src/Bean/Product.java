@@ -38,6 +38,19 @@ public class Product implements Serializable{
 	}
 
 
+	public Product(int product_ID, String product_Name, String product_Color, int product_Price, String product_Ditail,
+			int product_Category_ID, int product_Status) {
+		super();
+		this.product_ID = product_ID;
+		this.product_Name = product_Name;
+		this.product_Color = product_Color;
+		this.product_Price = product_Price;
+		this.product_Ditail = product_Ditail;
+		this.product_Category_ID = product_Category_ID;
+		this.product_Status = product_Status;
+	}
+
+
 	public int getProduct_ID() {
 		return product_ID;
 	}

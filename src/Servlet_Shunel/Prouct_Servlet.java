@@ -88,21 +88,22 @@ public class Prouct_Servlet extends HttpServlet {
 		case "getAll": {
 			List<Product> proucts = product_DAO.getAll();
 			writeText(response, gson.toJson(proucts));
-
+		break;
 		}
 
-		case "getImage": {
-			OutputStream os = response.getOutputStream();
-			int id = jsonObject.get("id").getAsInt();
-			int imageSize = jsonObject.get("imageSize").getAsInt();
-			byte[] image = product_DAO.getImage(id);
-			if (image != null) {
-				image = ImageUtil.shrink(image, imageSize);
-				response.setContentType("image/jpeg");
-				response.setContentLength(image.length);
-				os.write(image);
-			}
-		}
+//		case "getImage": {
+//			OutputStream os = response.getOutputStream();
+//			int id = jsonObject.get("id").getAsInt();
+//			int imageSize = jsonObject.get("imageSize").getAsInt();
+//			byte[] image = product_DAO.getImage(id);
+//			if (image != null) {
+//				image = ImageUtil.shrink(image, imageSize);
+//				response.setContentType("image/jpeg");
+//				response.setContentLength(image.length);
+//				os.write(image);
+//			}
+		//break;
+//		}
 		
 		
 

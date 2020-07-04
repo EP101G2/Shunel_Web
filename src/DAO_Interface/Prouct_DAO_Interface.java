@@ -59,10 +59,10 @@ public class Prouct_DAO_Interface implements Product_DAO {
 				String prouct_Dital = rs.getString("DITAL");
 				int prouct_Category_ID = rs.getInt("CATEGORY_ID");
 				int prouct_Status = rs.getInt("PRODUCT_STATUS");
-				Timestamp prouct_Time = rs.getTimestamp("MODIFY_DATE");
+//				Timestamp prouct_Time = rs.getTimestamp("MODIFY_DATE");
 
 				Product prouct = new Product(id, prouct_Name, prouct_Color, prouct_Price, prouct_Dital,
-						prouct_Category_ID, prouct_Status, prouct_Time);
+						prouct_Category_ID, prouct_Status);
 				prouctList.add(prouct);
 			}
 			return prouctList;
