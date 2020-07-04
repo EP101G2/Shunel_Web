@@ -10,9 +10,9 @@ public interface Authority_DAO {
 
 	void update(Authority authority);
 
-	void delete(int admin_ID, int function_ID);
+	void delete(int Admin_ID, int Function_ID);
 
-	Authority findById(int admin_ID, int function_ID);
+	Authority findById(int Admin_ID, int Function_ID);
 
 	List<Authority> getAll();
 }
