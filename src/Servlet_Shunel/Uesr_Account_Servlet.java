@@ -29,7 +29,7 @@ public class Uesr_Account_Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "text/html; charset=utf-8";
 	Uesr_Account_DAO account_DAO = null;
-
+	User_Account user_Account=null;
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -82,7 +82,12 @@ public class Uesr_Account_Servlet extends HttpServlet {
 		}
 		
 		case"getLogin":{
-//			List<User_Account> user_Accounts=account_DAO.login(phonenumber, password);
+//			
+			String account_Name= jsonObject.get("account_Name").getAsString();
+			String account_Password=jsonObject.get("account_Password").getAsString();
+//			List<User_Account> user_Accounts = account_DAO.login(User_Account);
+			
+			
 		}
 		
 		
