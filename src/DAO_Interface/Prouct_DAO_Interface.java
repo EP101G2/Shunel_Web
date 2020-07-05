@@ -39,13 +39,12 @@ public class Prouct_DAO_Interface implements Product_DAO {
 	@Override
 	public List<Product> getAll() {
 		// TODO Auto-generated method stub
-
 		String sql = "SELECT * FROM PRODUCT;";
 
 		List<Product> prouctList = new ArrayList<Product>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-
+	
 			System.out.println(connection.isClosed());
 			System.out.println(ps.isClosed());
 
