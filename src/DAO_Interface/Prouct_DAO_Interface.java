@@ -39,17 +39,30 @@ public class Prouct_DAO_Interface implements Product_DAO {
 	@Override
 	public List<Product> getAll() {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
+=======
+
+		
+>>>>>>> 724976a8de9a494d31b4bd091784c9fdc8222c1f
 		String sql = "SELECT * FROM PRODUCT;";
 
 		List<Product> prouctList = new ArrayList<Product>();
+		System.out.println("333");
 		try (Connection connection = dataSource.getConnection();
+			
 				PreparedStatement ps = connection.prepareStatement(sql);) {
+<<<<<<< HEAD
 	
 			System.out.println(connection.isClosed());
 			System.out.println(ps.isClosed());
+=======
+			System.out.println("222");
+//			System.out.println(connection.isClosed());
+//			System.out.println(ps.isClosed());
+>>>>>>> 724976a8de9a494d31b4bd091784c9fdc8222c1f
 
 			ResultSet rs = ps.executeQuery();
-
+//			System.out.println("test"+rs);
 			while (rs.next()) {
 				System.out.println("--------");
 				int id = rs.getInt("PRODUCT_ID");
@@ -65,6 +78,7 @@ public class Prouct_DAO_Interface implements Product_DAO {
 						prouct_Category_ID, prouct_Status);
 				prouctList.add(prouct);
 			}
+			
 			return prouctList;
 
 		} catch (Exception e) {

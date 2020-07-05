@@ -16,11 +16,11 @@ import org.apache.jasper.tagplugins.jstl.core.Out;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+//import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 
 import Bean.Product;
 import DAO.Product_DAO;
 import DAO_Interface.Prouct_DAO_Interface;
-
 
 /**
  * Servlet implementation class Prouct_Servlet
@@ -47,7 +47,6 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
 
 		if (product_DAO == null) {
 			product_DAO = new Prouct_DAO_Interface();
@@ -86,15 +85,17 @@ public class Prouct_Servlet extends HttpServlet {
 
 		switch (action) {
 		case "getAll": {
+<<<<<<< HEAD
 
+=======
+			
+			System.out.println("111");
+			
+>>>>>>> 724976a8de9a494d31b4bd091784c9fdc8222c1f
 			List<Product> proucts = product_DAO.getAll();
 			writeText(response, gson.toJson(proucts));
-		break;
+			break;
 		}
-		
-		case "getLogin": {
-			List<Product> proucts = product_DAO.getAll();
-			writeText(response, gson.toJson(proucts));
 
 //		case "getImage": {
 //			OutputStream os = response.getOutputStream();
@@ -107,9 +108,9 @@ public class Prouct_Servlet extends HttpServlet {
 //				response.setContentLength(image.length);
 //				os.write(image);
 //			}
-		//break;
+		// break;
 //		}
-		}
+
 		case "getImage": {
 			OutputStream os = response.getOutputStream();
 			int id = jsonObject.get("id").getAsInt();
@@ -120,11 +121,11 @@ public class Prouct_Servlet extends HttpServlet {
 				response.setContentType("image/jpeg");
 				response.setContentLength(image.length);
 				os.write(image);
+
 			}
+			break;
 		}
-		
-		
-		
+
 
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
