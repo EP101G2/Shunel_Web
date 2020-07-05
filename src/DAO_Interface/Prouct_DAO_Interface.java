@@ -44,7 +44,9 @@ public class Prouct_DAO_Interface implements Product_DAO {
 		String sql = "SELECT * FROM PRODUCT;";
 
 		List<Product> prouctList = new ArrayList<Product>();
+		System.out.println("333");
 		try (Connection connection = dataSource.getConnection();
+			
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			System.out.println("222");
 //			System.out.println(connection.isClosed());

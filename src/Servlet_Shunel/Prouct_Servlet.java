@@ -87,6 +87,7 @@ public class Prouct_Servlet extends HttpServlet {
 		case "getAll": {
 			
 			System.out.println("111");
+			
 			List<Product> proucts = product_DAO.getAll();
 			writeText(response, gson.toJson(proucts));
 			break;
