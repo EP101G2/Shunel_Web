@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import Bean.Order_Detail;
+import Bean.Order_Main;
 import Bean.Product;
 import DAO.Product_DAO;
 import Servlet_Shunel.ServiceLocator;
@@ -198,5 +200,6 @@ public class Prouct_DAO_Interface implements Product_DAO {
 		return count;
 	}
 
+	
 	
 }
