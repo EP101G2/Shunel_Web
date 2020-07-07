@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -18,9 +19,19 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 //import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 
+import Bean.Order_Detail;
+import Bean.Order_Main;
 import Bean.Product;
+import Bean.Shopping_Cart;
+import Bean.User_Account;
+import DAO.Order_Detail_DAO;
 import DAO.Product_DAO;
+import DAO.Shopping_Card_DAO;
+import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Prouct_DAO_Interface;
+import DAO_Interface.Shopping_Card_DAO_Interdace;
+
+//import idv.ron.server.spots.Spot;
 
 /**
  * Servlet implementation class Prouct_Servlet
@@ -31,6 +42,8 @@ public class Prouct_Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "text/html; charset=utf-8";
 	Product_DAO product_DAO = null;
+	Order_Detail_DAO order_Detail_DAO = null;
+	Shopping_Card_DAO shopping_Card_DAO = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -79,13 +92,25 @@ public class Prouct_Servlet extends HttpServlet {
 		if (product_DAO == null) {
 			product_DAO = new Prouct_DAO_Interface();
 		}
+		if (order_Detail_DAO == null) {
+			order_Detail_DAO = new Order_Detail_DAO_Interface();
+		}
+		if (shopping_Card_DAO == null) {
+			shopping_Card_DAO =new Shopping_Card_DAO_Interdace() {
+			};
+		}
+		
 
 		//
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
 		case "getAll": {
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> a0a6ccd517fbbb9090a60066f8eef8f28efeb75a
 			List<Product> proucts = product_DAO.getAll();
 			writeText(response, gson.toJson(proucts));
 			break;
@@ -120,6 +145,35 @@ public class Prouct_Servlet extends HttpServlet {
 			break;
 		}
 
+		case "addShop": {
+			String ID_Json = jsonObject.get("addID").getAsString();
+			System.out.println("ID_Json = " + ID_Json);
+			Shopping_Cart shopping_Cart = gson.fromJson(ID_Json, Shopping_Cart.class);
+//			User_Account user_Account = gson.fromJson("", classOfT)
+			int count = 0;
+//			int user_Account =produc,,, 
+//			int product =product_DAO.findById(prouct_id);
+//			Product product = new Product(product_ID, product_Name, product_Color, product_Price, product_Ditail, product_Category_ID, product_Status) 
+			
+			
+			count = shopping_Card_DAO.insert(shopping_Cart);
+//			byte[] image = null;
+			// 檢查是否有上傳圖片
+//			if (jsonObject.get("imageBase64") != null) {
+//				String imageBase64 = jsonObject.get("imageBase64").getAsString();
+//				if (imageBase64 != null && !imageBase64.isEmpty()) {
+//					image = Base64.getMimeDecoder().decode(imageBase64);
+//				}
+//			}
+//			int count = 0;
+//			if (action.equals("spotInsert")) {
+//				count = product.insert(spot, image);
+//			} else if (action.equals("spotUpdate")) {
+//				count = spotDao.update(spot, image);
+//			}
+			writeText(response, String.valueOf(count));
+			break;
+		}
 
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
