@@ -13,7 +13,7 @@ import Bean.User_Account;
 import DAO.Shopping_Card_DAO;
 import Servlet_Shunel.ServiceLocator;
 
-public class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
+public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 
 	DataSource dataSource;
 
@@ -24,7 +24,7 @@ public class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	
 	
 	@Override
-	public int insert(User_Account user_Account, Product product) {
+	public int insert(User_Account user_Account, Product product,Shopping_Cart shopping_cart) {
 		// TODO Auto-generated method stub
 		int count = 0;
 		String sql = "INSERT INTO SHOPPING_CART" + "(ACCOUNT_ID,PRODUCT_ID,AMOUNT,MODIFY_DATE) "
@@ -33,7 +33,7 @@ public class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ps.setInt(1, user_Account.getAccount_ID());
 			ps.setInt(2, product.getProduct_ID());
-//			ps.setInt(3, product.);
+			ps.setInt(3, shopping_cart.getShopping_Cart_Amount());
 			ps.setTimestamp(4, product.getProduct_MODIFY_DATE());
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
@@ -46,7 +46,20 @@ public class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	@Override
 	public int insert(Shopping_Cart shopping_Cart) {
 		// TODO Auto-generated method stub
-		return 0;
+		int count = 0;
+		String sql = "INSERT INTO SHOPPING_CART" + "(ACCOUNT_ID,PRODUCT_ID,AMOUNT,MODIFY_DATE) "
+				+ "VALUES(?, ?, ?, ?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, shopping_Cart.getAccount_ID());
+			ps.setInt(2, shopping_Cart.getProduct_ID());
+			ps.setInt(3, shopping_Cart.getShopping_Cart_Amount());
+			ps.setTimestamp(4, null);
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 	@Override

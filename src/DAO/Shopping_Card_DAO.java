@@ -10,7 +10,7 @@ import Bean.Product;
 
 public interface Shopping_Card_DAO {
 
-	int insert(User_Account user_Account,Product product );
+	int insert(User_Account user_Account,Product product,Shopping_Cart Shopping_Cart);
 	int insert(Shopping_Cart shopping_Cart);
 	int delete(int accoumt_ID, int product_ID);
 	List<Shopping_Cart> getAll();
