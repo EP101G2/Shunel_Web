@@ -8,6 +8,8 @@ public class Notice implements Serializable {
 	private int Notice_ID;
 	private String Notice_Content;
 	private Timestamp Notice_time;
+	private int NOTICE_CATEGORY_ID;
+	private int CATEGORY_MESSAGE_ID;
 
 	public Notice(int notice_ID, String notice_Content, Timestamp notice_time, int nOTICE_CATEGORY_ID,
 			int cATEGORY_MESSAGE_ID) {
@@ -19,8 +21,7 @@ public class Notice implements Serializable {
 		CATEGORY_MESSAGE_ID = cATEGORY_MESSAGE_ID;
 	}
 
-	private int NOTICE_CATEGORY_ID;
-	private int CATEGORY_MESSAGE_ID;
+	
 
 	public int getNotice_ID() {
 		return Notice_ID;

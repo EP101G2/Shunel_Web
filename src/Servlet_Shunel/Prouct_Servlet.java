@@ -106,7 +106,11 @@ public class Prouct_Servlet extends HttpServlet {
 
 		switch (action) {
 		case "getAll": {
+<<<<<<< HEAD
+			
+=======
 
+>>>>>>> a0a6ccd517fbbb9090a60066f8eef8f28efeb75a
 			List<Product> proucts = product_DAO.getAll();
 			writeText(response, gson.toJson(proucts));
 			break;
