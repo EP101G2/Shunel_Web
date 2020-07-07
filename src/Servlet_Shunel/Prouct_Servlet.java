@@ -44,8 +44,6 @@ public class Prouct_Servlet extends HttpServlet {
 	Product_DAO product_DAO = null;
 	Order_Detail_DAO order_Detail_DAO = null;
 	Shopping_Card_DAO shopping_Card_DAO = null;
-	
-
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -108,14 +106,6 @@ public class Prouct_Servlet extends HttpServlet {
 
 		switch (action) {
 		case "getAll": {
-
-<<<<<<< HEAD
-			
-			System.out.println("111");
-			
-
-=======
->>>>>>> e2ebf5c5bfd9669bde3d86ae3989f08dd722f154
 			List<Product> proucts = product_DAO.getAll();
 			writeText(response, gson.toJson(proucts));
 			break;
