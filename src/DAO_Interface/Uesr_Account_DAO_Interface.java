@@ -64,9 +64,9 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 				int account_Total_Price = rs.getInt("TOTAL_PRICE");
 				int account_Notice_Status = rs.getInt("NOTICE_STATUS");
 				int account_Status = rs.getInt("ACCOUNT_STATUS");
-				Timestamp account_Modify_Date=rs.getTimestamp("MODIFY_DATE");
+//				Timestamp account_Modify_Date=rs.getTimestamp("MODIFY_DATE");
 				user_Account = new User_Account(account_ID,account_Phone,  account_Password, account_Address,
-						 account_Total_Price,  account_Notice_Status,  account_Status, account_Modify_Date);
+						 account_Total_Price,  account_Notice_Status,  account_Status);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
