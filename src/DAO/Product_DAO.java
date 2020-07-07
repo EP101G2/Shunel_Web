@@ -3,8 +3,10 @@ package DAO;
 import java.awt.Image;
 import java.util.List;
 
-
+import Bean.Order_Detail;
+import Bean.Order_Main;
 import Bean.Product;
+import Bean.Shopping_Cart;
 
 
 
@@ -18,6 +20,13 @@ public interface Product_DAO {
 	
 
 	byte[] getImage(int id);
+	
+	
+	
+	
+	
+	
+	
 
 	
 	
