@@ -31,7 +31,7 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 				+ "VALUES(?, ?, ?, ?);";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-			ps.setInt(1, user_Account.getAccount_ID());
+			ps.setString(1, user_Account.getAccount_ID());
 			ps.setInt(2, product.getProduct_ID());
 			ps.setInt(3, shopping_cart.getShopping_Cart_Amount());
 			ps.setTimestamp(4, product.getProduct_MODIFY_DATE());
