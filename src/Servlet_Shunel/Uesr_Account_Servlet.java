@@ -76,20 +76,24 @@ public class Uesr_Account_Servlet extends HttpServlet {
 
 			if (user == null) {
 				jsonLoginResult.addProperty("result", "fail");
+
 				jsonLoginResult.addProperty("message", "查無此帳號");
+
 			} else {
 				if (user.getAccount_Password().equals(user_passwordString)) {
 					jsonLoginResult.addProperty("result", "success");
 					jsonLoginResult.addProperty("user", gson.toJson(user));
 				} else {
 					jsonLoginResult.addProperty("result", "fail");
-					jsonLoginResult.addProperty("message", "查無此密碼");
 				}
 			}
 			writeText(response, jsonLoginResult.toString());
 
-		}
 
+		
+			System.out.println("output: "+jsonLoginResult);
+		}
+		
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
 		}
