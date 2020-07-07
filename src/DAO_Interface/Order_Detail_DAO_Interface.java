@@ -33,7 +33,6 @@ public class Order_Detail_DAO_Interface implements Order_Detail_DAO {
 			ps.setInt(2, product.getProduct_ID());
 			ps.setInt(3, order_Detail.getOrder_Detail_Amount());
 			ps.setInt(4, order_Detail.getOrder_Detail_Buy_Price());
-
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -52,7 +51,7 @@ public class Order_Detail_DAO_Interface implements Order_Detail_DAO {
 	public int delete(int Order_ID, int Product_ID) {
 		// TODO Auto-generated method stub
 		int count = 0;
-		String sql = "DELETE FROM ORDER_DETAIL WHERE (ORDER_ID = ?) and (PRODUCT_ID = ?;";
+		String sql = "DELETE FROM ORDER_DETAIL WHERE (ORDER_ID = ?) and (PRODUCT_ID = ?);";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ps.setInt(1, Order_ID);
