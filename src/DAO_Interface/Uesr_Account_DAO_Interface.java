@@ -45,7 +45,7 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 
 	@Override
 	public User_Account findById(String user_Account_ID) {
-		String sql = "SELECT * FROM USER_ACCOUNT WHERE user_Account_ID = ?;";
+		String sql = "SELECT * FROM USER_ACCOUNT WHERE ACCOUNT_ID = ?;";
 		User_Account user_Account= null;
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
