@@ -92,6 +92,7 @@ public class Uesr_Account_Servlet extends HttpServlet {
 
 		
 			System.out.println("output: "+jsonLoginResult);
+			break;
 		}
 		
 		default:
