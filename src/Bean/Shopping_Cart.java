@@ -14,8 +14,8 @@ public class Shopping_Cart implements Serializable {
 	private int price;
 	private Timestamp MODIFY_DATE;
 
-	public Shopping_Cart(String account_ID, int product_ID, String product_Name, int amount, String color, int price,
-			Timestamp mODIFY_DATE) {
+	public Shopping_Cart(String account_ID, int product_ID, String product_Name, int amount, String color, int price
+			) {
 		super();
 		this.account_ID = account_ID;
 		this.product_ID = product_ID;
@@ -23,8 +23,20 @@ public class Shopping_Cart implements Serializable {
 		this.amount = amount;
 		this.color = color;
 		this.price = price;
-		MODIFY_DATE = mODIFY_DATE;
+	
 	}
+
+//	public Shopping_Cart(String account_ID, int product_ID, String product_Name, int amount, String color, int price,
+//			Timestamp mODIFY_DATE) {
+//		super();
+//		this.account_ID = account_ID;
+//		this.product_ID = product_ID;
+//		this.product_Name = product_Name;
+//		this.amount = amount;
+//		this.color = color;
+//		this.price = price;
+//		MODIFY_DATE = mODIFY_DATE;
+//	}
 
 	public String getAccount_ID() {
 		return account_ID;

@@ -26,7 +26,7 @@ public class ServiceLocator {
 		DataSource dataSource = null;
 		try {
 			Context ctx = (Context) initalContext.lookup("java:comp/env");
-			dataSource = (DataSource) ctx.lookup("jdbc/Shunel_MySQL");
+			dataSource = (DataSource) ctx.lookup("jdbc/Shunel");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
