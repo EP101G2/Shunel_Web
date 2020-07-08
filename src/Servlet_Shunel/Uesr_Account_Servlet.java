@@ -51,28 +51,30 @@ public class Uesr_Account_Servlet extends HttpServlet {
 //		doGet(request, response);
 		request.setCharacterEncoding("UTF-8");
 		Gson gson = new Gson();
-		BufferedReader br = request.getReader();
-		StringBuilder jsonIn = new StringBuilder();
+		BufferedReader br = request.getReader();  //request就是ＡＮＤＲＯＩＤ街收的東西（ＪＳＯＮ ＳＴＲＩＮＧ）
+		StringBuilder ServletJsonIn = new StringBuilder();
 		String line = "";
 		while ((line = br.readLine()) != null) {
-			jsonIn.append(line);
+			ServletJsonIn.append(line);
 		}
 		// 將輸入資料列印出來除錯用
-		System.out.println("input: " + jsonIn);
-		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
+		System.out.println("input: " + ServletJsonIn);
+		
+		JsonObject jsonObject = gson.fromJson(ServletJsonIn.toString(), JsonObject.class);// 字串轉JsonObject物件
 		if (account_DAO == null) {
 			account_DAO = new Uesr_Account_DAO_Interface();
 		}
-
+		
+		
 		String action = jsonObject.get("action").getAsString();
 		String user_Account = jsonObject.get("id").getAsString();
 		String user_passwordString = jsonObject.get("password").getAsString();
-
+		
 		switch (action) {
 		case "getLogin": {
 			JsonObject jsonLoginResult = new JsonObject();
 			Uesr_Account_DAO user_Account_DAO = new Uesr_Account_DAO_Interface();
-			User_Account user = user_Account_DAO.findById(user_Account);
+			User_Account user = user_Account_DAO.login(user_Account);
 
 			if (user == null) {
 				jsonLoginResult.addProperty("result", "fail");
@@ -82,7 +84,7 @@ public class Uesr_Account_Servlet extends HttpServlet {
 			} else {
 				if (user.getAccount_Password().equals(user_passwordString)) {
 					jsonLoginResult.addProperty("result", "success");
-					jsonLoginResult.addProperty("user", gson.toJson(user));
+					jsonLoginResult.addProperty("user", gson.toJson(user));  //包了兩層
 				} else {
 					jsonLoginResult.addProperty("result", "fail");
 				}
