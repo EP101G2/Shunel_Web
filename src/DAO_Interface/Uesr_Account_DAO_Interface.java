@@ -19,7 +19,7 @@ import Servlet_Shunel.ServiceLocator;
 
 public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 
-	DataSource dataSource;
+	DataSource dataSource;       //管理連線（對應context.xml）
 
 	public Uesr_Account_DAO_Interface() {
 		dataSource = ServiceLocator.getInstance().getDataSource();
@@ -44,20 +44,20 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 	}
 
 	@Override
-	public User_Account findById(String user_Account_ID) {
+	public User_Account login(String user_Account_ID) {
 		String sql = "SELECT * FROM USER_ACCOUNT WHERE ACCOUNT_ID = ?;";
 		User_Account user_Account= null;
 		try (Connection connection = dataSource.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql);) {
+				PreparedStatement ps = connection.prepareStatement(sql);) {  //準備ＳＱＬ指令
 			ps.setString(1, user_Account_ID);
 			/*
 			 * 當Statement關閉，ResultSet也會自動關閉， 可以不需要將ResultSet宣告置入try with
 			 * resources小括號內，參看ResultSet說明
 			 */
-			ResultSet rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();   //做查詢
 			if (rs.next()) {
 				
-				String account_ID = rs.getString("ACCOUNT_ID");
+				String account_ID = rs.getString("ACCOUNT_ID");   //前面自己取，後面對應資料庫欄位名稱
 				String account_Phone = rs.getString("PHONE");
 				String account_Password = rs.getString("PASSWORD");
 				String account_Address = rs.getString("ADDRESS");
@@ -67,7 +67,7 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 //				Timestamp account_Modify_Date=rs.getTimestamp("MODIFY_DATE");
 				user_Account = new User_Account(account_ID,account_Phone,  account_Password, account_Address,
 						 account_Total_Price,  account_Notice_Status,  account_Status);
-			}
+			}   //user_Account是我自己創建的物件（空容器），裡面塞我ＲＳ出來的東西（查的資料）
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -106,46 +106,6 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 		return accounts;
 	}
 
-	@Override
-	public List<User_Account> login(User_Account user_Account) {
-		// TODO Auto-generated method stub
-		String sql = "select * from USER_ACCOUNT where ACCOUNT_ID = ? and PASSWORD = ? ;";
-		List<User_Account> accountList = null;
-
-		try (Connection connection = dataSource.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
-
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				
-				
-//				preparedStatement.setString(1, user_Account.getAccount_Phone());
-//				preparedStatement.setString(2, user_Account.getAccount_Password());
-				
-				
-                String id = rs.getString("ACCOUNT_ID");
-                String password = rs.getString("PASSWORD");
-				
-				//				int id = rs.getInt("ACCOUNT_ID");
-//				String phone = rs.getString("PHONE");
-//				String password = rs.getString("PASSWORD");
-//				String addres = rs.getString("ADDRESS");
-//				int price = rs.getInt("TOTAL_PRICE");
-//				int notoce_status = rs.getInt("NOTICE_STATUS");
-//				int account_status = rs.getInt("ACCOUNT_STATUS");
-//				Timestamp time = rs.getTimestamp("MODIFY_DATE");
-//				User_Account account = new User_Account(id, phone, password, addres, price, notoce_status,
-//						account_status, time);
-				User_Account account = new User_Account(id, password);
-//				
-				accountList.add(account);
-			}
-			return accountList;
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return accountList;
-	}
+	
 
 }

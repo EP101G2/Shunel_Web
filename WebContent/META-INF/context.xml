@@ -10,12 +10,10 @@
 <<<<<<< HEAD
 		maxWaitMillis="5000" /> -->
 <!-- </Context> -->
-=======
-		maxWaitMillis="5000" />
-</Context> -->
->>>>>>> d3c2f8bbc874b4d33e580ae5d81da613bac02da8
+
+
 <!-- Edward -->
-<Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
+   <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel_MySQL" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel_MySQL?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="Careeverything" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
@@ -34,12 +32,12 @@
 
 
 <!-- Sam -->
-<Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
+<!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="1qaz2wsx" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
 	/> </Context> 
-
+ -->
 <!-- wei -->
 <!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel_MySQL" auth="Container" type="javax.sql.DataSource" 
