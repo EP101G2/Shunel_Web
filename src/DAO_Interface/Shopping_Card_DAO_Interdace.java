@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.mysql.cj.jdbc.exceptions.SQLError;
+
 import Bean.Product;
 import Bean.Shopping_Cart;
 import Bean.User_Account;
@@ -41,6 +43,7 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 			ps.setInt(2, product.getProduct_ID());
 			ps.setInt(3, shopping_cart.getShopping_Cart_Amount());
 			ps.setTimestamp(4, product.getProduct_MODIFY_DATE());
+			System.out.println("1111"+ps.toString());
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -53,17 +56,21 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	public int insert(Shopping_Cart shopping_Cart) {
 		// TODO Auto-generated method stub
 		int count = 0;
+		System.out.println("2222");
 		String sql = "INSERT INTO SHOPPING_CART" + "(ACCOUNT_ID,PRODUCT_ID,AMOUNT,MODIFY_DATE) "
 				+ "VALUES(?, ?, ?, ?);";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 //			ps.setString(1, shopping_Cart.getAccount_ID());
 //			ps.setString(2, shopping_Cart.getProduct_ID());
-			ps.setInt(1, shopping_Cart.getTAccount_ID());
-			ps.setInt(2, shopping_Cart.getTProduct_ID());
+			ps.setInt(1, shopping_Cart.getAccount_ID());
+			ps.setInt(2, shopping_Cart.getProduct_ID());
 			ps.setInt(3, shopping_Cart.getShopping_Cart_Amount());
-			ps.setTimestamp(4, null);
+			ps.setTimestamp(4, shopping_Cart.getShopping_Cart_Modify_Date());
+			System.out.println("3333"+ps.toString());
 			count = ps.executeUpdate();
+		
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -73,6 +80,17 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	@Override
 	public int delete(int accoumt_ID, int product_ID) {
 		// TODO Auto-generated method stub
+//		int count = 0;
+//		String sql="DELETE FROM SHOPPING_CART WHERE (ACCOUNT_ID = ?) and (PRODUCT_ID = ?);";
+//		
+//		try (Connection connection = dataSource.getConnection();
+//				PreparedStatement ps = connection.prepareStatement(sql);) {
+//			ps.setInt(1, accoumt_ID);
+//			ps.setInt(2, product_ID);
+//			count = ps.executeUpdate();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} 
 		return 0;
 	}
 
@@ -122,5 +140,27 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+	public int delete(Shopping_Cart shopping_Cart) {
+		// TODO Auto-generated method stub
+		
+//		DELETE FROM `Shunel`.`SHOPPING_CART` WHERE (`ACCOUNT_ID` = '1') and (`PRODUCT_ID` = '2');
+		int count = 0;
+		String sql="DELETE FROM SHOPPING_CART WHERE (ACCOUNT_ID = ?) and (PRODUCT_ID = ?);";
+		
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, shopping_Cart.getAccount_ID());
+			ps.setInt(2, shopping_Cart.getShopping_Cart_Amount());
+			
+			count = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return count;
+	}
+
 
 }

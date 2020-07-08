@@ -103,9 +103,9 @@ public class Prouct_Servlet extends HttpServlet {
 			order_Detail_DAO = new Order_Detail_DAO_Interface();
 		}
 		if (shopping_Card_DAO == null) {
-			shopping_Card_DAO = new Shopping_Card_DAO_Interdace() {
-			};
-		}
+			shopping_Card_DAO = new Shopping_Card_DAO_Interdace() {	
+				};
+			}
 
 		//
 		String action = jsonObject.get("action").getAsString();
@@ -150,7 +150,9 @@ public class Prouct_Servlet extends HttpServlet {
 
 			String ID_Json = jsonObject.get("ProductID").getAsString();
 			System.out.println("ID_Json = " + ID_Json);
+			
 			Shopping_Cart shopping_Cart = gson.fromJson(ID_Json, Shopping_Cart.class);
+			System.out.println("shopping_Cart"+shopping_Cart.getAccount_ID());
 			int count = 0;
 			count = shopping_Card_DAO.insert(shopping_Cart);
 			writeText(response, String.valueOf(count));
@@ -165,6 +167,16 @@ public class Prouct_Servlet extends HttpServlet {
 			break;
 
 		}
+		
+		case "shopDelete":{
+			int id =jsonObject.get("shopId").getAsInt();
+//			String id =jsonObject.get("shopId").getAsString();
+//			Shopping_Cart shopping_Cart = shopping_Card_DAO.delete(id)
+			
+			
+			break;
+		}
+		
 
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
