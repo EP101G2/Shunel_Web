@@ -10,12 +10,13 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.mysql.cj.jdbc.exceptions.SQLError;
+
 import Bean.Product;
 import Bean.Shopping_Cart;
 import Bean.User_Account;
 import DAO.Shopping_Card_DAO;
 import Servlet_Shunel.ServiceLocator;
-
 
 public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 
@@ -30,21 +31,22 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 		// TODO Auto-generated method stub
 		int count = 0;
 
-//		INSERT INTO SHOPPING_CART (ACCOUNT_ID, PRODUCT_ID,AMOUNT) VALUES (?,?,?);
-
-		String sql = "INSERT INTO SHOPPING_CART (ACCOUNT_ID, PRODUCT_ID,AMOUNT) VALUES (?,?,?);";
-//		String sql = "INSERT INTO SHOPPING_CART" + "(ACCOUNT_ID,PRODUCT_ID,AMOUNT,MODIFY_DATE) "
-//				+ "VALUES(?, ?, ?, ?);";
-		try (Connection connection = dataSource.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql);) {
-			ps.setString(1, user_Account.getAccount_ID());
-			ps.setInt(2, product.getProduct_ID());
-			ps.setInt(3, shopping_cart.getShopping_Cart_Amount());
-			ps.setTimestamp(4, product.getProduct_MODIFY_DATE());
-			count = ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+////		INSERT INTO SHOPPING_CART (ACCOUNT_ID, PRODUCT_ID,AMOUNT) VALUES (?,?,?);
+//
+//		String sql = "INSERT INTO SHOPPING_CART (ACCOUNT_ID, PRODUCT_ID,AMOUNT) VALUES (?,?,?);";
+////		String sql = "INSERT INTO SHOPPING_CART" + "(ACCOUNT_ID,PRODUCT_ID,AMOUNT,MODIFY_DATE) "
+////				+ "VALUES(?, ?, ?, ?);";
+//		try (Connection connection = dataSource.getConnection();
+//				PreparedStatement ps = connection.prepareStatement(sql);) {
+//			ps.setString(1, user_Account.getAccount_ID());
+//			ps.setInt(2, product.getProduct_ID());
+//			ps.setInt(3, shopping_cart.getShopping_Cart_Amount());
+//			ps.setTimestamp(4, product.getProduct_MODIFY_DATE());
+//			System.out.println("1111" + ps.toString());
+//			count = ps.executeUpdate();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 		return count;
 
 	}
@@ -53,17 +55,19 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	public int insert(Shopping_Cart shopping_Cart) {
 		// TODO Auto-generated method stub
 		int count = 0;
-		String sql = "INSERT INTO SHOPPING_CART" + "(ACCOUNT_ID,PRODUCT_ID,AMOUNT,MODIFY_DATE) "
-				+ "VALUES(?, ?, ?, ?);";
+//		ACCOUNT_ID`, `PRODUCT_ID`, `PRODUCT_NAME`, `AMOUNT`, `COLOR`, `PRICE`
+		String sql = "INSERT INTO SHOPPING_CART (ACCOUNT_ID, PRODUCT_ID, PRODUCT_NAME, AMOUNT, COLOR,PRICE) VALUES (?, ?, ?, ?, ?,?);";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-//			ps.setString(1, shopping_Cart.getAccount_ID());
-//			ps.setString(2, shopping_Cart.getProduct_ID());
-			ps.setInt(1, shopping_Cart.getTAccount_ID());
-			ps.setInt(2, shopping_Cart.getTProduct_ID());
-			ps.setInt(3, shopping_Cart.getShopping_Cart_Amount());
-			ps.setTimestamp(4, null);
+			ps.setString(1, shopping_Cart.getAccount_ID());
+			ps.setInt(2, shopping_Cart.getProduct_ID());
+			ps.setString(3, shopping_Cart.getProduct_Name());
+			ps.setInt(4, shopping_Cart.getAmount());
+			ps.setString(5, shopping_Cart.getColor());
+			ps.setInt(6, shopping_Cart.getPrice());
+			System.out.println("3333" + ps.toString());
 			count = ps.executeUpdate();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -73,35 +77,47 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	@Override
 	public int delete(int accoumt_ID, int product_ID) {
 		// TODO Auto-generated method stub
+//		int count = 0;
+//		String sql="DELETE FROM SHOPPING_CART WHERE (ACCOUNT_ID = ?) and (PRODUCT_ID = ?);";
+//		
+//		try (Connection connection = dataSource.getConnection();
+//				PreparedStatement ps = connection.prepareStatement(sql);) {
+//			ps.setInt(1, accoumt_ID);
+//			ps.setInt(2, product_ID);
+//			count = ps.executeUpdate();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} 
 		return 0;
 	}
 
 	@Override
 	public List<Shopping_Cart> getAll() {
 		// TODO Auto-generated method stub
-		
+
 		String sql = "SELECT * FROM SHOPPING_CART;";
 		List<Shopping_Cart> shopping_Carts = new ArrayList<Shopping_Cart>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-//				String account_ID = rs.getString(1);
-//				String product_ID = rs.getString(2);
-				int account_ID = rs.getInt(1);
+				String account_ID = rs.getString(1);
 				int product_ID = rs.getInt(2);
-				int amunt = rs.getInt(3);
-//				Timestamp time = rs.getString(4);
-				
-				Shopping_Cart shopping_Cart = new Shopping_Cart(account_ID, product_ID, amunt);
+				String product_Name = rs.getString(3);
+				int amount = rs.getInt(4);
+				String color = rs.getString(5);
+				int price = rs.getInt(6);
+				Timestamp time = rs.getTimestamp(7);
+
+				Shopping_Cart shopping_Cart = new Shopping_Cart(account_ID, product_ID, product_Name, amount, color,
+						price, time);
 				shopping_Carts.add(shopping_Cart);
 			}
 			return shopping_Carts;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
-		
-		
+		}
+
 		return shopping_Carts;
 	}
 
@@ -121,6 +137,27 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	public int delete(int product_ID) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public int delete(Shopping_Cart shopping_Cart) {
+		// TODO Auto-generated method stub
+
+//		DELETE FROM `Shunel`.`SHOPPING_CART` WHERE (`ACCOUNT_ID` = '1') and (`PRODUCT_ID` = '2');
+		int count = 0;
+		String sql = "DELETE FROM SHOPPING_CART WHERE (ACCOUNT_ID = ?) and (PRODUCT_ID = ?);";
+
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, shopping_Cart.getAccount_ID());
+			ps.setInt(2, shopping_Cart.getProduct_ID());
+
+			count = ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 }
