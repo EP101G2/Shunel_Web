@@ -107,10 +107,11 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 				int amount = rs.getInt(4);
 				String color = rs.getString(5);
 				int price = rs.getInt(6);
-				Timestamp time = rs.getTimestamp(7);
-
+//				Timestamp time = rs.getTimestamp(7);
+//
+//				Shopping_Cart shopping_Cart = new Shopping_Cart(account_ID, product_ID, product_Name, amount, color,price, time);
 				Shopping_Cart shopping_Cart = new Shopping_Cart(account_ID, product_ID, product_Name, amount, color,
-						price, time);
+						price);
 				shopping_Carts.add(shopping_Cart);
 			}
 			return shopping_Carts;
@@ -134,9 +135,23 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	}
 
 	@Override
-	public int delete(int product_ID) {
+	public int delete(int id) {
 		// TODO Auto-generated method stub
-		return 0;
+//		DELETE FROM `Shunel`.`SHOPPING_CART` WHERE (`ACCOUNT_ID` = '1') and (`PRODUCT_ID` = '2');
+		int count = 0;
+		String sql = "DELETE FROM SHOPPING_CART WHERE PRODUCT_ID = ?;";
+
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+//			ps.setString(1, shopping_Cart.getAccount_ID());
+			ps.setInt(1, id);
+
+			count = ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 	@Override
@@ -145,12 +160,12 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 
 //		DELETE FROM `Shunel`.`SHOPPING_CART` WHERE (`ACCOUNT_ID` = '1') and (`PRODUCT_ID` = '2');
 		int count = 0;
-		String sql = "DELETE FROM SHOPPING_CART WHERE (ACCOUNT_ID = ?) and (PRODUCT_ID = ?);";
+		String sql = "DELETE FROM SHOPPING_CART WHERE PRODUCT_ID = ?;";
 
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-			ps.setString(1, shopping_Cart.getAccount_ID());
-			ps.setInt(2, shopping_Cart.getProduct_ID());
+//			ps.setString(1, shopping_Cart.getAccount_ID());
+			ps.setInt(1, shopping_Cart.getProduct_ID());
 
 			count = ps.executeUpdate();
 
