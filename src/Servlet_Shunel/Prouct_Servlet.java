@@ -171,9 +171,8 @@ public class Prouct_Servlet extends HttpServlet {
 		case "shopDelete":{
 			int id =jsonObject.get("shopId").getAsInt();
 //			String id =jsonObject.get("shopId").getAsString();
-//			Shopping_Cart shopping_Cart = shopping_Card_DAO.delete(id)
-			
-			
+			int count = shopping_Card_DAO.delete(id);
+			writeText(response, String.valueOf(count));
 			break;
 		}
 		

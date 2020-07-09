@@ -8,6 +8,7 @@
 		url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei"
 		username="root" password="qazwsxedc" maxTotal="20" maxIdle="10"
 <<<<<<< HEAD
+<<<<<<< HEAD
 		maxWaitMillis="5000" /> -->
 <!-- </Context> -->
 
@@ -24,6 +25,16 @@
 <!-- Edward -->
 <!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel_MySQL" auth="Container" type="javax.sql.DataSource" 
+=======
+		maxWaitMillis="5000" />
+</Context> 
+
+ 
+<!-- Edward -->
+
+ <!--   <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
+	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
+>>>>>>> 1b836432e1637c4af908bce5d145f17b87e4a737
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="Careeverything" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
 <<<<<<< HEAD
