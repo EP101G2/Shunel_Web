@@ -17,7 +17,7 @@ public class Order_Main implements Serializable{
 	private int Order_Main_Order_Status;
 	private Timestamp Order_Main_Modify_Date;
 	
-	public Order_Main(int order_ID, String account_ID, int order_Main_Total_Price, String order_Main_Recriver,
+ Order_Main(int order_ID, String account_ID, int order_Main_Total_Price, String order_Main_Recriver,
 			String order_Main_Address, String order_Main_Phone, Timestamp order_Main_Order_Date,
 			int order_Main_Order_Status, Timestamp order_Main_Modify_Date) {
 		super();
@@ -45,7 +45,6 @@ public class Order_Main implements Serializable{
 	public String getAccount_ID() {
 		return Account_ID;
 	}
-
 	public void setAccount_ID(String account_ID) {
 		Account_ID = account_ID;
 	}

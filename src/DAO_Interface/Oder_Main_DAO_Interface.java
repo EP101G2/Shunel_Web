@@ -107,9 +107,9 @@ public class Oder_Main_DAO_Interface implements Oder_Main_DAO {
 				Timestamp order_Date = rs.getTimestamp(7);
 				Timestamp modify_Date = rs.getTimestamp(8);
 				int order_ID = rs.getInt(9);
-				Order_Main oM = new Order_Main(order_ID, account_ID, total_Price, recriver, address, phone, order_Date,
-						status, modify_Date);
-				oMList.add(oM);
+//				Order_Main oM = new Order_Main(order_ID, account_ID, total_Price, recriver, address, phone, order_Date,
+//						status, modify_Date);
+//				oMList.add(oM);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

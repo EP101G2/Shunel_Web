@@ -162,7 +162,7 @@ public class Prouct_Servlet extends HttpServlet {
 
 		case "getAllShop": {
 
-//			String jsonAllShop=jsonObject.get("id").getAsString();
+			String jsonAllShop=jsonObject.get("id").getAsString();
 			List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll();
 			writeText(response, gson.toJson(shopping_Carts));
 			break;

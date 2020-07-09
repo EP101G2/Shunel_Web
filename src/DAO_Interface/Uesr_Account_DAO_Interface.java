@@ -28,8 +28,26 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 	@Override
 	public int insert(User_Account user_Account) {
 		// TODO Auto-generated method stub
-		return 0;
+		int count = 0;
+		
+		String sql = "INSERT INTO User_Account" + "(account_ID,account_Phone,account_Password,account_Addres," + 
+				"account_Total_Price, account_Notice_Status,account_Status) " + " VALUES(?,?,?,?,?,?,?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, user_Account.getAccount_ID());
+			ps.setString(2, user_Account.getAccount_Phone());
+			ps.setString(3, user_Account.getAccount_Password());
+			ps.setString(4, user_Account.getAccount_Address());
+			ps.setInt(5, 0);
+			ps.setInt(6, 1);
+			ps.setInt(7, 1);
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
+	
 
 	@Override
 	public int update(User_Account user_Account) {

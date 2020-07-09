@@ -5,14 +5,14 @@ import java.sql.Timestamp;
 
 public class History implements Serializable{
 	
-	private int Account_ID;
+	private  String Account_ID;
 	private int Product_ID;
 	private Timestamp History_Time;
 	
 	
 	
 
-	public History(int account_ID, int product_ID, Timestamp history_Time) {
+	public History(String account_ID, int product_ID, Timestamp history_Time) {
 		super();
 		Account_ID = account_ID;
 		Product_ID = product_ID;
@@ -20,12 +20,12 @@ public class History implements Serializable{
 	}
 
 
-	public int getAccount_ID() {
+	public String getAccount_ID() {
 		return Account_ID;
 	}
 
 
-	public void setAccount_ID(int account_ID) {
+	public void setAccount_ID(String account_ID) {
 		Account_ID = account_ID;
 	}
 
