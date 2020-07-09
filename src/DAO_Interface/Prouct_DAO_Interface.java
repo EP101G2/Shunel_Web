@@ -87,9 +87,10 @@ public class Prouct_DAO_Interface implements Product_DAO {
 		return prouctList;
 	}
 
+	
 	@Override
 	public byte[] getImage(int id) {
-		String sql = "SELECT image FROM PRODUCT WHERE PRODUCT_ID = ?;";
+		String sql = "SELECT PRODUCT_IMG1 FROM PRODUCT WHERE PRODUCT_ID = ?;";
 		byte[] image = null;
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {

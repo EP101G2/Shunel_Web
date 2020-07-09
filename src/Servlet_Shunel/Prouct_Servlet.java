@@ -64,7 +64,14 @@ public class Prouct_Servlet extends HttpServlet {
 		if (product_DAO == null) {
 			product_DAO = new Prouct_DAO_Interface();
 		}
+
+		if (shopping_Card_DAO == null) {
+			shopping_Card_DAO = new Shopping_Card_DAO_Interdace() {
+			};
+		}
+
 		List<Product> proucts = product_DAO.getAll();
+		List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll();
 
 		writeText(response, new Gson().toJson(proucts));
 	}
@@ -96,17 +103,16 @@ public class Prouct_Servlet extends HttpServlet {
 			order_Detail_DAO = new Order_Detail_DAO_Interface();
 		}
 		if (shopping_Card_DAO == null) {
-			shopping_Card_DAO =new Shopping_Card_DAO_Interdace() {
-			};
-		}
-		
+			shopping_Card_DAO = new Shopping_Card_DAO_Interdace() {	
+				};
+			}
 
 		//
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
 		case "getAll": {
-List<Product> proucts = product_DAO.getAll();
+			List<Product> proucts = product_DAO.getAll();
 			writeText(response, gson.toJson(proucts));
 			break;
 		}
@@ -141,34 +147,35 @@ List<Product> proucts = product_DAO.getAll();
 		}
 
 		case "addShop": {
-			String ID_Json = jsonObject.get("addID").getAsString();
+
+			String ID_Json = jsonObject.get("ProductID").getAsString();
 			System.out.println("ID_Json = " + ID_Json);
+			
 			Shopping_Cart shopping_Cart = gson.fromJson(ID_Json, Shopping_Cart.class);
-//			User_Account user_Account = gson.fromJson("", classOfT)
+			System.out.println("shopping_Cart"+shopping_Cart.getAccount_ID());
 			int count = 0;
-//			int user_Account =produc,,, 
-//			int product =product_DAO.findById(prouct_id);
-//			Product product = new Product(product_ID, product_Name, product_Color, product_Price, product_Ditail, product_Category_ID, product_Status) 
-			
-			
 			count = shopping_Card_DAO.insert(shopping_Cart);
-//			byte[] image = null;
-			// 檢查是否有上傳圖片
-//			if (jsonObject.get("imageBase64") != null) {
-//				String imageBase64 = jsonObject.get("imageBase64").getAsString();
-//				if (imageBase64 != null && !imageBase64.isEmpty()) {
-//					image = Base64.getMimeDecoder().decode(imageBase64);
-//				}
-//			}
-//			int count = 0;
-//			if (action.equals("spotInsert")) {
-//				count = product.insert(spot, image);
-//			} else if (action.equals("spotUpdate")) {
-//				count = spotDao.update(spot, image);
-//			}
 			writeText(response, String.valueOf(count));
 			break;
 		}
+
+		case "getAllShop": {
+
+//			String jsonAllShop=jsonObject.get("")
+			List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll();
+			writeText(response, gson.toJson(shopping_Carts));
+			break;
+
+		}
+		
+		case "shopDelete":{
+			int id =jsonObject.get("shopId").getAsInt();
+//			String id =jsonObject.get("shopId").getAsString();
+			int count = shopping_Card_DAO.delete(id);
+			writeText(response, String.valueOf(count));
+			break;
+		}
+		
 
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);

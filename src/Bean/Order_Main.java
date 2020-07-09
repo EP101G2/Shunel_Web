@@ -8,7 +8,7 @@ public class Order_Main implements Serializable{
 	
 	//宣告區
 	private int Order_ID; //PK
-	private int Account_ID; //FK
+	private String Account_ID; //FK
 	private int Order_Main_Total_Price;
 	private String Order_Main_Recriver;
 	private String Order_Main_Address;
@@ -19,7 +19,7 @@ public class Order_Main implements Serializable{
 	
 	
 	//建構區
-	public Order_Main(int order_ID, int account_ID, int order_Main_Total_Price, String order_Main_Recriver,
+	public Order_Main(int order_ID, String account_ID, int order_Main_Total_Price, String order_Main_Recriver,
 			String order_Main_Address, String order_Main_Phone, Timestamp order_Main_Order_Date,
 			int order_Main_Order_Status, Timestamp order_Main_Modify_Date) {
 		super();
@@ -48,13 +48,13 @@ public class Order_Main implements Serializable{
 
 
 
-	public int getAccount_ID() {
+	public String getAccount_ID() {
 		return Account_ID;
 	}
 
 
 
-	public void setAccount_ID(int account_ID) {
+	public void setAccount_ID(String account_ID) {
 		Account_ID = account_ID;
 	}
 

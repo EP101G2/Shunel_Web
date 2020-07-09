@@ -19,6 +19,7 @@ public interface Shopping_Card_DAO {
 
 	
 	int insert(Product product);
-	int delete(int product_ID);
+	int delete(int id);
+	int delete(Shopping_Cart shopping_Cart);
 	
 }
