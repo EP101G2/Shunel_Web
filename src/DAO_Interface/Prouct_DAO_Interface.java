@@ -37,12 +37,14 @@ public class Prouct_DAO_Interface implements Product_DAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	
+	
+	//拿只有上架的商品
 	@Override
-	public List<Product> getAll() {
+	public List<Product> getSaleProduct() {
 		// TODO Auto-generated method stub
-
-		String sql = "SELECT * FROM PRODUCT;";
+		String sql = "SELECT * FROM PRODUCT WHERE PRODUCT_STATUS = 1;";
 
 		List<Product> prouctList = new ArrayList<Product>();
 		System.out.println("333");
@@ -54,8 +56,54 @@ public class Prouct_DAO_Interface implements Product_DAO {
 			System.out.println(connection.isClosed());
 			System.out.println(ps.isClosed());
 
-//			System.out.println(connection.isClosed());
-//			System.out.println(ps.isClosed());
+
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.println("--------");
+				int id = rs.getInt("PRODUCT_ID");
+				String prouct_Name = rs.getString("PRODUCT_NAME");
+				String prouct_Color = rs.getString("COLOR");
+				int prouct_Price = rs.getInt("PRICE");
+				String prouct_Dital = rs.getString("DITAL");
+				int prouct_Category_ID = rs.getInt("CATEGORY_ID");
+				int prouct_Status = rs.getInt("PRODUCT_STATUS");
+//				Timestamp prouct_Time = rs.getTimestamp("MODIFY_DATE");
+
+				Product prouct = new Product(id, prouct_Name, prouct_Color, prouct_Price, prouct_Dital,
+						prouct_Category_ID, prouct_Status);
+				prouctList.add(prouct);
+			}
+			
+			return prouctList;
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+
+		return prouctList;
+	}
+	
+	
+	
+	
+	
+	//拿所有商品照片 包含下架商品
+	@Override
+	public List<Product> getAll() {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM PRODUCT;";
+		List<Product> prouctList = new ArrayList<Product>();
+		System.out.println("333");
+		try (Connection connection = dataSource.getConnection();
+			
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+
+	
+			System.out.println(connection.isClosed());
+			System.out.println(ps.isClosed());
 
 
 			ResultSet rs = ps.executeQuery();
@@ -204,6 +252,8 @@ public class Prouct_DAO_Interface implements Product_DAO {
 		}
 		return count;
 	}
+
+	
 
 	
 	
