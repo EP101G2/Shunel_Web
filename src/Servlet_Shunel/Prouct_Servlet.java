@@ -163,7 +163,7 @@ public class Prouct_Servlet extends HttpServlet {
 		case "getAllShop": {
 
 			String jsonAllShop=jsonObject.get("id").getAsString();
-			List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll();
+			List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll(jsonAllShop);
 			writeText(response, gson.toJson(shopping_Carts));
 			break;
 
