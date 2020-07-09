@@ -111,10 +111,34 @@ public class Prouct_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
+		//只拿到有上架的商品
+		case "getSaleProduct":{
+			List<Product> proucts = product_DAO.getSaleProduct();
+			writeText(response, gson.toJson(proucts));
+			break;	
+		}
+		
+		
+		//拿到所有商品 包含下架的
 		case "getAll": {
 			List<Product> proucts = product_DAO.getAll();
+			System.out.println("拿到getAll");
 			writeText(response, gson.toJson(proucts));
 			break;
+		}
+
+		case "getImage": {
+			OutputStream os = response.getOutputStream();
+			int id = jsonObject.get("id").getAsInt();
+			int imageSize = jsonObject.get("imageSize").getAsInt();
+			byte[] image = product_DAO.getImage(id);
+			if (image != null) {
+				image = ImageUtil.shrink(image, imageSize);
+				response.setContentType("image/jpeg");
+				response.setContentLength(image.length);
+				os.write(image);
+			}
+		 break;
 		}
 
 //		case "getImage": {
@@ -127,24 +151,10 @@ public class Prouct_Servlet extends HttpServlet {
 //				response.setContentType("image/jpeg");
 //				response.setContentLength(image.length);
 //				os.write(image);
+//
 //			}
-		// break;
+//			break;
 //		}
-
-		case "getImage": {
-			OutputStream os = response.getOutputStream();
-			int id = jsonObject.get("id").getAsInt();
-			int imageSize = jsonObject.get("imageSize").getAsInt();
-			byte[] image = product_DAO.getImage(id);
-			if (image != null) {
-				image = ImageUtil.shrink(image, imageSize);
-				response.setContentType("image/jpeg");
-				response.setContentLength(image.length);
-				os.write(image);
-
-			}
-			break;
-		}
 
 		case "addShop": {
 
