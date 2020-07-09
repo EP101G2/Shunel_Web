@@ -18,6 +18,7 @@ import org.apache.jasper.tagplugins.jstl.core.Out;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 //import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
+//import com.sun.tools.classfile.Opcode.Set;
 
 import Bean.Order_Detail;
 import Bean.Order_Main;
@@ -111,34 +112,10 @@ public class Prouct_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
-		//只拿到有上架的商品
-		case "getSaleProduct":{
-			List<Product> proucts = product_DAO.getSaleProduct();
-			writeText(response, gson.toJson(proucts));
-			break;	
-		}
-		
-		
-		//拿到所有商品 包含下架的
 		case "getAll": {
 			List<Product> proucts = product_DAO.getAll();
-			System.out.println("拿到getAll");
 			writeText(response, gson.toJson(proucts));
 			break;
-		}
-
-		case "getImage": {
-			OutputStream os = response.getOutputStream();
-			int id = jsonObject.get("id").getAsInt();
-			int imageSize = jsonObject.get("imageSize").getAsInt();
-			byte[] image = product_DAO.getImage(id);
-			if (image != null) {
-				image = ImageUtil.shrink(image, imageSize);
-				response.setContentType("image/jpeg");
-				response.setContentLength(image.length);
-				os.write(image);
-			}
-		 break;
 		}
 
 //		case "getImage": {
@@ -151,10 +128,24 @@ public class Prouct_Servlet extends HttpServlet {
 //				response.setContentType("image/jpeg");
 //				response.setContentLength(image.length);
 //				os.write(image);
-//
 //			}
-//			break;
+		// break;
 //		}
+
+		case "getImage": {
+			OutputStream os = response.getOutputStream();
+			int id = jsonObject.get("id").getAsInt();
+			int imageSize = jsonObject.get("imageSize").getAsInt();
+			byte[] image = product_DAO.getImage(id);
+			if (image != null) {
+				image = ImageUtil.shrink(image, imageSize);
+				response.setContentType("image/jpeg");
+				response.setContentLength(image.length);
+				os.write(image);
+
+			}
+			break;
+		}
 
 		case "addShop": {
 
@@ -171,8 +162,8 @@ public class Prouct_Servlet extends HttpServlet {
 
 		case "getAllShop": {
 
-//			String jsonAllShop=jsonObject.get("")
-			List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll();
+			String jsonAllShop=jsonObject.get("id").getAsString();
+			List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll(jsonAllShop);
 			writeText(response, gson.toJson(shopping_Carts));
 			break;
 
@@ -185,6 +176,16 @@ public class Prouct_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(count));
 			break;
 		}
+		
+		
+		
+//		int id;
+//		id = OdDao.insert(Order);
+//		
+//		for() {
+//			.Set(id);
+//			
+//		}
 		
 
 		default:

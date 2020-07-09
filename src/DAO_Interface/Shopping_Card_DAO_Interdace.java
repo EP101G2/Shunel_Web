@@ -94,13 +94,14 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	@Override
 	public List<Shopping_Cart> getAll() {
 		// TODO Auto-generated method stub
-
+//SELECT * FROM SHOPPING_CART WHERE ACCOUNT_ID = 'S';
 		String sql = "SELECT * FROM SHOPPING_CART;";
 		List<Shopping_Cart> shopping_Carts = new ArrayList<Shopping_Cart>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
+//				ps.setInt(1, shopping_Carts.g);
 				String account_ID = rs.getString(1);
 				int product_ID = rs.getInt(2);
 				String product_Name = rs.getString(3);
@@ -122,6 +123,53 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 		return shopping_Carts;
 	}
 
+	
+	
+	
+	@Override
+	public List<Shopping_Cart> getAll(String id) {
+		// TODO Auto-generated method stub
+//SELECT * FROM SHOPPING_CART WHERE ACCOUNT_ID = 'S';
+		String sql = "SELECT * FROM SHOPPING_CART WHERE ACCOUNT_ID = ?;";
+		List<Shopping_Cart> shopping_Carts = new ArrayList<Shopping_Cart>();
+		Shopping_Cart shopping = null;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+//				ps.setInt(1, rs.getInt(1));
+				String account_ID = rs.getString(1);
+				int product_ID = rs.getInt(2);
+				String product_Name = rs.getString(3);
+				int amount = rs.getInt(4);
+				String color = rs.getString(5);
+				int price = rs.getInt(6);
+//				Timestamp time = rs.getTimestamp(7);
+//
+//				Shopping_Cart shopping_Cart = new Shopping_Cart(account_ID, product_ID, product_Name, amount, color,price, time);
+				shopping= new Shopping_Cart(account_ID, product_ID, product_Name, amount, color,
+						price);
+				shopping_Carts.add(shopping);
+			}
+			return shopping_Carts;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return shopping_Carts;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public byte[] getImage(int id) {
 		// TODO Auto-generated method stub
