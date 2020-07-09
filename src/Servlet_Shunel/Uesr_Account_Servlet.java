@@ -96,7 +96,12 @@ public class Uesr_Account_Servlet extends HttpServlet {
 			System.out.println("output: "+jsonLoginResult);
 			break;
 		}
-		
+		case "register": {
+			
+			
+			
+			break;
+		}
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
 		}
