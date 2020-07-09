@@ -8,14 +8,14 @@ public class Chat implements Serializable{
 	//宣告區
 	private int Chat_ID;
 	private int Product_ID;
-	private int Account_ID;
+	private String Account_ID;
 	private String Buy_Content;
 	private String Sell_Content;
 	private int Chat_Status;
 	private Timestamp Chat_Time;
 	
 	//建構區
-	public Chat(int chat_ID, int product_ID, int account_ID, String buy_Content, String sell_Content, int chat_Status,
+	public Chat(int chat_ID, int product_ID, String account_ID, String buy_Content, String sell_Content, int chat_Status,
 			Timestamp chat_Time) {
 		super();
 		Chat_ID = chat_ID;
@@ -45,11 +45,11 @@ public class Chat implements Serializable{
 		Product_ID = product_ID;
 	}
 
-	public int getAccount_ID() {
+	public String getAccount_ID() {
 		return Account_ID;
 	}
 
-	public void setAccount_ID(int account_ID) {
+	public void setAccount_ID(String account_ID) {
 		Account_ID = account_ID;
 	}
 

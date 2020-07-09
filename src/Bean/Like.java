@@ -5,23 +5,23 @@ import java.io.Serializable;
 public class Like implements Serializable{
 	
 	
-	private int Account_ID;
+	private String Account_ID;
 	private int Product_ID;
 	
 	
-	public Like(int account_ID, int product_ID) {
+	public Like(String account_ID, int product_ID) {
 		super();
 		Account_ID = account_ID;
 		Product_ID = product_ID;
 	}
 
 
-	public int getAccount_ID() {
+	public String getAccount_ID() {
 		return Account_ID;
 	}
 
 
-	public void setAccount_ID(int account_ID) {
+	public void setAccount_ID(String account_ID) {
 		Account_ID = account_ID;
 	}
 

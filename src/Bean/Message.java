@@ -7,13 +7,13 @@ public class Message implements Serializable{
 	
 	//宣告區
 	private int Message_ID;
-	private int Account_ID;
+	private String Account_ID;
 	private int Message_Status;
 	private String Message_Content;
 	
 	
 	//建構區
-	public Message(int message_ID, int account_ID, int message_Status, String message_Content) {
+	public Message(int message_ID, String account_ID, int message_Status, String message_Content) {
 		super();
 		Message_ID = message_ID;
 		Account_ID = account_ID;
@@ -33,12 +33,12 @@ public class Message implements Serializable{
 	}
 
 
-	public int getAccount_ID() {
+	public String getAccount_ID() {
 		return Account_ID;
 	}
 
 
-	public void setAccount_ID(int account_ID) {
+	public void setAccount_ID(String account_ID) {
 		Account_ID = account_ID;
 	}
 
