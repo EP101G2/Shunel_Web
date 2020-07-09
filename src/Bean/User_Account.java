@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 public class User_Account implements Serializable {
 	
+	private String Account_User_Name;
 	private String Account_ID;
 	private String Account_Phone;
 	private String Account_Password;
@@ -18,9 +19,10 @@ public class User_Account implements Serializable {
 	
 	
 	
-	public User_Account(String account_ID, String account_Phone, String account_Password, String account_Address,
+	public User_Account(String account_User_Name,String account_ID, String account_Phone, String account_Password, String account_Address,
 			int account_Total_Price, int account_Notice_Status, int account_Status) {
 		super();
+		Account_User_Name= account_User_Name;
 		Account_ID = account_ID;
 		Account_Phone = account_Phone;
 		Account_Password = account_Password;
@@ -31,9 +33,10 @@ public class User_Account implements Serializable {
 	}
 
 
-	public User_Account(String account_ID, String account_Phone, String account_Password, String account_Address,
+	public User_Account(String account_User_Name,String account_ID, String account_Phone, String account_Password, String account_Address,
 			int account_Total_Price, int account_Notice_Status, int account_Status, Timestamp account_Modify_Date) {
 		super();
+		Account_User_Name= account_User_Name;
 		Account_ID = account_ID;
 		Account_Phone = account_Phone;
 		Account_Password = account_Password;
@@ -45,6 +48,8 @@ public class User_Account implements Serializable {
 	}
 
 
+	
+	
 	public User_Account(String account_ID,String account_Password) {
 		Account_ID = account_ID;
 		Account_Password = account_Password;
@@ -52,6 +57,16 @@ public class User_Account implements Serializable {
 	
 
 
+	public String getAccount_User_Name() {
+		return Account_User_Name;
+	}
+
+
+	public void setAccount_User_Name(String account_User_Name) {
+		Account_User_Name = account_User_Name;
+	}
+
+	
 	public String getAccount_ID() {
 		return Account_ID;
 	}

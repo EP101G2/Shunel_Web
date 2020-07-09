@@ -30,17 +30,18 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 		// TODO Auto-generated method stub
 		int count = 0;
 		
-		String sql = "INSERT INTO User_Account" + "(account_ID,account_Phone,account_Password,account_Addres," + 
-				"account_Total_Price, account_Notice_Status,account_Status) " + " VALUES(?,?,?,?,?,?,?);";
+		String sql = "INSERT INTO User_Account" + "(account_User_Name,account_ID,account_Phone,account_Password,account_Addres," + 
+				"account_Total_Price, account_Notice_Status,account_Status) " + " VALUES(?,?,?,?,?,?,?,?);";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-			ps.setString(1, user_Account.getAccount_ID());
-			ps.setString(2, user_Account.getAccount_Phone());
-			ps.setString(3, user_Account.getAccount_Password());
-			ps.setString(4, user_Account.getAccount_Address());
-			ps.setInt(5, 0);
-			ps.setInt(6, 1);
+			ps.setString(1, user_Account.getAccount_User_Name());
+			ps.setString(2, user_Account.getAccount_ID());
+			ps.setString(3, user_Account.getAccount_Phone());
+			ps.setString(4, user_Account.getAccount_Password());
+			ps.setString(5, user_Account.getAccount_Address());
+			ps.setInt(6, 0);
 			ps.setInt(7, 1);
+			ps.setInt(8, 1);
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -74,7 +75,7 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 			 */
 			ResultSet rs = ps.executeQuery();   //做查詢
 			if (rs.next()) {
-				
+				String account_User_Name=rs.getString("USER_NAME");
 				String account_ID = rs.getString("ACCOUNT_ID");   //前面自己取，後面對應資料庫欄位名稱
 				String account_Phone = rs.getString("PHONE");
 				String account_Password = rs.getString("PASSWORD");
@@ -83,7 +84,7 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 				int account_Notice_Status = rs.getInt("NOTICE_STATUS");
 				int account_Status = rs.getInt("ACCOUNT_STATUS");
 //				Timestamp account_Modify_Date=rs.getTimestamp("MODIFY_DATE");
-				user_Account = new User_Account(account_ID,account_Phone,  account_Password, account_Address,
+				user_Account = new User_Account(account_User_Name,account_ID,account_Phone,  account_Password, account_Address,
 						 account_Total_Price,  account_Notice_Status,  account_Status);
 			}   //user_Account是我自己創建的物件（空容器），裡面塞我ＲＳ出來的東西（查的資料）
 		} catch (SQLException e) {
@@ -103,6 +104,7 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
+				String username=rs.getString("USER_NAME");
 				String id = rs.getString("ACCOUNT_ID");
 				String phone = rs.getString("PHONE");
 				String password = rs.getString("PASSWORD");
@@ -111,7 +113,7 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 				int notoce_status = rs.getInt("NOTICE_STATUS");
 				int account_status = rs.getInt("ACCOUNT_STATUS");
 				Timestamp time = rs.getTimestamp("MODIFY_DATE");
-				User_Account account = new User_Account(id, phone, password, address, price, notoce_status, account_status, time);
+				User_Account account = new User_Account(username,id, phone, password, address, price, notoce_status, account_status, time);
 				accounts.add(account);
 			}
 			return accounts;
