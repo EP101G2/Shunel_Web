@@ -47,7 +47,14 @@ public class User_Account implements Serializable {
 		Account_Modify_Date = account_Modify_Date;
 	}
 
-
+    public User_Account(String account_User_Name,String account_ID, String account_Phone, String account_Password, String account_Address) {
+        super();
+        Account_User_Name=account_User_Name;
+        Account_ID = account_ID;
+        Account_Phone = account_Phone;
+        Account_Password = account_Password;
+        Account_Address = account_Address;
+    }
 	
 	
 	public User_Account(String account_ID,String account_Password) {

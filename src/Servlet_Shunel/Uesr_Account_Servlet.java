@@ -93,16 +93,17 @@ public class Uesr_Account_Servlet extends HttpServlet {
 			System.out.println("output: " + jsonLoginResult);
 			break;
 		}
-		case "register": {
+		case "Register": {
 			String user = jsonObject.get("user").getAsString();
 			User_Account user_Account2 = gson.fromJson(user, User_Account.class); // 左邊放ＪＳＯＮ格是自串，右邊放定義他要轉成何種類別物件
 			Uesr_Account_DAO user_Account_DAO = new Uesr_Account_DAO_Interface(); // 先實體ＤＡＯ才可已用
 			int count = user_Account_DAO.insert(user_Account2);
 
-			count = 1;
 			if (count == 1) {
-				count = user_Account_DAO.insert(user_Account2);
-
+				System.out.println("output="+count );
+				
+//				count = user_Account_DAO.insert(user_Account2);
+				writeText(response, String.valueOf(count));
 			} else {
 				
 
