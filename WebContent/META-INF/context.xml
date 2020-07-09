@@ -1,34 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--Jack -->
+<<<<<<< HEAD
  <!-- <Context docBase="Shunel_Web" path="/Shunel_Web"
+=======
+<<<<<<< HEAD
+<!-- <Context docBase="Shunel_Web" path="/Shunel_Web"
+=======
+ <!-- <Context docBase="Shunel_Web" path="/Shunel_Web"
+>>>>>>> 125a3c299c50ccd4ac00e00600f7929f4be883bc
+>>>>>>> 1f6aaf268d0319dd4ebf96b9834e5894cc09ec79
 	reloadable="true">
 	<Resource name="jdbc/Shunel" auth="Container"
 		type="javax.sql.DataSource" driverClassName="com.mysql.cj.jdbc.Driver"
 		url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei"
+<<<<<<< HEAD
 		username="root" password="qazwsxedc" maxTotal="20" maxIdle="10" -->
 <!-- </Context> -->
 
 <!-- </Context> -->
+=======
+		username="root" password="qazwsxedc" maxTotal="20" maxIdle="10"
+<<<<<<< HEAD
+		maxWaitMillis="5000" />
+</Context> -->
+=======
+		maxWaitMillis="5000" />-->
+>>>>>>> 1f6aaf268d0319dd4ebf96b9834e5894cc09ec79
 
- 
+>>>>>>> 125a3c299c50ccd4ac00e00600f7929f4be883bc
 <!-- Edward -->
 
- <!--   <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
+ <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="Careeverything" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
+<<<<<<< HEAD
 	/> </Context> -->
 
+=======
+	/> </Context>  
+>>>>>>> 1f6aaf268d0319dd4ebf96b9834e5894cc09ec79
 
 
 <!-- Jimmy -->
-<!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true">
+<Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true">
 	<Resource name="jdbc/Shunel" auth="Container"
 		type="javax.sql.DataSource" driverClassName="com.mysql.cj.jdbc.Driver"
 		url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei"
 		username="root" password="s03550201" maxTotal="20" maxIdle="10"
-		maxWaitMillis="5000" />-->
+		maxWaitMillis="5000" /></Context>
 
 
 
