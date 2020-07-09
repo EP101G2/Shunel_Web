@@ -15,7 +15,7 @@ public interface Shopping_Card_DAO {
 	int delete(int accoumt_ID, int product_ID);
 	List<Shopping_Cart> getAll();
 	byte[] getImage(int id);
-	
+	 List<Shopping_Cart>  getAll(String id);
 
 	
 	int insert(Product product);
