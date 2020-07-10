@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
-
 import com.mysql.cj.protocol.Resultset;
 import com.mysql.cj.xdevapi.Result;
 import com.sun.source.tree.WhileLoopTree;
@@ -39,8 +38,16 @@ public class Notice_DAO_Interface implements Notice_DAO {
 
 	@Override
 	public int delete(int notice_ID) {
-		// TODO Auto-generated method stub
-		return 0;
+		int count = 0;
+		String sql = "DELETE FROM NOTICE WHERE NOTICE_ID = ?;";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, notice_ID);
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 	@Override
@@ -63,7 +70,8 @@ public class Notice_DAO_Interface implements Notice_DAO {
 				Timestamp NOTICE_TIME = rs.getTimestamp(4);
 				int NOTICE_CATEGORY_ID = rs.getInt(5);
 				int CATEGORY_MESSAGE_ID = rs.getInt(6);
-				Notice notice = new Notice(NOTICE_ID,NOTICE_TITLE,NOTICE_CONTENT,NOTICE_TIME,NOTICE_CATEGORY_ID,CATEGORY_MESSAGE_ID);
+				Notice notice = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
+						CATEGORY_MESSAGE_ID);
 				noticeList.add(notice);
 			}
 			return noticeList;

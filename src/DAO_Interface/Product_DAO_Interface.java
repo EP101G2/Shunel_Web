@@ -16,11 +16,11 @@ import Bean.Product;
 import DAO.Product_DAO;
 import Servlet_Shunel.ServiceLocator;
 
-public class Prouct_DAO_Interface implements Product_DAO {
+public class Product_DAO_Interface implements Product_DAO {
 
 	DataSource dataSource;
 
-	 public Prouct_DAO_Interface(){
+	 public Product_DAO_Interface(){
 		dataSource = ServiceLocator.getInstance().getDataSource();
 		
 	}
