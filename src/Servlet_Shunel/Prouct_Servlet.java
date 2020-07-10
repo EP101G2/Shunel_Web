@@ -112,6 +112,14 @@ public class Prouct_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
+		
+		case "getSaleProduct": {
+			List<Product> proucts = product_DAO.getSaleProduct();
+			writeText(response, gson.toJson(proucts));
+			break;
+		}
+		
+		
 		case "getAll": {
 			List<Product> proucts = product_DAO.getAll();
 			writeText(response, gson.toJson(proucts));
