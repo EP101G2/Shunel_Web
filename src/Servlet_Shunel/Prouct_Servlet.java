@@ -18,6 +18,7 @@ import org.apache.jasper.tagplugins.jstl.core.Out;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 //import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
+//import com.sun.tools.classfile.Opcode.Set;
 
 import Bean.Order_Detail;
 import Bean.Order_Main;
@@ -111,6 +112,14 @@ public class Prouct_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
+		
+		case "getSaleProduct": {
+			List<Product> proucts = product_DAO.getSaleProduct();
+			writeText(response, gson.toJson(proucts));
+			break;
+		}
+		
+		
 		case "getAll": {
 			List<Product> proucts = product_DAO.getAll();
 			writeText(response, gson.toJson(proucts));
@@ -161,8 +170,8 @@ public class Prouct_Servlet extends HttpServlet {
 
 		case "getAllShop": {
 
-//			String jsonAllShop=jsonObject.get("")
-			List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll();
+			String jsonAllShop=jsonObject.get("id").getAsString();
+			List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll(jsonAllShop);
 			writeText(response, gson.toJson(shopping_Carts));
 			break;
 
@@ -175,6 +184,16 @@ public class Prouct_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(count));
 			break;
 		}
+		
+		
+		
+//		int id;
+//		id = OdDao.insert(Order);
+//		
+//		for() {
+//			.Set(id);
+//			
+//		}
 		
 
 		default:
