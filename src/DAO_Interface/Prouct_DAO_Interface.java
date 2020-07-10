@@ -44,20 +44,16 @@ public class Prouct_DAO_Interface implements Product_DAO {
 	@Override
 	public List<Product> getSaleProduct() {
 		// TODO Auto-generated method stub
-		String sql = "SELECT * FROM PRODUCT WHERE PRODUCT_STATUS = 1;";
+		
+		String sql = "Select * From CATEGORY join PRODUCT on PRODUCT.CATEGORY_ID  = CATEGORY.CATEGORY_ID Where CATEGORY.CATEGORY_ID = 3;";
+		//String sql = "SELECT * FROM PRODUCT WHERE PRODUCT_STATUS = 1;";
 
 		List<Product> prouctList = new ArrayList<Product>();
 		System.out.println("333");
 		try (Connection connection = dataSource.getConnection();
-			
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-
-	
 			System.out.println(connection.isClosed());
 			System.out.println(ps.isClosed());
-
-
-
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				System.out.println("--------");
