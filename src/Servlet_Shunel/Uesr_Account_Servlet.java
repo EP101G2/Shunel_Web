@@ -51,7 +51,7 @@ public class Uesr_Account_Servlet extends HttpServlet {
 //		doGet(request, response);
 		request.setCharacterEncoding("UTF-8");
 		Gson gson = new Gson();
-		BufferedReader br = request.getReader();  //request就是ＡＮＤＲＯＩＤ街收的東西（ＪＳＯＮ ＳＴＲＩＮＧ）
+		BufferedReader br = request.getReader(); // request就是ＡＮＤＲＯＩＤ街收的東西（ＪＳＯＮ ＳＴＲＩＮＧ）
 		StringBuilder ServletJsonIn = new StringBuilder();
 		String line = "";
 		while ((line = br.readLine()) != null) {
@@ -59,17 +59,16 @@ public class Uesr_Account_Servlet extends HttpServlet {
 		}
 		// 將輸入資料列印出來除錯用
 		System.out.println("input: " + ServletJsonIn);
-		
+
 		JsonObject jsonObject = gson.fromJson(ServletJsonIn.toString(), JsonObject.class);// 字串轉JsonObject物件
 		if (account_DAO == null) {
 			account_DAO = new Uesr_Account_DAO_Interface();
 		}
-		
-		
+
 		String action = jsonObject.get("action").getAsString();
 		String user_Account = jsonObject.get("id").getAsString();
 		String user_passwordString = jsonObject.get("password").getAsString();
-		
+
 		switch (action) {
 		case "getLogin": {
 			JsonObject jsonLoginResult = new JsonObject();
@@ -84,23 +83,34 @@ public class Uesr_Account_Servlet extends HttpServlet {
 			} else {
 				if (user.getAccount_Password().equals(user_passwordString)) {
 					jsonLoginResult.addProperty("result", "success");
-					jsonLoginResult.addProperty("user", gson.toJson(user));  //包了兩層
+					jsonLoginResult.addProperty("user", gson.toJson(user)); // 包了兩層
 				} else {
 					jsonLoginResult.addProperty("result", "fail");
 				}
 			}
 			writeText(response, jsonLoginResult.toString());
 
-
-		
-			System.out.println("output: "+jsonLoginResult);
+			System.out.println("output: " + jsonLoginResult);
 			break;
 		}
-		case "register": {
-			
-			
+		case "Register": {
+			String user = jsonObject.get("user").getAsString();
+			User_Account user_Account2 = gson.fromJson(user, User_Account.class); // 左邊放ＪＳＯＮ格是自串，右邊放定義他要轉成何種類別物件
+			Uesr_Account_DAO user_Account_DAO = new Uesr_Account_DAO_Interface(); // 先實體ＤＡＯ才可已用
+			int count = user_Account_DAO.insert(user_Account2);
+
+			if (count == 1) {
+				System.out.println("output="+count );
+				
+//				count = user_Account_DAO.insert(user_Account2);
+				writeText(response, String.valueOf(count));
+			} else {
+				
+
+			writeText(response, String.valueOf(count));
 			
 			break;
+			}
 		}
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
