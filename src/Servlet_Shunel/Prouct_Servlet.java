@@ -29,7 +29,7 @@ import DAO.Order_Detail_DAO;
 import DAO.Product_DAO;
 import DAO.Shopping_Card_DAO;
 import DAO_Interface.Order_Detail_DAO_Interface;
-import DAO_Interface.Prouct_DAO_Interface;
+import DAO_Interface.Product_DAO_Interface;
 import DAO_Interface.Shopping_Card_DAO_Interdace;
 
 //import idv.ron.server.spots.Spot;
@@ -63,7 +63,7 @@ public class Prouct_Servlet extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		if (product_DAO == null) {
-			product_DAO = new Prouct_DAO_Interface();
+			product_DAO = new Product_DAO_Interface();
 		}
 
 		if (shopping_Card_DAO == null) {
@@ -98,7 +98,7 @@ public class Prouct_Servlet extends HttpServlet {
 
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
 		if (product_DAO == null) {
-			product_DAO = new Prouct_DAO_Interface();
+			product_DAO = new Product_DAO_Interface();
 		}
 		if (order_Detail_DAO == null) {
 			order_Detail_DAO = new Order_Detail_DAO_Interface();
@@ -112,6 +112,14 @@ public class Prouct_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
+		
+		case "getSaleProduct": {
+			List<Product> proucts = product_DAO.getSaleProduct();
+			writeText(response, gson.toJson(proucts));
+			break;
+		}
+		
+		
 		case "getAll": {
 			List<Product> proucts = product_DAO.getAll();
 			writeText(response, gson.toJson(proucts));
