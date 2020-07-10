@@ -21,8 +21,8 @@ import Bean.User_Account;
 import DAO.Uesr_Account_DAO;
 import DAO_Interface.Uesr_Account_DAO_Interface;
 
-@WebServlet("/Uesr_Account_Servlet")
-public class Uesr_Account_Servlet extends HttpServlet {
+@WebServlet("/User_Account_Servlet")
+public class User_Account_Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "text/html; charset=utf-8";
 	Uesr_Account_DAO account_DAO = null;
@@ -66,11 +66,13 @@ public class Uesr_Account_Servlet extends HttpServlet {
 		}
 
 		String action = jsonObject.get("action").getAsString();
-		String user_Account = jsonObject.get("id").getAsString();
-		String user_passwordString = jsonObject.get("password").getAsString();
+		
 
 		switch (action) {
 		case "getLogin": {
+			String user_Account = jsonObject.get("id").getAsString();
+			String user_passwordString = jsonObject.get("password").getAsString();
+			
 			JsonObject jsonLoginResult = new JsonObject();
 			Uesr_Account_DAO user_Account_DAO = new Uesr_Account_DAO_Interface();
 			User_Account user = user_Account_DAO.login(user_Account);
@@ -99,18 +101,9 @@ public class Uesr_Account_Servlet extends HttpServlet {
 			Uesr_Account_DAO user_Account_DAO = new Uesr_Account_DAO_Interface(); // 先實體ＤＡＯ才可已用
 			int count = user_Account_DAO.insert(user_Account2);
 
-			if (count == 1) {
-				System.out.println("output="+count );
-				
-//				count = user_Account_DAO.insert(user_Account2);
-				writeText(response, String.valueOf(count));
-			} else {
-				
-
+		
 			writeText(response, String.valueOf(count));
-			
 			break;
-			}
 		}
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
