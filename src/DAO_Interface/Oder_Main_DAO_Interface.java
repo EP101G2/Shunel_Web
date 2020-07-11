@@ -51,21 +51,17 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 //							System.out.print("回傳PK"+rs);
 //						}
 //			}
-			
 //			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 			while (generatedKeys.next()) {
 			    id = generatedKeys.getInt(1);
+			    
 			}
-			
-			
-			
-			
-			
+			System.out.print("id"+id);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return count;
+		return id;
 	}
 
 	@Override

@@ -37,6 +37,13 @@ public class Shopping_Cart implements Serializable {
 //		this.price = price;
 //		MODIFY_DATE = mODIFY_DATE;
 //	}
+	
+	public void show() {
+		System.out.println("account = " + account_ID + "; price = " + price
+				+ "; color = " + color);
+	}
+
+	
 
 	public String getAccount_ID() {
 		return account_ID;
