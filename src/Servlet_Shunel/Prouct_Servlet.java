@@ -113,6 +113,14 @@ public class Prouct_Servlet extends HttpServlet {
 
 		switch (action) {
 		
+		case "getCategoryProduct": {
+			int category_id = jsonObject.get("category_id").getAsInt();
+			List<Product> proucts = product_DAO.getCategoryProduct(category_id);
+			writeText(response, gson.toJson(proucts));
+			break;
+		}
+		
+		
 		case "getSaleProduct": {
 			List<Product> proucts = product_DAO.getSaleProduct();
 			writeText(response, gson.toJson(proucts));
@@ -153,6 +161,23 @@ public class Prouct_Servlet extends HttpServlet {
 
 			}
 			break;
+		}
+		
+		case "getCategoryImage":{
+			OutputStream os = response.getOutputStream();
+			int id = jsonObject.get("id").getAsInt();
+			int imageSize = jsonObject.get("imageSize").getAsInt();
+			byte[] image = product_DAO.getImage(id);
+			if (image != null) {
+				image = ImageUtil.shrink(image, imageSize);
+				response.setContentType("image/jpeg");
+				response.setContentLength(image.length);
+				os.write(image);
+
+			}
+			break;
+			
+			
 		}
 
 		case "addShop": {

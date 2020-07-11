@@ -45,7 +45,7 @@ public class Product_DAO_Interface implements Product_DAO {
 	public List<Product> getSaleProduct() {
 		// TODO Auto-generated method stub
 		
-		//String sql = "Select * From CATEGORY join PRODUCT on PRODUCT.CATEGORY_ID  = CATEGORY.CATEGORY_ID Where CATEGORY.CATEGORY_ID = 3;";
+	//	String sql = "Select * From CATEGORY join PRODUCT on PRODUCT.CATEGORY_ID  = CATEGORY.CATEGORY_ID Where CATEGORY.CATEGORY_ID = 3;";
 		String sql = "SELECT * FROM PRODUCT WHERE PRODUCT_STATUS = 1;";
 
 		List<Product> prouctList = new ArrayList<Product>();
@@ -248,6 +248,47 @@ public class Product_DAO_Interface implements Product_DAO {
 		}
 		return count;
 	}
+
+	@Override
+	public List<Product> getCategoryProduct(int category_id) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM PRODUCT WHERE CATEGORY_ID = ?";
+		
+		List<Product> prouctList = new ArrayList<Product>();
+		Product product = null;
+		System.out.println("333");
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, category_id);
+			System.out.println(connection.isClosed());
+			System.out.println(ps.isClosed());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.println("--------");
+				int id = rs.getInt("PRODUCT_ID");
+				String prouct_Name = rs.getString("PRODUCT_NAME");
+				String prouct_Color = rs.getString("COLOR");
+				int prouct_Price = rs.getInt("PRICE");
+				String prouct_Dital = rs.getString("DITAL");
+				int prouct_Category_ID = rs.getInt("CATEGORY_ID");
+				int prouct_Status = rs.getInt("PRODUCT_STATUS");
+//				Timestamp prouct_Time = rs.getTimestamp("MODIFY_DATE");
+
+				product = new Product(id, prouct_Name, prouct_Color, prouct_Price, prouct_Dital,
+						prouct_Category_ID, prouct_Status);
+				prouctList.add(product);
+			}
+			return prouctList;
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+
+		return prouctList;
+	}
+
+
 
 	
 
