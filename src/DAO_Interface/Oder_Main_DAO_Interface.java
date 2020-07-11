@@ -16,10 +16,11 @@ import javax.sql.DataSource;
 import Bean.Order_Detail;
 import Bean.Order_Main;
 import DAO.Oder_Main_DAO;
+import DAO.Order_Main_DAO;
 import Servlet_Shunel.ServiceLocator;
 //import idv.ron.server.spots.Spot;
 
-public class Oder_Main_DAO_Interface implements Oder_Main_DAO {
+public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 
 	DataSource dataSource;
 
@@ -32,27 +33,35 @@ public class Oder_Main_DAO_Interface implements Oder_Main_DAO {
 		// TODO Auto-generated method stub
 
 		int count = 0;
-		long id = 0;
+		int	id = 0;
 		String sql = "INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS) VALUES (?, ?, ?, ?);";
 
 		try (Connection connection = dataSource.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)) {
+				PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 			ps.setString(1, oM.getAccount_ID());
 			ps.setInt(2, oM.getOrder_Main_Total_Price());
 			ps.setString(3, oM.getOrder_Main_Recriver());
 			ps.setString(4, oM.getOrder_Main_Address());
 			count = ps.executeUpdate();
+			ResultSet generatedKeys = ps.getGeneratedKeys();
+//			if(count!= 0) {
+//				ResultSet rs=ps.getGeneratedKeys();
+//						if(rs.next()) {
+//							id = rs.getInt(1);
+//							System.out.print("回傳PK"+rs);
+//						}
+//			}
 			
-			
-			if(count!= 0) {
-				ResultSet rs=ps.getGeneratedKeys();
-						if(rs.next()) {
-							id = rs.getInt(1);
-						}
+//			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			while (generatedKeys.next()) {
+			    id = generatedKeys.getInt(1);
 			}
 			
 			
 			
+			
+			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -62,14 +71,9 @@ public class Oder_Main_DAO_Interface implements Oder_Main_DAO {
 	@Override
 	public int update(Order_Main oM) {
 		// TODO Auto-generated method stub
-		// UPDATE `Shunel`.`ORDER_MAIN` SET `RECRIVER` = '陳', `ADDRESS` = '玩', `PHONE` =
-		// '0966884222' WHERE (`ORDER_ID` = '3');
+		
 		int count = 0;
 		String sql = "";
-//		if (oM.) {
-//			
-//		}
-
 		return 0;
 	}
 
@@ -77,12 +81,6 @@ public class Oder_Main_DAO_Interface implements Oder_Main_DAO {
 	public int delete(int oM_ID) {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public Order_Detail findById(int oM_ID) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -117,44 +115,10 @@ public class Oder_Main_DAO_Interface implements Oder_Main_DAO {
 		return oMList;
 	}
 
-//	@Override
-//	public int insert(Order_Detail order_Detail) {
-//		// TODO Auto-generated method stub
-//		int count = 0;
-//		String sql = "INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS) VALUES (?, ?, ?, ?);";
-//		
-//		try (Connection connection = dataSource.getConnection();
-//				PreparedStatement ps = connection.prepareStatement(sql);) {
-//			ps.setString(1, order_Detail.);
-//			count = ps.executeUpdate();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return count;
-//	}
-//
-//	@Override
-//	public int update(Order_Detail order_Detail) {
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
-//
-//	@Override
-//	public int delete(int Order_ID, int Product_ID) {
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
-//
-//	@Override
-//	public Order_Detail findById(int Order_ID, int Product_ID) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public List<Order_Detail> getAll() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public Order_Main findById(int Order_ID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

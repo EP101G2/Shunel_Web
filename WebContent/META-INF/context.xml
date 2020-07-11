@@ -6,9 +6,9 @@
 <!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
-	username="root" password="1qaz2wsx" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
-	/> </Context>
- -->
+	username="root" password="qazwsxedc" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
+	/> </Context> -->
+ 
 
 
 
@@ -19,6 +19,13 @@
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="Careeverything" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
 	/> </Context> --> 
+
+<!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
+<Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
+	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
+	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
+	username="root" password="Careeverything" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
+	/> </Context>  -->
 
 <!--  <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
@@ -39,13 +46,12 @@
 
 
 <!-- Sam -->
-<!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
->>>>>>> 093f4d37205c3d2aa8836768d38b4499256db5ca
+<!--  <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="1qaz2wsx" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
-	/> </Context> -->
-
+	/> </Context> 
+ -->
 
 	
 <!-- wei -->

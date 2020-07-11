@@ -123,13 +123,9 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 		return shopping_Carts;
 	}
 
-	
-	
-	
 	@Override
 	public List<Shopping_Cart> getAll(String id) {
 		// TODO Auto-generated method stub
-//SELECT * FROM SHOPPING_CART WHERE ACCOUNT_ID = 'S';
 		String sql = "SELECT * FROM SHOPPING_CART WHERE ACCOUNT_ID = ?;";
 		List<Shopping_Cart> shopping_Carts = new ArrayList<Shopping_Cart>();
 		Shopping_Cart shopping = null;
@@ -145,11 +141,7 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 				int amount = rs.getInt(4);
 				String color = rs.getString(5);
 				int price = rs.getInt(6);
-//				Timestamp time = rs.getTimestamp(7);
-//
-//				Shopping_Cart shopping_Cart = new Shopping_Cart(account_ID, product_ID, product_Name, amount, color,price, time);
-				shopping= new Shopping_Cart(account_ID, product_ID, product_Name, amount, color,
-						price);
+				shopping = new Shopping_Cart(account_ID, product_ID, product_Name, amount, color, price);
 				shopping_Carts.add(shopping);
 			}
 			return shopping_Carts;
@@ -159,17 +151,7 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 
 		return shopping_Carts;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	@Override
 	public byte[] getImage(int id) {
 		// TODO Auto-generated method stub
@@ -185,7 +167,6 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	@Override
 	public int delete(int id) {
 		// TODO Auto-generated method stub
-//		DELETE FROM `Shunel`.`SHOPPING_CART` WHERE (`ACCOUNT_ID` = '1') and (`PRODUCT_ID` = '2');
 		int count = 0;
 		String sql = "DELETE FROM SHOPPING_CART WHERE PRODUCT_ID = ?;";
 
@@ -206,7 +187,6 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	public int delete(Shopping_Cart shopping_Cart) {
 		// TODO Auto-generated method stub
 
-//		DELETE FROM `Shunel`.`SHOPPING_CART` WHERE (`ACCOUNT_ID` = '1') and (`PRODUCT_ID` = '2');
 		int count = 0;
 		String sql = "DELETE FROM SHOPPING_CART WHERE PRODUCT_ID = ?;";
 

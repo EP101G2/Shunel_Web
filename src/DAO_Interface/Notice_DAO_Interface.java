@@ -57,13 +57,14 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	}
 
 	@Override
-	public List<Notice> getAll() {
-		String sql = "select * from NOTICE ";
+	public List<Notice> getAllSystem() {
+		String sql = "select * from NOTICE WHERE NOTICE_CATEGORY_ID = 2 ";
 		List<Notice> noticeList = new ArrayList<Notice>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
+				System.out.println("--------");
 				int NOTICE_ID = rs.getInt(1);
 				String NOTICE_TITLE = rs.getString(2);
 				String NOTICE_CONTENT = rs.getString(3);
@@ -82,4 +83,6 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return noticeList;
 
 	}
+	
+
 }
