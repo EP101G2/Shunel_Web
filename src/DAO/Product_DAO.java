@@ -18,6 +18,7 @@ public interface Product_DAO {
 	Product findById(int prouct_id);
 	List<Product> getAll();
 	List<Product> getSaleProduct();
+	List<Product> getCategoryProduct(int category_id);
 
 	byte[] getImage(int id);
 	
