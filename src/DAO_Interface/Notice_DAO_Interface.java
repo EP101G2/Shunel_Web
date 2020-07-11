@@ -29,7 +29,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+ 
 	@Override
 	public int update(Notice notice) {
 		// TODO Auto-generated method stub
@@ -83,6 +83,14 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return noticeList;
 
 	}
+
+	@Override
+	public List<Notice> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	
 
 }
