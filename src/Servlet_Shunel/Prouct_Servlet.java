@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -26,8 +27,10 @@ import Bean.Product;
 import Bean.Shopping_Cart;
 import Bean.User_Account;
 import DAO.Order_Detail_DAO;
+import DAO.Order_Main_DAO;
 import DAO.Product_DAO;
 import DAO.Shopping_Card_DAO;
+import DAO_Interface.Oder_Main_DAO_Interface;
 import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
 import DAO_Interface.Shopping_Card_DAO_Interdace;
@@ -45,7 +48,7 @@ public class Prouct_Servlet extends HttpServlet {
 	Product_DAO product_DAO = null;
 	Order_Detail_DAO order_Detail_DAO = null;
 	Shopping_Card_DAO shopping_Card_DAO = null;
-
+	Order_Main_DAO order_Main = null;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -71,6 +74,12 @@ public class Prouct_Servlet extends HttpServlet {
 			};
 		}
 
+		if (order_Main == null) {
+			order_Main = new Oder_Main_DAO_Interface();
+			
+		}
+		
+		
 		List<Product> proucts = product_DAO.getAll();
 		List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll();
 
@@ -107,6 +116,10 @@ public class Prouct_Servlet extends HttpServlet {
 			shopping_Card_DAO = new Shopping_Card_DAO_Interdace() {	
 				};
 			}
+		if(order_Main == null) {
+			order_Main = new Oder_Main_DAO_Interface();
+		}
+		
 
 		//
 		String action = jsonObject.get("action").getAsString();
@@ -181,6 +194,25 @@ public class Prouct_Servlet extends HttpServlet {
 			int id =jsonObject.get("shopId").getAsInt();
 //			String id =jsonObject.get("shopId").getAsString();
 			int count = shopping_Card_DAO.delete(id);
+			writeText(response, String.valueOf(count));
+			break;
+		}
+		
+		case "addOrderMain":{
+			String order_ID = jsonObject.get("OrderID").getAsString();
+			List<Product> products = new ArrayList<Product>();
+			System.out.println("OrderID = " + order_ID);
+			
+			Order_Main order_Main = gson.fromJson(order_ID, Order_Main.class);
+			
+			System.out.println("Order_Main="+order_Main.getOrder_ID());
+			int count = 0;
+			count = this.order_Main.insert(order_Main);
+			
+//			for (int i = 0; i < ; i++) {
+//				
+//			}
+//			count = order_Detail_DAO.insert(order_Main);
 			writeText(response, String.valueOf(count));
 			break;
 		}
