@@ -135,4 +135,10 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		}
 		return order_Main;
 	}
+
+	@Override
+	public List<Order_Main> getStatus(int status) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

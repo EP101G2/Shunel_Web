@@ -51,7 +51,7 @@ public class User_Account_Servlet extends HttpServlet {
 //		doGet(request, response);
 		request.setCharacterEncoding("UTF-8");
 		Gson gson = new Gson();
-		BufferedReader br = request.getReader(); // request就是ＡＮＤＲＯＩＤ街收的東西（ＪＳＯＮ ＳＴＲＩＮＧ）
+		BufferedReader br = request.getReader(); // request就是android接收的東西（ＪＳＯＮ ＳＴＲＩＮＧ）
 		StringBuilder ServletJsonIn = new StringBuilder();
 		String line = "";
 		while ((line = br.readLine()) != null) {
@@ -110,6 +110,8 @@ public class User_Account_Servlet extends HttpServlet {
 		}
 	}
 
+	
+	
 	private void writeText(HttpServletResponse response, String outText) throws IOException {
 		response.setContentType(CONTENT_TYPE);
 		PrintWriter printWriter = response.getWriter();

@@ -80,8 +80,8 @@ public class Prouct_Servlet extends HttpServlet {
 		}
 
 		if (order_Main == null) {
+//			order_Main = new Ord
 			order_Main = new Oder_Main_DAO_Interface();
-
 		}
 
 		List<Product> proucts = product_DAO.getAll();
