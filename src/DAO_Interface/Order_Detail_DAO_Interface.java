@@ -34,7 +34,7 @@ public class Order_Detail_DAO_Interface implements Order_Detail_DAO {
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ps.setInt(1, order_Detail.getOrder_ID());
-			ps.setInt(2, order_Detail.getPrount_ID());
+			ps.setInt(2, order_Detail.getProduct_ID());
 			ps.setInt(3, order_Detail.getOrder_Detail_Amount());
 			ps.setString(4, order_Detail.getColor());
 			ps.setInt(5, order_Detail.getOrder_Detail_Buy_Price());
