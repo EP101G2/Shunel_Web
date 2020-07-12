@@ -29,7 +29,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+ 
 	@Override
 	public int update(Notice notice) {
 		// TODO Auto-generated method stub
@@ -85,6 +85,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public List<Notice> getNoticeAll() {
 		String sql = "SELECT * FROM Shunel.NOTICE; ";
 		List<Notice> noticeList = new ArrayList<Notice>();
@@ -111,6 +112,14 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return noticeList;
 
 	}
+=======
+	public List<Notice> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+>>>>>>> 149171eb03d3a5f9b4cf861a9a0a81ae13a1a063
 	
 
 }

@@ -24,17 +24,23 @@ public class Order_Detail_DAO_Interface implements Order_Detail_DAO {
 	@Override
 	public int insert(Order_Detail order_Detail) {
 		// TODO Auto-generated method stub
-
+		System.out.print("----------------test099192389123----------------------");
 		int count = 0;
 		//INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS) VALUES (?, ?, ?, ?);
-
+//		INSERT INTO ORDER_DETAIL (ORDER_ID, PRODUCT_ID, AMOUNT, COLOR, BUY_PRICE) VALUES (?, ?, ?, ?, ?);
 //		INSERT INTO ORDER_DETAIL (ORDER_ID, PRODUCT_ID, AMOUNT, COLOR) VALUES (?, ?, ?, ?);
 
-		String sql = "INSERT INTO ORDER_DETAIL (ORDER_ID, PRODUCT_ID, AMOUNT, COLOR) VALUES (?, ?, ?, ?);";
+		String sql = "INSERT INTO ORDER_DETAIL (ORDER_ID, PRODUCT_ID, AMOUNT, COLOR, BUY_PRICE) VALUES (?, ?, ?, ?, ?);";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-//			ps.setString(1, order_Detail.);
+			ps.setInt(1, order_Detail.getOrder_ID());
+			ps.setInt(2, order_Detail.getProduct_ID());
+			ps.setInt(3, order_Detail.getOrder_Detail_Amount());
+			ps.setString(4, order_Detail.getColor());
+			ps.setInt(5, order_Detail.getOrder_Detail_Buy_Price());
 			count = ps.executeUpdate();
+			
+			System.out.print("----------------test11111112222222----------------------"+ps.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
