@@ -85,9 +85,10 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	}
 
 	@Override
-<<<<<<< HEAD
+
 	public List<Notice> getNoticeAll() {
-		String sql = "SELECT * FROM Shunel.NOTICE; ";
+		String sql = "SELECT * FROM Shunel.NOTICE\n" + 
+				"ORDER BY  NOTICE_TIME DESC; ";
 		List<Notice> noticeList = new ArrayList<Notice>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -112,14 +113,11 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return noticeList;
 
 	}
-=======
 	public List<Notice> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
->>>>>>> 149171eb03d3a5f9b4cf861a9a0a81ae13a1a063
 	
 
 }
