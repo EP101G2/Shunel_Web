@@ -252,21 +252,7 @@ public class Prouct_Servlet extends HttpServlet {
 			int orderdetail = 0;
 			orderid = this.order_Main.insert(order_Main);
 			System.out.print("----------------test155555555555----------------------");
-//			for (int i = 0; i <= order_Details.length(); i++) {
-//				oDetails= new ArrayList<Order_Detail>();
-//				Order_Detail detail = null;
-//				int oID=orderid;
-//				int pID=oDetail.getProduct_ID();
-//				int price=oDetail.getPrice();
-//				int amount =oDetail.getAmount();
-//				String color =oDetail.getColor();
-////				System.out.print("for迴圈------"+oID+"\t"+pID+"\t"+color);
-////				detail = new Order_Detail(order_ID, order_Detail_Amount, prount_ID, order_Detail_Buy_Price, color)
-//				detail = new Order_Detail(oID, amount, pID, price, color);
-////				orderdetail= order_Detail_DAO.insert(detail);
-//				System.out.print("for迴圈"+oID+"\t"+pID+"\t"+color);
-//			}
-//			count = order_Detail_DAO.insert(order_Main);
+
 			
 			for (JsonElement element : jsonArray) {
 				JsonObject obj = element.getAsJsonObject();
@@ -285,14 +271,6 @@ public class Prouct_Servlet extends HttpServlet {
 		}
 		
 		
-		
-//		int id;
-//		id = OdDao.insert(Order);
-//		
-//		for() {
-//			.Set(id);
-//			
-//		}
 		
 
 		default:
