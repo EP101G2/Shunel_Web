@@ -33,7 +33,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		// TODO Auto-generated method stub
 
 		int count = 0;
-		int	id = 0;
+		int id = 0;
 		String sql = "INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS) VALUES (?, ?, ?, ?);";
 
 		try (Connection connection = dataSource.getConnection();
@@ -44,19 +44,12 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 			ps.setString(4, oM.getOrder_Main_Address());
 			count = ps.executeUpdate();
 			ResultSet generatedKeys = ps.getGeneratedKeys();
-//			if(count!= 0) {
-//				ResultSet rs=ps.getGeneratedKeys();
-//						if(rs.next()) {
-//							id = rs.getInt(1);
-//							System.out.print("回傳PK"+rs);
-//						}
-//			}
-//			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+
 			while (generatedKeys.next()) {
-			    id = generatedKeys.getInt(1);
-			    
+				id = generatedKeys.getInt(1);
+
 			}
-			System.out.print("id"+id);
+			System.out.print("id" + id);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -67,7 +60,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	@Override
 	public int update(Order_Main oM) {
 		// TODO Auto-generated method stub
-		
+
 		int count = 0;
 		String sql = "";
 		return 0;
@@ -114,7 +107,32 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	@Override
 	public Order_Main findById(int Order_ID) {
 		// TODO Auto-generated method stub
+		String sql = "SELECT ACCOUNT_ID,TOTAL_PRICE, RECRIVER, ADDRESS, PHONE, ORDER_DATE,ORDER_STATUS,MODIFY_DATE FROM ORDER_MAIN WHERE ORDER_ID = ?;";
+		Order_Main order_Main = null;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, Order_ID);
+			/*
+			 * 當Statement關閉，ResultSet也會自動關閉， 可以不需要將ResultSet宣告置入try with
+			 * resources小括號內，參看ResultSet說明
+			 */
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				String ACCOUNT_ID = rs.getString(1);
+				int TOTAL_PRICE = rs.getInt(2);
+				String RECRIVER = rs.getString(3);
+				String ADDRESS = rs.getString(4);
+				String PHONE = rs.getString(5);
+				Timestamp ORDER_DATE = rs.getTimestamp(6);
+				int ORDER_STATUS = rs.getInt(7);
+				Timestamp MODIFY_DATE = rs.getTimestamp(8);
+				order_Main = new Order_Main(Order_ID, ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE, ORDER_DATE, ORDER_STATUS, MODIFY_DATE);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
-
 }
