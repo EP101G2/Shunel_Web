@@ -48,7 +48,7 @@ public class Notice_Servlet extends HttpServlet {
 		if (notice_DAO == null) {
 			notice_DAO = new Notice_DAO_Interface();
 		}
-		List<Notice> notices = notice_DAO.getAll();
+		List<Notice> notices = notice_DAO.getNoticeAll();
 		writeText(response, new Gson().toJson(notices));
 		
 	}
@@ -74,8 +74,8 @@ public class Notice_Servlet extends HttpServlet {
 		
 		String action = jsonObject.get("action").getAsString();
 		
-		if (action.equals("getAll")) {
-			List<Notice> notices = notice_DAO.getAll();
+		if (action.equals("getNoticeAll")) {
+			List<Notice> notices = notice_DAO.getNoticeAll();
 			writeText(response,gson.toJson(notices));
 		}else if (action.equals("delete")) {
 			
