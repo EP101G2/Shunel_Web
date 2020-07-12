@@ -35,9 +35,9 @@ import DAO_Interface.Oder_Main_DAO_Interface;
 import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
 
-/**
- * Servlet implementation class Orders_Servlet
- */
+///**
+// * Servlet implementation class Orders_Servlet
+// */
 @WebServlet("/Orders_Servlet")
 public class Orders_Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -69,19 +69,14 @@ public class Orders_Servlet extends HttpServlet {
 		if (order_Main_DAO== null) {
 			order_Main_DAO = new Oder_Main_DAO_Interface(); //?{
 				
-//				@Override
-//				public List<Order_Main> getStatus(int status) {
-//					// TODO Auto-generated method stub
-//					return null;
-//				}
-//			};
-//		}
+		}
 		if (order_Detail_DAO == null) {
 			order_Detail_DAO = new Order_Detail_DAO_Interface();
 		}
 		List<Order_Main> order_Mains = order_Main_DAO.getAll();
 		List<Order_Detail> order_Details = order_Detail_DAO.getAll();
 		
+
 		writeText(response, new Gson().toJson(order_Mains));
 	}
 
