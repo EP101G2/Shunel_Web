@@ -20,7 +20,7 @@ import DAO.Order_Main_DAO;
 import Servlet_Shunel.ServiceLocator;
 //import idv.ron.server.spots.Spot;
 
-public class Oder_Main_DAO_Interface implements Order_Main_DAO {
+public abstract class Oder_Main_DAO_Interface implements Order_Main_DAO {
 
 	DataSource dataSource;
 
@@ -45,10 +45,10 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 			count = ps.executeUpdate();
 			ResultSet generatedKeys = ps.getGeneratedKeys();
 //			if(count!= 0) {
-//				ResultSet rs=ps.getGeneratedKeys();
-//						if(rs.next()) {
-//							id = rs.getInt(1);
-//							System.out.print("回傳PK"+rs);
+//				ResultSet rS = ps.getGeneratedKeys();
+//						if(rS.next()) {
+//							id = rS.getInt(1);
+//							System.out.print("回傳PK"+rS);
 //						}
 //			}
 //			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();

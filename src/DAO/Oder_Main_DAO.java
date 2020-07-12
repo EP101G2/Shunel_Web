@@ -17,7 +17,6 @@ public interface Oder_Main_DAO {
 	Order_Detail findById(int oM_ID);
 
 	List<Order_Main> getAll();
-
-	
+	List<Order_Main> getStatus();
 	
 }
