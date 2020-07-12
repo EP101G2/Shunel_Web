@@ -17,6 +17,7 @@ import DAO.Uesr_Account_DAO;
 import Servlet_Shunel.ServiceLocator;
 
 
+
 public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 
 	DataSource dataSource;       //管理連線（對應context.xml）
@@ -51,9 +52,34 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 	
 
 	@Override
-	public int update(User_Account user_Account) {
+	public int update(User_Account user_Account, byte[] image) {
 		// TODO Auto-generated method stub
-		return 0;
+			int count = 0;
+			String sql = "";
+			// image為null就不更新image欄位內容
+			if (image != null) {
+				sql = "UPDATE User_Account SET USER_NAME = ?, ADDRESS = ?, PHONE = ?, "
+						+ "image = ? WHERE id = ?;";
+			} else {
+				sql = "UPDATE User_Account SET USER_NAME = ?, ADDRESS = ?,PHONE = ?, " + " WHERE id = ?;";
+			}
+			try (Connection connection = dataSource.getConnection();
+					PreparedStatement ps = connection.prepareStatement(sql);) {
+				ps.setString(1, user_Account.getAccount_User_Name());
+				ps.setString(2, user_Account.getAccount_Address());
+				ps.setString(3, user_Account.getAccount_Phone());
+			
+				if (image != null) {
+					ps.setBytes(4, image);
+					ps.setString(5, user_Account.getAccount_ID());
+				} else {
+					ps.setString(4, user_Account.getAccount_ID());
+				}
+				count = ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return count;
 	}
 
 	@Override
