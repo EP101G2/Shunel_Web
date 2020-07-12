@@ -80,7 +80,8 @@ public class Orders_Servlet extends HttpServlet {
 		
 		switch (action) {
 		case "getOrderMain": {
-			
+			int orderMainID = jsonObject.get("orderID").getAsInt();
+					
 			break;
 		}
 		default:
