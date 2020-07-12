@@ -252,7 +252,7 @@ public class Product_DAO_Interface implements Product_DAO {
 	@Override
 	public List<Product> getCategoryProduct(int category_id) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT * FROM PRODUCT WHERE CATEGORY_ID = ?";
+		String sql = "SELECT * FROM PRODUCT WHERE CATEGORY_ID = ? and PRODUCT_STATUS = 1";
 		
 		List<Product> prouctList = new ArrayList<Product>();
 		Product product = null;

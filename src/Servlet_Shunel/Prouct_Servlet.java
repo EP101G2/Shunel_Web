@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -17,9 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.jasper.tagplugins.jstl.core.Out;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 //import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 //import com.sun.tools.classfile.Opcode.Set;
+import com.google.gson.reflect.TypeToken;
 
 import Bean.Order_Detail;
 import Bean.Order_Main;
@@ -34,6 +38,8 @@ import DAO_Interface.Oder_Main_DAO_Interface;
 import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
 import DAO_Interface.Shopping_Card_DAO_Interdace;
+
+
 
 //import idv.ron.server.spots.Spot;
 
@@ -225,32 +231,46 @@ public class Prouct_Servlet extends HttpServlet {
 		
 		case "addOrderMain":{
 			String order_ID = jsonObject.get("OrderID").getAsString();
-			List<Product> products = new ArrayList<Product>();
+			String order_Details = jsonObject.get("OrderDetail").getAsString();
+			Order_Detail oDetails = null;
 			System.out.println("OrderID = " + order_ID);
+			System.out.println("OrderDetail = " + order_Details);
+			
+			
+			Type collectionType = new TypeToken<List<Shopping_Cart>>() {
+			}.getType();
+			List<Shopping_Cart> myBookList = gson.fromJson(order_Details, collectionType);
+			for (Shopping_Cart book : myBookList) {
+				book.show();
+			}
 			
 			Order_Main order_Main = gson.fromJson(order_ID, Order_Main.class);
+			JsonArray jsonArray = gson.fromJson(order_Details, JsonArray.class);
+//			Shopping_Cart oDetail = gson.fromJson(order_Details, Shopping_Cart.class);
+//			System.out.println("Order_Main="+order_Main.getOrder_ID());
+			int orderid = 0;
+			int orderdetail = 0;
+			orderid = this.order_Main.insert(order_Main);
+			System.out.print("----------------test155555555555----------------------");
+
 			
-			System.out.println("Order_Main="+order_Main.getOrder_ID());
-			int count = 0;
-			count = this.order_Main.insert(order_Main);
-			
-//			for (int i = 0; i < ; i++) {
-//				
-//			}
-//			count = order_Detail_DAO.insert(order_Main);
-			writeText(response, String.valueOf(count));
+			for (JsonElement element : jsonArray) {
+				JsonObject obj = element.getAsJsonObject();
+				int order_id = orderid;
+				int product = obj.get("product_ID").getAsInt();
+				int amount = obj.get("amount").getAsInt();
+				String color = obj.get("color").getAsString();
+				int price = obj.get("price").getAsInt();
+				
+				
+				oDetails = new Order_Detail(order_id, amount, product, price, color);
+				orderdetail = order_Detail_DAO.insert(oDetails);
+			}	
+			writeText(response, String.valueOf(orderid)+String.valueOf(orderdetail));
 			break;
 		}
 		
 		
-		
-//		int id;
-//		id = OdDao.insert(Order);
-//		
-//		for() {
-//			.Set(id);
-//			
-//		}
 		
 
 		default:
