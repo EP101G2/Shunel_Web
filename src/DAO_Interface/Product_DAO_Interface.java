@@ -39,6 +39,45 @@ public class Product_DAO_Interface implements Product_DAO {
 	}
 	
 	
+	@Override
+	public List<Product> getLikeProduct(String user_id) {
+		String sql = "Select * From Shunel.LIKE join Shunel.PRODUCT on Shunel.LIKE.PRODUCT_ID  = Shunel.PRODUCT.PRODUCT_ID Where Shunel.LIKE.ACCOUNT_ID = ?";
+		
+		List<Product> prouctList = new ArrayList<Product>();
+		Product product = null;
+		System.out.println("333");
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, user_id);
+			System.out.println(connection.isClosed());
+			System.out.println(ps.isClosed());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.println("--------");
+				int id = rs.getInt("PRODUCT_ID");
+				String prouct_Name = rs.getString("PRODUCT_NAME");
+				String prouct_Color = rs.getString("COLOR");
+				int prouct_Price = rs.getInt("PRICE");
+				String prouct_Dital = rs.getString("DITAL");
+				int prouct_Category_ID = rs.getInt("CATEGORY_ID");
+				int prouct_Status = rs.getInt("PRODUCT_STATUS");
+//				Timestamp prouct_Time = rs.getTimestamp("MODIFY_DATE");
+
+				product = new Product(id, prouct_Name, prouct_Color, prouct_Price, prouct_Dital,
+						prouct_Category_ID, prouct_Status);
+				prouctList.add(product);
+			}
+			return prouctList;
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+
+		return prouctList;
+	}
+	
+	
 	
 	//拿只有上架的商品
 	@Override
@@ -287,6 +326,8 @@ public class Product_DAO_Interface implements Product_DAO {
 
 		return prouctList;
 	}
+
+	
 
 
 
