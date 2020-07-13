@@ -41,8 +41,6 @@ import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
 import DAO_Interface.Shopping_Card_DAO_Interdace;
 
-
-
 //import idv.ron.server.spots.Spot;
 
 /**
@@ -58,6 +56,7 @@ public class Prouct_Servlet extends HttpServlet {
 	Shopping_Card_DAO shopping_Card_DAO = null;
 	Order_Main_DAO order_Main = null;
 	Like_DAO like_DAO = null;
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -86,11 +85,10 @@ public class Prouct_Servlet extends HttpServlet {
 		}
 
 		if (order_Main == null) {
+//			order_Main = new Ord
 			order_Main = new Oder_Main_DAO_Interface();
-			
 		}
-		
-		
+
 		List<Product> proucts = product_DAO.getAll();
 		List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll();
 
@@ -124,13 +122,12 @@ public class Prouct_Servlet extends HttpServlet {
 			order_Detail_DAO = new Order_Detail_DAO_Interface();
 		}
 		if (shopping_Card_DAO == null) {
-			shopping_Card_DAO = new Shopping_Card_DAO_Interdace() {	
-				};
-			}
-		if(order_Main == null) {
+			shopping_Card_DAO = new Shopping_Card_DAO_Interdace() {
+			};
+		}
+		if (order_Main == null) {
 			order_Main = new Oder_Main_DAO_Interface();
 		}
-		
 
 		//
 		String action = jsonObject.get("action").getAsString();
@@ -144,22 +141,20 @@ public class Prouct_Servlet extends HttpServlet {
 			break;
 			
 		}
-		
+
 		case "getCategoryProduct": {
 			int category_id = jsonObject.get("category_id").getAsInt();
 			List<Product> proucts = product_DAO.getCategoryProduct(category_id);
 			writeText(response, gson.toJson(proucts));
 			break;
 		}
-		
-		
+
 		case "getSaleProduct": {
 			List<Product> proucts = product_DAO.getSaleProduct();
 			writeText(response, gson.toJson(proucts));
 			break;
 		}
-		
-		
+
 		case "getAll": {
 			List<Product> proucts = product_DAO.getAll();
 			writeText(response, gson.toJson(proucts));
@@ -194,8 +189,8 @@ public class Prouct_Servlet extends HttpServlet {
 			}
 			break;
 		}
-		
-		case "getCategoryImage":{
+
+		case "getCategoryImage": {
 			OutputStream os = response.getOutputStream();
 			int id = jsonObject.get("id").getAsInt();
 			int imageSize = jsonObject.get("imageSize").getAsInt();
@@ -208,17 +203,16 @@ public class Prouct_Servlet extends HttpServlet {
 
 			}
 			break;
-			
-			
+
 		}
 
 		case "addShop": {
 
 			String ID_Json = jsonObject.get("ProductID").getAsString();
 			System.out.println("ID_Json = " + ID_Json);
-			
+
 			Shopping_Cart shopping_Cart = gson.fromJson(ID_Json, Shopping_Cart.class);
-			System.out.println("shopping_Cart"+shopping_Cart.getAccount_ID());
+			System.out.println("shopping_Cart" + shopping_Cart.getAccount_ID());
 			int count = 0;
 			count = shopping_Card_DAO.insert(shopping_Cart);
 			writeText(response, String.valueOf(count));
@@ -227,60 +221,43 @@ public class Prouct_Servlet extends HttpServlet {
 
 		case "getAllShop": {
 
-			String jsonAllShop=jsonObject.get("id").getAsString();
+			String jsonAllShop = jsonObject.get("id").getAsString();
 			List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll(jsonAllShop);
 			writeText(response, gson.toJson(shopping_Carts));
 			break;
 
 		}
-		
-		case "shopDelete":{
-			int id =jsonObject.get("shopId").getAsInt();
+
+		case "shopDelete": {
+			int id = jsonObject.get("shopId").getAsInt();
 //			String id =jsonObject.get("shopId").getAsString();
 			int count = shopping_Card_DAO.delete(id);
 			writeText(response, String.valueOf(count));
 			break;
 		}
-		
-		case "addOrderMain":{
+
+		case "addOrderMain": {
 			String order_ID = jsonObject.get("OrderID").getAsString();
 			String order_Details = jsonObject.get("OrderDetail").getAsString();
+//			int id = jsonObject.get("shopcardId").getAsInt();
 			Order_Detail oDetails = null;
 			System.out.println("OrderID = " + order_ID);
 			System.out.println("OrderDetail = " + order_Details);
-			
-			
+
 			Type collectionType = new TypeToken<List<Shopping_Cart>>() {
 			}.getType();
 			List<Shopping_Cart> myBookList = gson.fromJson(order_Details, collectionType);
 			for (Shopping_Cart book : myBookList) {
 				book.show();
 			}
-			
+
 			Order_Main order_Main = gson.fromJson(order_ID, Order_Main.class);
 			JsonArray jsonArray = gson.fromJson(order_Details, JsonArray.class);
-//			Shopping_Cart oDetail = gson.fromJson(order_Details, Shopping_Cart.class);
-//			System.out.println("Order_Main="+order_Main.getOrder_ID());
+
 			int orderid = 0;
 			int orderdetail = 0;
 			orderid = this.order_Main.insert(order_Main);
-			System.out.print("----------------test155555555555----------------------");
-//			for (int i = 0; i <= order_Details.length(); i++) {
-//				oDetails= new ArrayList<Order_Detail>();
-//				Order_Detail detail = null;
-//				int oID=orderid;
-//				int pID=oDetail.getProduct_ID();
-//				int price=oDetail.getPrice();
-//				int amount =oDetail.getAmount();
-//				String color =oDetail.getColor();
-////				System.out.print("for迴圈------"+oID+"\t"+pID+"\t"+color);
-////				detail = new Order_Detail(order_ID, order_Detail_Amount, prount_ID, order_Detail_Buy_Price, color)
-//				detail = new Order_Detail(oID, amount, pID, price, color);
-////				orderdetail= order_Detail_DAO.insert(detail);
-//				System.out.print("for迴圈"+oID+"\t"+pID+"\t"+color);
-//			}
-//			count = order_Detail_DAO.insert(order_Main);
-			
+
 			for (JsonElement element : jsonArray) {
 				JsonObject obj = element.getAsJsonObject();
 				int order_id = orderid;
@@ -288,25 +265,17 @@ public class Prouct_Servlet extends HttpServlet {
 				int amount = obj.get("amount").getAsInt();
 				String color = obj.get("color").getAsString();
 				int price = obj.get("price").getAsInt();
-				
-				
+
 				oDetails = new Order_Detail(order_id, amount, product, price, color);
 				orderdetail = order_Detail_DAO.insert(oDetails);
-			}	
-			writeText(response, String.valueOf(orderid)+String.valueOf(orderdetail));
+//				int count = shopping_Card_DAO.delete(id);
+				
+			}
+			
+			
+			writeText(response, String.valueOf(orderid) + String.valueOf(orderdetail));
 			break;
 		}
-		
-		
-		
-//		int id;
-//		id = OdDao.insert(Order);
-//		
-//		for() {
-//			.Set(id);
-//			
-//		}
-		
 
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);

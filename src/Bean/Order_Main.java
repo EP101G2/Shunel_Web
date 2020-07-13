@@ -3,12 +3,11 @@ package Bean;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Order_Main implements Serializable{
-	
-	
-	//宣告區
-	private int Order_ID; //PK
-	private String Account_ID; //FK
+public class Order_Main implements Serializable {
+
+	// 宣告區
+	private int Order_ID; // PK
+	private String Account_ID; // FK
 	private int Order_Main_Total_Price;
 	private String Order_Main_Recriver;
 	private String Order_Main_Address;
@@ -16,8 +15,8 @@ public class Order_Main implements Serializable{
 	private Timestamp Order_Main_Order_Date;
 	private int Order_Main_Order_Status;
 	private Timestamp Order_Main_Modify_Date;
-	
- Order_Main(int order_ID, String account_ID, int order_Main_Total_Price, String order_Main_Recriver,
+
+	public Order_Main(int order_ID, String account_ID, int order_Main_Total_Price, String order_Main_Recriver,
 			String order_Main_Address, String order_Main_Phone, Timestamp order_Main_Order_Date,
 			int order_Main_Order_Status, Timestamp order_Main_Modify_Date) {
 		super();
@@ -32,11 +31,11 @@ public class Order_Main implements Serializable{
 		Order_Main_Modify_Date = order_Main_Modify_Date;
 	}
 	
-	
-
 	public int getOrder_ID() {
 		return Order_ID;
 	}
+
+	
 
 	public void setOrder_ID(int order_ID) {
 		Order_ID = order_ID;
@@ -45,6 +44,7 @@ public class Order_Main implements Serializable{
 	public String getAccount_ID() {
 		return Account_ID;
 	}
+
 	public void setAccount_ID(String account_ID) {
 		Account_ID = account_ID;
 	}
@@ -104,12 +104,5 @@ public class Order_Main implements Serializable{
 	public void setOrder_Main_Modify_Date(Timestamp order_Main_Modify_Date) {
 		Order_Main_Modify_Date = order_Main_Modify_Date;
 	}
-	
-	
-	
-	
-	
-	
-	
 
 }
