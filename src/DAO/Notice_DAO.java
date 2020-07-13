@@ -9,6 +9,8 @@ public interface Notice_DAO {
 	int update(Notice notice);
 	int delete(int notice_ID);
 	Notice findById(int notice_ID);
-	List<Notice> getAllSystem();
 	List<Notice> getNoticeAll();
+	List<Notice> getSystemAll();
+	List<Notice> getSaleAll();
+	List<Notice> getQAAll();
 }

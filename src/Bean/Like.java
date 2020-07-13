@@ -9,6 +9,7 @@ public class Like implements Serializable{
 	private int Product_ID;
 	
 	
+	
 	public Like(String account_ID, int product_ID) {
 		super();
 		Account_ID = account_ID;
