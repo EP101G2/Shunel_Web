@@ -30,10 +30,12 @@ import Bean.Order_Main;
 import Bean.Product;
 import Bean.Shopping_Cart;
 import Bean.User_Account;
+import DAO.Like_DAO;
 import DAO.Order_Detail_DAO;
 import DAO.Order_Main_DAO;
 import DAO.Product_DAO;
 import DAO.Shopping_Card_DAO;
+import DAO_Interface.Like_DAO_Interface;
 import DAO_Interface.Oder_Main_DAO_Interface;
 import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
@@ -55,6 +57,7 @@ public class Prouct_Servlet extends HttpServlet {
 	Order_Detail_DAO order_Detail_DAO = null;
 	Shopping_Card_DAO shopping_Card_DAO = null;
 	Order_Main_DAO order_Main = null;
+	Like_DAO like_DAO = null;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -70,7 +73,9 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		if(like_DAO == null) {
+			like_DAO = new Like_DAO_Interface();
+		}
 		if (product_DAO == null) {
 			product_DAO = new Product_DAO_Interface();
 		}
@@ -131,6 +136,14 @@ public class Prouct_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
+		
+		case "getLikeProduct":{
+			String user_id = jsonObject.get("id").getAsString();
+			List<Product> proucts = product_DAO.getLikeProduct(user_id);
+			writeText(response, gson.toJson(proucts));
+			break;
+			
+		}
 		
 		case "getCategoryProduct": {
 			int category_id = jsonObject.get("category_id").getAsInt();
