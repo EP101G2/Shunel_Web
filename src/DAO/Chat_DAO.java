@@ -4,11 +4,11 @@ import java.util.List;
 
 import Bean.Chat;
 
-public interface chat_DAO {
+public interface Chat_DAO {
 
-	int insert(Chat chat, byte[] chat_image);
+	int insert(Chat chat);
 
-	int update(Chat chat, byte[] chat_image );
+//	int update(Chat chat, byte[] chat_image );
 
 	int delete(int Chat_id);
 
