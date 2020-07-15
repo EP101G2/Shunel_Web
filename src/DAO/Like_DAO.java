@@ -6,14 +6,16 @@ import Bean.Like;
 
 
 public interface Like_DAO {
-	void insert(Like like);
-
+	int insert(Like  like);
+	int delete(int id);
+	void insert(int Account_ID, int Product_ID);
+	
 	void update(Like like);
 
 	void delete(int Account_ID, int Product_ID);
 
 	Like findById(int Account_ID, int Product_ID);
 
-	List<Like> getAll();
-
+	List<Like> getAll(String id);
+	
 }

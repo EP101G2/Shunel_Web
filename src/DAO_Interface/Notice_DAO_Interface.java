@@ -29,7 +29,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
- 
+
 	@Override
 	public int update(Notice notice) {
 		// TODO Auto-generated method stub
@@ -57,8 +57,62 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	}
 
 	@Override
-	public List<Notice> getAllSystem() {
-		String sql = "select * from NOTICE WHERE NOTICE_CATEGORY_ID = 2 ";
+	public List<Notice> getSaleAll() {
+		String sql =  "select * from NOTICE WHERE NOTICE_CATEGORY_ID = 0 ORDER BY  NOTICE_TIME DESC;";
+		List<Notice> noticeList = new ArrayList<Notice>();
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.println("--------");
+				int NOTICE_ID = rs.getInt(1);
+				String NOTICE_TITLE = rs.getString(2);
+				String NOTICE_CONTENT = rs.getString(3);
+				Timestamp NOTICE_TIME = rs.getTimestamp(4);
+				int NOTICE_CATEGORY_ID = rs.getInt(5);
+				int CATEGORY_MESSAGE_ID = rs.getInt(6);
+				Notice notice = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
+						CATEGORY_MESSAGE_ID);
+				noticeList.add(notice);
+			}
+			return noticeList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return noticeList;
+	}
+
+	@Override
+	public List<Notice> getQAAll() {
+		String sql =  "select * from NOTICE WHERE NOTICE_CATEGORY_ID = 1 ORDER BY  NOTICE_TIME DESC;";
+		List<Notice> noticeList = new ArrayList<Notice>();
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.println("--------");
+				int NOTICE_ID = rs.getInt(1);
+				String NOTICE_TITLE = rs.getString(2);
+				String NOTICE_CONTENT = rs.getString(3);
+				Timestamp NOTICE_TIME = rs.getTimestamp(4);
+				int NOTICE_CATEGORY_ID = rs.getInt(5);
+				int CATEGORY_MESSAGE_ID = rs.getInt(6);
+				Notice notice = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
+						CATEGORY_MESSAGE_ID);
+				noticeList.add(notice);
+			}
+			return noticeList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return noticeList;
+	}
+
+	@Override
+	public List<Notice> getSystemAll() {
+		String sql = "select * from NOTICE WHERE NOTICE_CATEGORY_ID = 2 ORDER BY  NOTICE_TIME DESC;";
 		List<Notice> noticeList = new ArrayList<Notice>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -87,8 +141,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	@Override
 
 	public List<Notice> getNoticeAll() {
-		String sql = "SELECT * FROM Shunel.NOTICE\n" + 
-				"ORDER BY  NOTICE_TIME DESC; ";
+		String sql = "SELECT * FROM NOTICE WHERE NOTICE_CATEGORY_ID = 3 ; ";
 		List<Notice> noticeList = new ArrayList<Notice>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -113,11 +166,14 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return noticeList;
 
 	}
+
+
 	public List<Notice> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	
+
 
 }
