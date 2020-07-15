@@ -235,15 +235,44 @@ public class Prouct_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(count));
 			break;
 		}
+		
+		
+		case "shopAfterDelete":{
+			int count = 0;
+			Shopping_Cart shopping_Cart=null;
+			String shopAD =jsonObject.get("shopAD").getAsString();
+			Type collectionType = new TypeToken<List<Shopping_Cart>>() {
+			}.getType();
+			List<Shopping_Cart> shopping_Carts = gson.fromJson(shopAD, collectionType);
+			for (Shopping_Cart book : shopping_Carts) {
+				book.show();
+			}
+			JsonArray jsonArray = gson.fromJson(shopAD, JsonArray.class);
+			for (JsonElement element : jsonArray) {
+				JsonObject obj = element.getAsJsonObject();
+				String account_ID = obj.get("account_ID").getAsString();
+				int product_ID = obj.get("product_ID").getAsInt();
+				String product_Name = obj.get("product_Name").getAsString();
+				int amount  = obj.get("amount").getAsInt();
+				String color = obj.get("color").getAsString();
+				int price = obj.get("price").getAsInt();
+
+				shopping_Cart = new Shopping_Cart(account_ID, product_ID, product_Name, amount, color, price);
+				count = shopping_Card_DAO.delete(shopping_Cart);		
+			}
+			writeText(response, String.valueOf(count));
+			
+			break;
+		}
+		
+		
+		
+		
 
 		case "addOrderMain": {
 			String order_ID = jsonObject.get("OrderID").getAsString();
 			String order_Details = jsonObject.get("OrderDetail").getAsString();
-//			int id = jsonObject.get("shopcardId").getAsInt();
 			Order_Detail oDetails = null;
-			System.out.println("OrderID = " + order_ID);
-			System.out.println("OrderDetail = " + order_Details);
-
 			Type collectionType = new TypeToken<List<Shopping_Cart>>() {
 			}.getType();
 			List<Shopping_Cart> myBookList = gson.fromJson(order_Details, collectionType);
@@ -267,9 +296,7 @@ public class Prouct_Servlet extends HttpServlet {
 				int price = obj.get("price").getAsInt();
 
 				oDetails = new Order_Detail(order_id, amount, product, price, color);
-				orderdetail = order_Detail_DAO.insert(oDetails);
-//				int count = shopping_Card_DAO.delete(id);
-				
+				orderdetail = order_Detail_DAO.insert(oDetails);				
 			}
 			
 			
