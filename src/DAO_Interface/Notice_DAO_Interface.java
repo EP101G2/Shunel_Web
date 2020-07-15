@@ -166,8 +166,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return noticeList;
 
 	}
-<<<<<<< HEAD
-=======
+
 
 	public List<Notice> getAll() {
 		// TODO Auto-generated method stub
@@ -175,6 +174,6 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	}
 
 	
->>>>>>> 9da1618ff788effea00aa454a307ec584cbea03c
+
 
 }
