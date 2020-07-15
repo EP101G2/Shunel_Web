@@ -3,6 +3,7 @@ package DAO;
 import java.util.List;
 
 import Bean.Like;
+import Bean.Product;
 
 
 public interface Like_DAO {
@@ -17,5 +18,9 @@ public interface Like_DAO {
 	Like findById(int Account_ID, int Product_ID);
 
 	List<Like> getAll(String id);
+	
+	Product searchLike(String account_id, int product_id );
+	int insertLike(String account_id, int product_id );
+	int deleteLike(String account_id, int product_id );
 	
 }

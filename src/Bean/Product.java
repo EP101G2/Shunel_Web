@@ -51,6 +51,16 @@ public class Product implements Serializable{
 	}
 
 
+	public Product(int product_ID) {
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public Product() {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public int getProduct_ID() {
 		return product_ID;
 	}
