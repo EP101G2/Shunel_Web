@@ -59,9 +59,9 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 			// image為null就不更新image欄位內容
 			if (image != null) {
 				sql = "UPDATE User_Account SET USER_NAME = ?, ADDRESS = ?, PHONE = ?, "
-						+ "image = ? WHERE id = ?;";
+						+ "image = ? WHERE ACCOUNT_ID = ?;";
 			} else {
-				sql = "UPDATE User_Account SET USER_NAME = ?, ADDRESS = ?,PHONE = ?, " + " WHERE id = ?;";
+				sql = "UPDATE User_Account SET USER_NAME = ?, ADDRESS = ?,PHONE = ? WHERE ACCOUNT_ID = ?;";
 			}
 			try (Connection connection = dataSource.getConnection();
 					PreparedStatement ps = connection.prepareStatement(sql);) {
