@@ -15,11 +15,12 @@ public interface Shopping_Card_DAO {
 	int delete(int accoumt_ID, int product_ID);
 	List<Shopping_Cart> getAll();
 	byte[] getImage(int id);
-	 List<Shopping_Cart>  getAll(String id);
+	List<Shopping_Cart>  getAll(String id);
 
 	
 	int insert(Product product);
 	int delete(int id);
 	int delete(Shopping_Cart shopping_Cart);
-	
+//	List<Shopping_Cart> delete(int );
+	 
 }

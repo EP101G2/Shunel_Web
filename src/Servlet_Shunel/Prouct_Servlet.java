@@ -103,8 +103,12 @@ public class Prouct_Servlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		doGet(request, response);
+		
+		
+		
 		request.setCharacterEncoding("UTF-8");
 		Gson gson = new Gson();
+		
 		BufferedReader br = request.getReader();
 		StringBuilder jsonIn = new StringBuilder();
 		String line = "";
@@ -115,6 +119,10 @@ public class Prouct_Servlet extends HttpServlet {
 		System.out.println("Input:" + jsonIn);
 
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
+		if(like_DAO == null) {
+			like_DAO = new Like_DAO_Interface();
+		}
+		
 		if (product_DAO == null) {
 			product_DAO = new Product_DAO_Interface();
 		}
@@ -133,6 +141,53 @@ public class Prouct_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
+		
+		
+		
+		case "deleteLike":{
+			String account_id = jsonObject.get("account_id").getAsString();
+			int product_id = jsonObject.get("product_id").getAsInt();
+			System.out.println("這是刪除追蹤product"+account_id+product_id);
+			
+			int count = like_DAO.deleteLike(account_id,product_id);
+			System.out.println("=====count====="+count);
+			writeText(response, String.valueOf(count));
+			break;
+		}
+		case "insertLike":{
+			String account_id = jsonObject.get("account_id").getAsString();
+			int product_id = jsonObject.get("product_id").getAsInt();
+			System.out.println("這是加入追蹤product"+account_id+product_id);
+			
+			int count = like_DAO.insertLike(account_id,product_id);
+			System.out.println("=====count====="+count);
+			writeText(response, String.valueOf(count));
+			
+			break;
+		}
+		
+		case "searchLike":{
+			String account_id = jsonObject.get("account_id").getAsString();
+			int product_id = jsonObject.get("product_id").getAsInt();
+			System.out.println("這是product"+account_id+product_id);
+			
+			Product product = like_DAO.searchLike(account_id,product_id);
+			System.out.println("這是product"+product);
+			JsonObject jsonObject2 = new JsonObject();
+			if(product == null) {
+				
+				jsonObject2.addProperty("follow", "null");
+				
+			}else {
+				
+				jsonObject2.addProperty("follow", "success");
+			}
+			writeText(response, jsonObject2.toString());
+			break;
+		}
+		
+		
+		
 		
 		case "getLikeProduct":{
 			String user_id = jsonObject.get("id").getAsString();
@@ -235,15 +290,44 @@ public class Prouct_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(count));
 			break;
 		}
+		
+		
+		case "shopAfterDelete":{
+			int count = 0;
+			Shopping_Cart shopping_Cart=null;
+			String shopAD =jsonObject.get("shopAD").getAsString();
+			Type collectionType = new TypeToken<List<Shopping_Cart>>() {
+			}.getType();
+			List<Shopping_Cart> shopping_Carts = gson.fromJson(shopAD, collectionType);
+			for (Shopping_Cart book : shopping_Carts) {
+				book.show();
+			}
+			JsonArray jsonArray = gson.fromJson(shopAD, JsonArray.class);
+			for (JsonElement element : jsonArray) {
+				JsonObject obj = element.getAsJsonObject();
+				String account_ID = obj.get("account_ID").getAsString();
+				int product_ID = obj.get("product_ID").getAsInt();
+				String product_Name = obj.get("product_Name").getAsString();
+				int amount  = obj.get("amount").getAsInt();
+				String color = obj.get("color").getAsString();
+				int price = obj.get("price").getAsInt();
+
+				shopping_Cart = new Shopping_Cart(account_ID, product_ID, product_Name, amount, color, price);
+				count = shopping_Card_DAO.delete(shopping_Cart);		
+			}
+			writeText(response, String.valueOf(count));
+			
+			break;
+		}
+		
+		
+		
+		
 
 		case "addOrderMain": {
 			String order_ID = jsonObject.get("OrderID").getAsString();
 			String order_Details = jsonObject.get("OrderDetail").getAsString();
-//			int id = jsonObject.get("shopcardId").getAsInt();
 			Order_Detail oDetails = null;
-			System.out.println("OrderID = " + order_ID);
-			System.out.println("OrderDetail = " + order_Details);
-
 			Type collectionType = new TypeToken<List<Shopping_Cart>>() {
 			}.getType();
 			List<Shopping_Cart> myBookList = gson.fromJson(order_Details, collectionType);
@@ -267,9 +351,7 @@ public class Prouct_Servlet extends HttpServlet {
 				int price = obj.get("price").getAsInt();
 
 				oDetails = new Order_Detail(order_id, amount, product, price, color);
-				orderdetail = order_Detail_DAO.insert(oDetails);
-//				int count = shopping_Card_DAO.delete(id);
-				
+				orderdetail = order_Detail_DAO.insert(oDetails);				
 			}
 			
 			

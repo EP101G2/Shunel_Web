@@ -188,13 +188,13 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 		// TODO Auto-generated method stub
 
 		int count = 0;
-		String sql = "DELETE FROM SHOPPING_CART WHERE PRODUCT_ID = ?;";
+		String sql = "DELETE FROM SHOPPING_CART WHERE (ACCOUNT_ID = ?) and (PRODUCT_ID = ?);";
 
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 //			ps.setString(1, shopping_Cart.getAccount_ID());
-			ps.setInt(1, shopping_Cart.getProduct_ID());
-
+			ps.setString(1, shopping_Cart.getAccount_ID());
+			ps.setInt(2, shopping_Cart.getProduct_ID());
 			count = ps.executeUpdate();
 
 		} catch (SQLException e) {
