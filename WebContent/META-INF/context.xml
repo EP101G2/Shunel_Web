@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true">  -->
+
 <!--Jack -->
 <!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
@@ -31,7 +31,9 @@
 	username="root" password="Careeverything" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
 
 	/> </Context>
- -->
+ 
+	</Context>  -->
+
 
 
 
