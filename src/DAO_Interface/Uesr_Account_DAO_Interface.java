@@ -59,7 +59,7 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 			// image為null就不更新image欄位內容
 			if (image != null) {
 				sql = "UPDATE User_Account SET USER_NAME = ?, ADDRESS = ?, PHONE = ?, "
-						+ "image = ? WHERE ACCOUNT_ID = ?;";
+						+ "PHOTO = ? WHERE ACCOUNT_ID = ?;";
 			} else {
 				sql = "UPDATE User_Account SET USER_NAME = ?, ADDRESS = ?,PHONE = ? WHERE ACCOUNT_ID = ?;";
 			}
