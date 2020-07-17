@@ -166,6 +166,10 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return noticeList;
 
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 22d47d138adbf86f37b274d3de660a2c0d34de0c
 
 	@Override
 	public Notice getLastSystemN() {
@@ -192,6 +196,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return lastSystemN;
 	}
 
+<<<<<<< HEAD
 	@Override
 	public Notice getLastQAN() {
 		String sql = "SELECT * FROM Shunel.notice WHERE NOTICE_CATEGORY_ID = 1 order by notice_time desc limit 1 ; ";
@@ -242,5 +247,9 @@ public class Notice_DAO_Interface implements Notice_DAO {
 
 		return lastSaleN;
 	}
+=======
+	
+
+>>>>>>> 22d47d138adbf86f37b274d3de660a2c0d34de0c
 
 }

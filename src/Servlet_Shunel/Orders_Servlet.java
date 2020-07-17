@@ -46,7 +46,6 @@ public class Orders_Servlet extends HttpServlet {
 	Order_Main_DAO order_Main_DAO = null;
 	Order_Detail_DAO order_Detail_DAO = null;
 	Product_DAO product_DAO = null;
-       
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -54,7 +53,6 @@ public class Orders_Servlet extends HttpServlet {
     public Orders_Servlet() {
         super();
         // TODO Auto-generated constructor stub
-		
     }
 
 	/**
@@ -97,8 +95,6 @@ public class Orders_Servlet extends HttpServlet {
 			jsonIn.append(line);
 		}
 
-
-
 		System.out.println("Input:" + jsonIn);
 		
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
@@ -108,18 +104,20 @@ public class Orders_Servlet extends HttpServlet {
 		if (order_Main_DAO== null) {
 			order_Main_DAO = new Oder_Main_DAO_Interface();//? 
 		}
+		if (order_Detail_DAO==null) {
+			order_Detail_DAO = new Order_Detail_DAO_Interface();
+		}
 
-		
-	
-
-		//
 		String action = jsonObject.get("action").getAsString();
-		
 		
 		switch (action) {
 		case "getOrderMain": {
 			int orderMainID = jsonObject.get("orderID").getAsInt();
 					
+			break;
+		}
+		case "getOrderDetail":{
+			int orderDetailID = jsonObject.get("orderID").getAsInt();
 			break;
 		}
 		default:
@@ -128,35 +126,36 @@ public class Orders_Servlet extends HttpServlet {
 
 		int status = jsonObject.get("status").getAsInt();
 		
-	switch (status) {
-	case 0: {
-		List<Order_Main> order_Mains = order_Main_DAO.getStatus(0);
-		writeText(response, gson.toJson(order_Mains));
-		break;
-	}
-	case 1: {
-		List<Order_Main> order_Mains = order_Main_DAO.getStatus(1);
-		writeText(response, gson.toJson(order_Mains));
-		break;
-	}case 2: {
-		List<Order_Main> order_Mains = order_Main_DAO.getStatus(2);
-		writeText(response, gson.toJson(order_Mains));
-		break;
-	}case 3: {
-		List<Order_Main> order_Mains = order_Main_DAO.getStatus(3);
-		writeText(response, gson.toJson(order_Mains));
-		break;
-	}case 4: {
-		List<Order_Main> order_Mains = order_Main_DAO.getStatus(4);
-		writeText(response, gson.toJson(order_Mains));
-		break;
-	}
-	default:
-		throw new IllegalArgumentException("Unexpected value: " + status);
-	}
+		switch (status) {
+		case 0: {
+			List<Order_Main> order_Mains = order_Main_DAO.getStatus(0);
+			writeText(response, gson.toJson(order_Mains));
+			break;
+		}
+		case 1: {
+			List<Order_Main> order_Mains = order_Main_DAO.getStatus(1);
+			writeText(response, gson.toJson(order_Mains));
+			break;
+		}case 2: {
+			List<Order_Main> order_Mains = order_Main_DAO.getStatus(2);
+			writeText(response, gson.toJson(order_Mains));
+			break;
+		}case 3: {
+			List<Order_Main> order_Mains = order_Main_DAO.getStatus(3);
+			writeText(response, gson.toJson(order_Mains));
+			break;
+		}case 4: {
+			List<Order_Main> order_Mains = order_Main_DAO.getStatus(4);
+			writeText(response, gson.toJson(order_Mains));
+			break;
+		}
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + status);
+		}
 	}
 	
 //	need to add here: insert image
+	
 
 	private void writeText(HttpServletResponse response, String outText) throws IOException {
 		// TODO Auto-generated method stub
@@ -165,7 +164,6 @@ public class Orders_Servlet extends HttpServlet {
 		out.print(outText);
 		// 將輸出資料列印出來除錯用
 		System.out.println("output: " + outText);
-
 	}
 
 }

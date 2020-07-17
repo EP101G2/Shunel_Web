@@ -24,7 +24,7 @@ public class Order_Detail_DAO_Interface implements Order_Detail_DAO {
 	@Override
 	public int insert(Order_Detail order_Detail) {
 		// TODO Auto-generated method stub
-		System.out.print("----------------test099192389123----------------------");
+//		System.out.print("----------------test099192389123----------------------");
 		int count = 0;
 		//INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS) VALUES (?, ?, ?, ?);
 //		INSERT INTO ORDER_DETAIL (ORDER_ID, PRODUCT_ID, AMOUNT, COLOR, BUY_PRICE) VALUES (?, ?, ?, ?, ?);
@@ -40,7 +40,7 @@ public class Order_Detail_DAO_Interface implements Order_Detail_DAO {
 			ps.setInt(5, order_Detail.getOrder_Detail_Buy_Price());
 			count = ps.executeUpdate();
 			
-			System.out.print("----------------test11111112222222----------------------"+ps.toString());
+//			System.out.print("----------------test11111112222222----------------------"+ps.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
