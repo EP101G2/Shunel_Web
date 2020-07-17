@@ -71,18 +71,19 @@ public class User_Account_Servlet extends HttpServlet {
 		switch (action) {
 		case "getLogin": {
 			String user_Account = jsonObject.get("id").getAsString();
-			String user_passwordString = jsonObject.get("password").getAsString();
+			String user_Password = jsonObject.get("password").getAsString();
 
 			JsonObject jsonLoginResult = new JsonObject();
 			Uesr_Account_DAO user_Account_DAO = new Uesr_Account_DAO_Interface();
 			User_Account user = user_Account_DAO.login(user_Account);
+			//int delete(int user_Account_ID););
 			if (user == null) {
 				jsonLoginResult.addProperty("result", "fail");
 
 				jsonLoginResult.addProperty("message", "查無此帳號");
 
 			} else {
-				if (user.getAccount_Password().equals(user_passwordString)) {
+				if (user.getAccount_Password().equals(user_Password)) {
 					jsonLoginResult.addProperty("result", "success");
 					jsonLoginResult.addProperty("user", gson.toJson(user)); // 包了兩層
 				} else {
@@ -104,21 +105,6 @@ public class User_Account_Servlet extends HttpServlet {
 			break;
 
 		}
-		case "Modify": {
-			String user_Account = jsonObject.get("id").getAsString();
-			String user_passwordString = jsonObject.get("password").getAsString();
-
-			JsonObject jsonLoginResult = new JsonObject();
-			Uesr_Account_DAO user_Account_DAO = new Uesr_Account_DAO_Interface();
-			User_Account user = user_Account_DAO.login(user_Account);
-
-			jsonLoginResult.addProperty("user", gson.toJson(user)); // 包了兩層
-
-			writeText(response, jsonLoginResult.toString());
-			System.out.println("output: " + jsonLoginResult);
-			break;
-		}
-
 		case "Update": {
 			String user = jsonObject.get("user").getAsString();
 			User_Account user_Account3 = gson.fromJson(user, User_Account.class); // 左邊放ＪＳＯＮ格是自串，右邊放定義他要轉成何種類別物件
@@ -133,6 +119,17 @@ public class User_Account_Servlet extends HttpServlet {
 				}
 			}
 			int count = user_Account_DAO.update(user_Account3, image);
+
+			writeText(response, String.valueOf(count));
+			break;
+
+		}
+		case "UpdatePw": {
+			String user = jsonObject.get("user").getAsString();
+			User_Account user_Account = gson.fromJson(user, User_Account.class); // 左邊放ＪＳＯＮ格是自串，右邊放定義他要轉成何種類別物件
+			Uesr_Account_DAO user_Account_DAO = new Uesr_Account_DAO_Interface(); // 先實體ＤＡＯ才可已用
+			
+			int count = user_Account_DAO.update(user_Account);
 
 			writeText(response, String.valueOf(count));
 			break;
