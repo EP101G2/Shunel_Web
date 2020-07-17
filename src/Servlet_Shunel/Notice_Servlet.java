@@ -39,7 +39,7 @@ public class Notice_Servlet extends HttpServlet {
 		super();
 		// TODO Auto-generated constructor stub
 	}
- 
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -50,8 +50,8 @@ public class Notice_Servlet extends HttpServlet {
 			notice_DAO = new Notice_DAO_Interface();
 		}
 
-		List<Notice> notices = notice_DAO.getNoticeAll();
-		writeText(response, new Gson().toJson(notices));
+//		List<Notice> notices = notice_DAO.getNoticeAll();
+//		writeText(response, new Gson().toJson(notices));
 
 	}
 
@@ -77,20 +77,46 @@ public class Notice_Servlet extends HttpServlet {
 		}
 
 		String action = jsonObject.get("action").getAsString();
-
-		if (action.equals("getNoticeAll")) {
+	
+		
+		switch (action) {
+		case "getNoticeAll":
 			List<Notice> notices = notice_DAO.getNoticeAll();
 			writeText(response, gson.toJson(notices));
-		} else if (action.equals("getSaleAll")) {
+			break;
+
+		case "getSaleAll":
 			List<Notice> saleNotices = notice_DAO.getSaleAll();
 			writeText(response, gson.toJson(saleNotices));
-		}else if (action.equals("getQAAll")) {
+			break;
+
+		case "getQAAll":
 			List<Notice> qANotices = notice_DAO.getQAAll();
 			writeText(response, gson.toJson(qANotices));
-		}else if (action.equals("getSystemAll")) {
+			break;
+
+		case "getSystemAll":
 			List<Notice> systemNotices = notice_DAO.getSystemAll();
 			writeText(response, gson.toJson(systemNotices));
+			break;	
+			
+		case "getLastSaleN":
+			Notice lastSaleN = notice_DAO.getLastSaleN();
+			writeText(response, gson.toJson(lastSaleN));
+			break;	
+
+		case "getLastQAN":
+			Notice lastQAN = notice_DAO.getLastQAN();
+			writeText(response, gson.toJson(lastQAN));
+			break;	
+
+		case "getLastSystemN":
+			Notice lastSystemN = notice_DAO.getLastSystemN();
+			writeText(response, gson.toJson(lastSystemN));
+			break;	
+		
 		}
+
 	}
 
 	private void writeText(HttpServletResponse response, String outText) throws IOException {

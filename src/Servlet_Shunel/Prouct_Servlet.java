@@ -90,8 +90,8 @@ public class Prouct_Servlet extends HttpServlet {
 		}
 
 		List<Product> proucts = product_DAO.getAll();
-		List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll();
 
+		List<Shopping_Cart> shopping_Carts = shopping_Card_DAO.getAll();
 		writeText(response, new Gson().toJson(proucts));
 	}
 

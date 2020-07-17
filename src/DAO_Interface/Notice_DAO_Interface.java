@@ -58,7 +58,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 
 	@Override
 	public List<Notice> getSaleAll() {
-		String sql =  "select * from NOTICE WHERE NOTICE_CATEGORY_ID = 0 ORDER BY  NOTICE_TIME DESC;";
+		String sql = "select * from NOTICE WHERE NOTICE_CATEGORY_ID = 0 ORDER BY  NOTICE_TIME DESC;";
 		List<Notice> noticeList = new ArrayList<Notice>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -85,7 +85,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 
 	@Override
 	public List<Notice> getQAAll() {
-		String sql =  "select * from NOTICE WHERE NOTICE_CATEGORY_ID = 1 ORDER BY  NOTICE_TIME DESC;";
+		String sql = "select * from NOTICE WHERE NOTICE_CATEGORY_ID = 1 ORDER BY  NOTICE_TIME DESC;";
 		List<Notice> noticeList = new ArrayList<Notice>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -166,15 +166,81 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return noticeList;
 
 	}
-<<<<<<< HEAD
-=======
 
-	public List<Notice> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+	@Override
+	public Notice getLastSystemN() {
+		String sql = "SELECT * FROM Shunel.notice WHERE NOTICE_CATEGORY_ID = 2 order by notice_time desc limit 1 ; ";
+		Notice lastSystemN = null;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.println("--------");
+				int NOTICE_ID = rs.getInt(1);
+				String NOTICE_TITLE = rs.getString(2);
+				String NOTICE_CONTENT = rs.getString(3);
+				Timestamp NOTICE_TIME = rs.getTimestamp(4);
+				int NOTICE_CATEGORY_ID = rs.getInt(5);
+				int CATEGORY_MESSAGE_ID = rs.getInt(6);
+				lastSystemN = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
+						CATEGORY_MESSAGE_ID);
+			}
+			return lastSystemN;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lastSystemN;
 	}
 
-	
->>>>>>> 9da1618ff788effea00aa454a307ec584cbea03c
+	@Override
+	public Notice getLastQAN() {
+		String sql = "SELECT * FROM Shunel.notice WHERE NOTICE_CATEGORY_ID = 1 order by notice_time desc limit 1 ; ";
+		Notice lastQAN = null;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.println("--------");
+				int NOTICE_ID = rs.getInt(1);
+				String NOTICE_TITLE = rs.getString(2);
+				String NOTICE_CONTENT = rs.getString(3);
+				Timestamp NOTICE_TIME = rs.getTimestamp(4);
+				int NOTICE_CATEGORY_ID = rs.getInt(5);
+				int CATEGORY_MESSAGE_ID = rs.getInt(6);
+				lastQAN = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
+						CATEGORY_MESSAGE_ID);
+			}
+			return lastQAN;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lastQAN;
+	}
+
+	@Override
+	public Notice getLastSaleN() {
+		String sql = "SELECT * FROM Shunel.notice WHERE NOTICE_CATEGORY_ID = 0 order by notice_time desc limit 1 ; ";
+		Notice lastSaleN = null;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.println("--------");
+				int NOTICE_ID = rs.getInt(1);
+				String NOTICE_TITLE = rs.getString(2);
+				String NOTICE_CONTENT = rs.getString(3);
+				Timestamp NOTICE_TIME = rs.getTimestamp(4);
+				int NOTICE_CATEGORY_ID = rs.getInt(5);
+				int CATEGORY_MESSAGE_ID = rs.getInt(6);
+				lastSaleN = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
+						CATEGORY_MESSAGE_ID);
+			}
+			return lastSaleN;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return lastSaleN;
+	}
 
 }

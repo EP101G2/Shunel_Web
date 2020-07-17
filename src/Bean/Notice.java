@@ -12,15 +12,6 @@ public class Notice implements Serializable {
 	private int NOTICE_CATEGORY_ID;
 	private int CATEGORY_MESSAGE_ID;
 
-    public String getNotice_time_NEW() {
-        return Notice_time_NEW;
-    }
-
-    public void setNotice_time_NEW(String notice_time_NEW) {
-        Notice_time_NEW = notice_time_NEW;
-    }
-
-    private String Notice_time_NEW;
 //
 //    public Notice(int notice_ID, String notice_Content, String notice_Title, String Notice_time_NEW, int NOTICE_CATEGORY_ID, int CATEGORY_MESSAGE_ID) {
 //        this.Notice_ID = notice_ID;
