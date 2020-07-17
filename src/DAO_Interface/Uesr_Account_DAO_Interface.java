@@ -83,10 +83,21 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 	}
 
 	@Override
-	public int delete(int user_Account_ID) {
+	public int update(User_Account user_Account) {
 		// TODO Auto-generated method stub
-		return 0;
-	}
+		int count = 0;
+		String sql = "";
+		sql = "UPDATE User_Account SET PASSWORD = ? WHERE ACCOUNT_ID = ?;";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, user_Account.getAccount_Password());
+			ps.setString(2, user_Account.getAccount_ID());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+}
 
 	@Override
 	public User_Account login(String user_Account_ID) {
@@ -151,7 +162,22 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 
 		return accounts;
 	}
-
+	@Override
+	public byte[] getImage(int id) {
+		String sql = "SELECT PHOTO FROM USER_ACCOUNT WHERE ACCOUNT_ID = ?;";
+		byte[] image = null;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				image = rs.getBytes(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return image;
+	}
 	
 
 }
