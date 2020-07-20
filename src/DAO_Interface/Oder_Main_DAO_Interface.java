@@ -60,10 +60,24 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	@Override
 	public int update(Order_Main oM) {
 		// TODO Auto-generated method stub
-
+//		UPDacATE ORDER_MAIN SET RECRIVER = ?, ADDRESS = ?,PHONE = ? WHERE (ORDER_ID = ?);
 		int count = 0;
-		String sql = "";
-		return 0;
+		String sql = "UPDacATE ORDER_MAIN SET RECRIVER = ?, ADDRESS = ?,PHONE = ? WHERE (ORDER_ID = ?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+
+			ps.setString(1, oM.getOrder_Main_Recriver());
+			ps.setString(2, oM.getOrder_Main_Address());
+			ps.setString(3, oM.getOrder_Main_Phone());
+			ps.setInt(4, oM.getOrder_ID());
+//			ps.setString(1, oM.getOrder_Main_Recriver());
+			count = ps.executeUpdate();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return count;
 	}
 
 	@Override
@@ -126,7 +140,8 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 				Timestamp ORDER_DATE = rs.getTimestamp(6);
 				int ORDER_STATUS = rs.getInt(7);
 				Timestamp MODIFY_DATE = rs.getTimestamp(8);
-				order_Main = new Order_Main(Order_ID, ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE, ORDER_DATE, ORDER_STATUS, MODIFY_DATE);
+				order_Main = new Order_Main(Order_ID, ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE, ORDER_DATE,
+						ORDER_STATUS, MODIFY_DATE);
 			}
 
 		} catch (SQLException e) {
