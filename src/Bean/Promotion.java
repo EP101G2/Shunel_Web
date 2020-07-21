@@ -7,21 +7,21 @@ public class Promotion implements Serializable {
 	
 	private int Promotion_ID;
 	private String Promotion_Name;
-	private int Prouct_ID;
+	private int Product_ID;
 	private int Promotion_Price;
-	private Timestamp Promotion_Date_Start;
-	private Timestamp Promotion_Date_End;
+	private Timestamp Date_Start;
+	private Timestamp Date_End;
 	
 	
-	public Promotion(int promotion_ID, String promotion_Name, int prouct_ID, int promotion_Price,
-			Timestamp promotion_Date_Start, Timestamp promotion_Date_End) {
+	public Promotion(int promotion_ID, String promotion_Name, int product_ID, int promotion_Price,
+			Timestamp Date_Start, Timestamp Date_End) {
 		super();
 		Promotion_ID = promotion_ID;
 		Promotion_Name = promotion_Name;
-		Prouct_ID = prouct_ID;
+		Product_ID = product_ID;
 		Promotion_Price = promotion_Price;
-		Promotion_Date_Start = promotion_Date_Start;
-		Promotion_Date_End = promotion_Date_End;
+		Date_Start = Date_Start;
+		Date_End = Date_End;
 	}
 
 
@@ -46,12 +46,12 @@ public class Promotion implements Serializable {
 
 
 	public int getProuct_ID() {
-		return Prouct_ID;
+		return Product_ID;
 	}
 
 
 	public void setProuct_ID(int prouct_ID) {
-		Prouct_ID = prouct_ID;
+		Product_ID = prouct_ID;
 	}
 
 
@@ -65,23 +65,23 @@ public class Promotion implements Serializable {
 	}
 
 
-	public Timestamp getPromotion_Date_Start() {
-		return Promotion_Date_Start;
+	public Timestamp getDate_Start() {
+		return Date_Start;
 	}
 
 
-	public void setPromotion_Date_Start(Timestamp promotion_Date_Start) {
-		Promotion_Date_Start = promotion_Date_Start;
+	public void setDate_Start(Timestamp promotion_Date_Start) {
+		Date_Start = Date_Start;
 	}
 
 
-	public Timestamp getPromotion_Date_End() {
-		return Promotion_Date_End;
+	public Timestamp getDate_End() {
+		return Date_End;
 	}
 
 
-	public void setPromotion_Date_End(Timestamp promotion_Date_End) {
-		Promotion_Date_End = promotion_Date_End;
+	public void setDate_End(Timestamp Date_End) {
+		Date_End = Date_End;
 	}
 	
 	
