@@ -12,5 +12,5 @@ public interface Order_Main_DAO {
 	Order_Main findById(int Order_ID);
 	List<Order_Main> getAll();
 	List<Order_Main> getStatus(int status);
-
+	int updataOrder(int oM_ID);
 }

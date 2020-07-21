@@ -120,6 +120,15 @@ public class Orders_Servlet extends HttpServlet {
 			int orderDetailID = jsonObject.get("orderID").getAsInt();
 			break;
 		}
+		//結帳後修改狀態0->1		
+		case "changeOrderStatus":{
+			int count = 0;
+			int orderMainID = jsonObject.get("orderID").getAsInt();
+			count = order_Main_DAO.updataOrder(orderMainID);
+			writeText(response, String.valueOf(count));
+			break;
+		}
+		
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
 		}
