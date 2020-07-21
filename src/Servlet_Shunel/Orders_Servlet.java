@@ -178,40 +178,30 @@ public class Orders_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(count));
 			break;
 		}
-		
-		default:
-			throw new IllegalArgumentException("Unexpected value: " + action);
-		}
-
-		int status = jsonObject.get("status").getAsInt();
 //		select by status
-		switch (status) {
-		case 0: {
-			List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(0);
-//			List<Order_Main> order_Mains = order_Main_DAO.getStatus(0);
-			writeText(response, gson.toJson(order_Mains));
-			break;
-		}
-		case 1: {
-			List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(1);
-//			List<Order_Main> order_Mains = order_Main_DAO.getStatus(1);
-			writeText(response, gson.toJson(order_Mains));
-			break;
-		}case 2: {
-			List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(2);
-//			List<Order_Main> order_Mains = order_Main_DAO.getStatus(2);
-			writeText(response, gson.toJson(order_Mains));
-			break;
-		}case 3: {
-			List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(3);
-//			List<Order_Main> order_Mains = order_Main_DAO.getStatus(3);
-			writeText(response, gson.toJson(order_Mains));
-			break;
-		}case 4: {
-			List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(4);
-//			List<Order_Main> order_Mains = order_Main_DAO.getStatus(4);
-			writeText(response, gson.toJson(order_Mains));
-
+		case "status":{
+			int status = jsonObject.get("status").getAsInt();
+			if (status == 0) {
+				List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(0);
+//				List<Order_Main> order_Mains = order_Main_DAO.getStatus(0);
+				writeText(response, gson.toJson(order_Mains));
+			}else if(status == 1){
+				List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(1);
+//				List<Order_Main> order_Mains = order_Main_DAO.getStatus(1);
+				writeText(response, gson.toJson(order_Mains));
+			}else if(status == 2){
+				List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(2);
+//				List<Order_Main> order_Mains = order_Main_DAO.getStatus(2);
+				writeText(response, gson.toJson(order_Mains));
+			}else if(status == 3){
+				List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(3);
+//				List<Order_Main> order_Mains = order_Main_DAO.getStatus(3);
+				writeText(response, gson.toJson(order_Mains));
+			}else if(status == 4){
+				List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(4);
+//				List<Order_Main> order_Mains = order_Main_DAO.getStatus(4);
+				writeText(response, gson.toJson(order_Mains));
+			}
 			break;
 		}
 		default:
@@ -219,9 +209,6 @@ public class Orders_Servlet extends HttpServlet {
 		}
 	}
 	
-//	need to add here: insert image
-	
-
 	private void writeText(HttpServletResponse response, String outText) throws IOException {
 		// TODO Auto-generated method stub
 		response.setContentType(CONTENT_TYPE);
