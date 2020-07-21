@@ -2,6 +2,7 @@ package Servlet_Shunel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import DAO.Order_Detail_DAO;
@@ -84,10 +86,13 @@ public class Orders_Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		doGet(request, response);
+//		doGet(request, response);
 
 		request.setCharacterEncoding("UTF-8");
-		Gson gson = new Gson();
+		
+//		Gson gson = new Gson();
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 		BufferedReader br = request.getReader();
 		StringBuilder jsonIn = new StringBuilder();
 		String line = "";
@@ -110,15 +115,34 @@ public class Orders_Servlet extends HttpServlet {
 
 		String action = jsonObject.get("action").getAsString();
 		
+		if (action.equals("getAll")) {
+			System.out.println("111111112222");
+			List<Order_Main> orderDetail = order_Main_DAO.getAll();
+			writeText(response, gson.toJson(orderDetail));
+			return;
+		}
+		
 		switch (action) {
 		case "getOrderMain": {
 			int orderMainID = jsonObject.get("orderID").getAsInt();
-					
 			break;
 		}
 		case "getOrderDetail":{
 			int orderDetailID = jsonObject.get("orderID").getAsInt();
 			break;
+		}
+		case "getImage":{
+			OutputStream os = response.getOutputStream();
+			int id = jsonObject.get("id").getAsInt();
+			int imageSize = jsonObject.get("imageSize").getAsInt();
+			byte[] image = product_DAO.getImage(id);
+			if (image != null) {
+				image = ImageUtil.shrink(image, imageSize);
+				response.setContentType("image/jpeg");
+				response.setContentLength(image.length);
+				os.write(image);
+
+			}
 		}
 		//結帳後修改狀態0->1		
 		case "changeOrderStatus":{
@@ -156,11 +180,41 @@ public class Orders_Servlet extends HttpServlet {
 		}case 4: {
 			List<Order_Main> order_Mains = order_Main_DAO.getStatus(4);
 			writeText(response, gson.toJson(order_Mains));
+
 			break;
 		}
 		default:
-			throw new IllegalArgumentException("Unexpected value: " + status);
+			throw new IllegalArgumentException("Unexpected value: " + action);
 		}
+
+//		int status = jsonObject.get("status").getAsInt();
+//		
+//		switch (status) {
+//		case 0: {
+//			List<Order_Main> order_Mains = order_Main_DAO.getStatus(0);
+//			writeText(response, gson.toJson(order_Mains));
+//			break;
+//		}
+//		case 1: {
+//			List<Order_Main> order_Mains = order_Main_DAO.getStatus(1);
+//			writeText(response, gson.toJson(order_Mains));
+//			break;
+//		}case 2: {
+//			List<Order_Main> order_Mains = order_Main_DAO.getStatus(2);
+//			writeText(response, gson.toJson(order_Mains));
+//			break;
+//		}case 3: {
+//			List<Order_Main> order_Mains = order_Main_DAO.getStatus(3);
+//			writeText(response, gson.toJson(order_Mains));
+//			break;
+//		}case 4: {
+//			List<Order_Main> order_Mains = order_Main_DAO.getStatus(4);
+//			writeText(response, gson.toJson(order_Mains));
+//			break;
+//		}
+//		default:
+//			throw new IllegalArgumentException("Unexpected value: " + status);
+//		}
 	}
 	
 //	need to add here: insert image

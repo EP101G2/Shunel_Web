@@ -16,6 +16,21 @@ public class Order_Main implements Serializable {
 	private int Order_Main_Order_Status;
 	private Timestamp Order_Main_Modify_Date;
 
+
+	
+//	public Order_Main(int order_ID, String account_ID, int order_Main_Total_Price, String order_Main_Recriver,
+//			String order_Main_Address, String order_Main_Phone, int order_Main_Order_Status) {
+//		super();
+//		Order_ID = order_ID;
+//		Account_ID = account_ID;
+//		Order_Main_Total_Price = order_Main_Total_Price;
+//		Order_Main_Recriver = order_Main_Recriver;
+//		Order_Main_Address = order_Main_Address;
+//		this.order_Main_Phone = order_Main_Phone;
+//		Order_Main_Order_Status = order_Main_Order_Status;
+//	}
+
+
 	public Order_Main(int order_ID, String account_ID, int order_Main_Total_Price, String order_Main_Recriver,
 			String order_Main_Address, String order_Main_Phone, Timestamp order_Main_Order_Date,
 			int order_Main_Order_Status, Timestamp order_Main_Modify_Date) {

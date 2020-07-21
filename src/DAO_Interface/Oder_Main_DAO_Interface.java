@@ -38,7 +38,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-			ps.setString(1, oM.getAccount_ID());
+//			ps.setString(1, oM.getAccount_ID());
 			ps.setInt(2, oM.getOrder_Main_Total_Price());
 			ps.setString(3, oM.getOrder_Main_Recriver());
 			ps.setString(4, oM.getOrder_Main_Address());
@@ -89,39 +89,47 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	@Override
 	public List<Order_Main> getAll() {
 		// TODO Auto-generated method stub
-		String sql = "SELECT ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE, ORDER_STATUS,ORDER_DATE,MODIFY_DATE FROM ORDER_MAIN WHERE ORDER_ID = ?;";
+		String sql = "SELECT * FROM Shunel.ORDER_MAIN;";
 		List<Order_Main> oMList = new ArrayList<Order_Main>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
+//			ps.setString(1, oMList.);
 			/*
 			 * 當Statement關閉，ResultSet也會自動關閉， 可以不需要將ResultSet宣告置入try with
 			 * resources小括號內，參看ResultSet說明
 			 */
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				String account_ID = rs.getString(1);
-				int total_Price = rs.getInt(2);
-				String recriver = rs.getString(3);
-				String address = rs.getString(4);
-				String phone = rs.getString(5);
-				int status = rs.getInt(6);
-				Timestamp order_Date = rs.getTimestamp(7);
-				Timestamp modify_Date = rs.getTimestamp(8);
-				int order_ID = rs.getInt(9);
-//				Order_Main oM = new Order_Main(order_ID, account_ID, total_Price, recriver, address, phone, order_Date,
-//						status, modify_Date);
-//				oMList.add(oM);
+				int order_ID = rs.getInt("ORDER_ID");
+				String account_ID = rs.getString("ACCOUNT_ID");
+				int total_Price = rs.getInt("TOTAL_PRICE");
+				String recriver = rs.getString("RECRIVER");
+				String address = rs.getString("ADDRESS");
+				String phone = rs.getString("PHONE");
+				Timestamp order_Date = rs.getTimestamp("ORDER_DATE");
+				int status = rs.getInt("ORDER_STATUS");
+				Timestamp modify_Date = rs.getTimestamp("MODIFY_DATE");
+				
+				
+//				Order_Main oM = new Order_Main(order_ID);
+//				Order_Main oM = new Order_Main(order_ID, account_ID, total_Price, recriver, address, phone,
+//						status);
+				Order_Main oM = new Order_Main(order_ID, account_ID, total_Price, recriver, address, phone, order_Date,
+						status, modify_Date);
+				oMList.add(oM);
+				System.out.print(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println("11212"+oMList);
 		return oMList;
 	}
 
 	@Override
 	public Order_Main findById(int Order_ID) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT ACCOUNT_ID,TOTAL_PRICE, RECRIVER, ADDRESS, PHONE, ORDER_DATE,ORDER_STATUS,MODIFY_DATE FROM ORDER_MAIN WHERE ORDER_ID = ?;";
+		String sql = "SELECT * FROM ORDER_MAIN WHERE ORDER_ID = ?;";
 		Order_Main order_Main = null;
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -141,7 +149,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 				int ORDER_STATUS = rs.getInt(7);
 				Timestamp MODIFY_DATE = rs.getTimestamp(8);
 				order_Main = new Order_Main(Order_ID, ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE, ORDER_DATE,
-						ORDER_STATUS, MODIFY_DATE);
+						ORDER_STATUS, MODIFY_DATE); 
 			}
 
 		} catch (SQLException e) {
