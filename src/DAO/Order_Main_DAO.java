@@ -9,8 +9,9 @@ public interface Order_Main_DAO {
 	int insert( Order_Main order_Main);
 	int update(Order_Main order_Main);
 	int delete(int Order_ID);
-	Order_Main findById(int Order_ID);
+//	Order_Main findById(int Order_ID);
 	List<Order_Main> getAll();
 	List<Order_Main> getStatus(int status);
 	int updataOrder(int oM_ID);
+	Order_Main findById(String Account_ID);
 }
