@@ -63,21 +63,21 @@ public class Orders_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		if (product_DAO == null) {
-			product_DAO = new Product_DAO_Interface();
-		}
-		if (order_Main_DAO== null) {
-			order_Main_DAO = new Oder_Main_DAO_Interface(); //?{
-				
-		}
-		if (order_Detail_DAO == null) {
-			order_Detail_DAO = new Order_Detail_DAO_Interface();
-		}
-		List<Order_Main> order_Mains = order_Main_DAO.getAll();
-		List<Order_Detail> order_Details = order_Detail_DAO.getAll();
-		
-
-		writeText(response, new Gson().toJson(order_Mains));
+//		if (product_DAO == null) {
+//			product_DAO = new Product_DAO_Interface();
+//		}
+//		if (order_Main_DAO== null) {
+//			order_Main_DAO = new Oder_Main_DAO_Interface(); //?{
+//				
+//		}
+//		if (order_Detail_DAO == null) {
+//			order_Detail_DAO = new Order_Detail_DAO_Interface();
+//		}
+//		List<Order_Main> order_Mains = order_Main_DAO.getAll();
+//		List<Order_Detail> order_Details = order_Detail_DAO.getAll();
+//		
+//
+//		writeText(response, new Gson().toJson(order_Mains));
 	}
 
 	/**

@@ -38,7 +38,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-//			ps.setString(1, oM.getAccount_ID());
+			ps.setString(1, oM.getAccount_ID());
 			ps.setInt(2, oM.getOrder_Main_Total_Price());
 			ps.setString(3, oM.getOrder_Main_Recriver());
 			ps.setString(4, oM.getOrder_Main_Address());
