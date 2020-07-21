@@ -11,12 +11,12 @@ public class Order_Detail implements Serializable {
 	private int order_Detail_Buy_Price;
 	private String color;
 	
-	public Order_Detail(int order_ID, int order_Detail_Amount, int prount_ID, int order_Detail_Buy_Price,
+	public Order_Detail(int order_ID, int order_Detail_Amount, int product_ID, int order_Detail_Buy_Price,
 			String color) {
 		super();
 		this.order_ID = order_ID;
 		this.order_Detail_Amount = order_Detail_Amount;
-		this.Product_ID = prount_ID;
+		this.Product_ID = product_ID;
 		this.order_Detail_Buy_Price = order_Detail_Buy_Price;
 		this.color = color;
 	}
@@ -69,8 +69,4 @@ public class Order_Detail implements Serializable {
 	public void setColor(String color) {
 		this.color = color;
 	}
-	
-	
-	
-	
 }
