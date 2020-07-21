@@ -49,7 +49,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 				id = generatedKeys.getInt(1);
 
 			}
-			System.out.print("id" + id);
+			System.out.print("取得order_id :" + id);
 
 		} catch (SQLException e) {
 			e.printStackTrace();

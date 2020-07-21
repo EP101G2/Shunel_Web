@@ -354,7 +354,7 @@ public class Prouct_Servlet extends HttpServlet {
 				orderdetail = order_Detail_DAO.insert(oDetails);
 			}
 
-			writeText(response, String.valueOf(orderid) + String.valueOf(orderdetail));
+			writeText(response, String.valueOf(orderid));
 			break;
 		}
 		
