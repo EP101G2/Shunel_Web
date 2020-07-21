@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import DAO.Chat_DAO;
-import DAO_Interface.Chat_DAO_Interface;
 
 /**
  * Servlet implementation class Chat_Servlet
@@ -21,7 +19,7 @@ import DAO_Interface.Chat_DAO_Interface;
 public class Chat_Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "text/html; charset=utf-8";
-    Chat_DAO cDao = null;   
+//    Chat_DAO cDao = null;   
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -57,10 +55,27 @@ public class Chat_Servlet extends HttpServlet {
 
 		System.out.println("Input:" + jsonIn);
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
-		if(cDao == null) {
-			cDao = new Chat_DAO_Interface();
-		}
+//		if(cDao == null) {
+//			cDao = new Chat_DAO_Interface();
+//		}
 		
+		
+		String action = jsonObject.get("action").getAsString();
+		
+		
+		switch (action) {
+		case "createRoom": {
+			int chat_Id;
+			String account_Id = null;
+			int product_Id;
+			
+			
+			
+			break;
+		}
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + action);
+		}
 		
 		
 		

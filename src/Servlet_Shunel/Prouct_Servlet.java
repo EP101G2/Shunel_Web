@@ -357,6 +357,11 @@ public class Prouct_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(orderid) + String.valueOf(orderdetail));
 			break;
 		}
+		
+	
+		
+		
+		
 
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);

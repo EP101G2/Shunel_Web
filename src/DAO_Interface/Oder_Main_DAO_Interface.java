@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 import Bean.Order_Detail;
 import Bean.Order_Main;
-import DAO.Oder_Main_DAO;
+
 import DAO.Order_Main_DAO;
 import Servlet_Shunel.ServiceLocator;
 //import idv.ron.server.spots.Spot;
@@ -163,5 +163,24 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	public List<Order_Main> getStatus(int status) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int updataOrder(int oM_ID) {
+		// TODO Auto-generated method stub
+		
+		int Count = 0;
+		String sql = "UPDATE ORDER_MAIN SET ORDER_STATUS = 1 WHERE (ORDER_ID = ?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);
+				){
+			ps.setInt(1, oM_ID);
+			
+			Count = ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return Count;
 	}
 }

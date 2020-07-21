@@ -2,20 +2,28 @@ package DAO;
 
 import java.util.List;
 
-import Bean.Chat;
+import Bean.Chat_Record;
+import Bean.Chat_Room;
+import Bean.Order_Detail;
+import Bean.Order_Main;
 
 public interface Chat_DAO {
 
-	int insert(Chat chat);
+	int createRoom(String chef_no, String user_no, String user_name, String chef_name);
 
-//	int update(Chat chat, byte[] chat_image );
+	long insert(Chat_Record cRecord, byte[] image);
 
-	int delete(int Chat_id);
+	int insert(Chat_Room cr);
 
-	Chat findById(int chat_id);
+	int selectId();
 
-	List<Chat> getAll();
+	byte[] getImage(int id);
+	
+	int update(String sender, int chatRoom);
 
-	byte[] getImage(int Chat_id);
-
+	int selectChatRoom(String chef_no, String user_no);
+	
+	List<Chat_Room> selectChatRoomList(String chef_no, String user_no);
+	
+	List<Chat_Record> getAll(int chatRoom);
 }

@@ -3,7 +3,7 @@ package Bean;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Chat implements Serializable{
+public class Chat_Room implements Serializable{
 	
 	//宣告區
 	private int Chat_ID;
@@ -15,7 +15,7 @@ public class Chat implements Serializable{
 	private Timestamp Chat_Time;
 	
 	//建構區
-	public Chat(int chat_ID, int product_ID, String account_ID, String buy_Content, String sell_Content, int chat_Status,
+	public Chat_Room(int chat_ID, int product_ID, String account_ID, String buy_Content, String sell_Content, int chat_Status,
 			Timestamp chat_Time) {
 		super();
 		Chat_ID = chat_ID;

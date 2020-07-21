@@ -55,7 +55,8 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	public int insert(Shopping_Cart shopping_Cart) {
 		// TODO Auto-generated method stub
 		int count = 0;
-//		ACCOUNT_ID`, `PRODUCT_ID`, `PRODUCT_NAME`, `AMOUNT`, `COLOR`, `PRICE`
+//		INSERT INTO SHOPPING_CART (ACCOUNT_ID, PRODUCT_ID, PRODUCT_NAME, AMOUNT, COLOR,PRICE) VALUES (?, ?, ?, ?, ?,?);
+
 		String sql = "INSERT INTO SHOPPING_CART (ACCOUNT_ID, PRODUCT_ID, PRODUCT_NAME, AMOUNT, COLOR,PRICE) VALUES (?, ?, ?, ?, ?,?);";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -65,7 +66,6 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 			ps.setInt(4, shopping_Cart.getAmount());
 			ps.setString(5, shopping_Cart.getColor());
 			ps.setInt(6, shopping_Cart.getPrice());
-			System.out.println("3333" + ps.toString());
 			count = ps.executeUpdate();
 
 		} catch (SQLException e) {
