@@ -14,7 +14,7 @@ import Bean.Chat_Room;
 import DAO.Chat_DAO;
 import Servlet_Shunel.ServiceLocator;
 
-public class Chat_DAO_InterFace implements Chat_DAO {
+public class Chat_DAO_Interface implements Chat_DAO {
 
 	private DataSource dataSource;
 
@@ -27,7 +27,7 @@ public class Chat_DAO_InterFace implements Chat_DAO {
 	private static final String INSERT_ROOM = "INSERT INTO CHAT_ROOM (USER_NO,CHEF_NO,USER_NAME,CHEF_NAME) VALUES (? ,? ,? ,?)";
 	private static final String SELECT_ROOM_LIST = "SELECT * from CHAT_ROOM where USER_NO = ? OR CHEF_no = ?";
 
-	public Chat_DAO_InterFace() {
+	public Chat_DAO_Interface() {
 		dataSource = ServiceLocator.getInstance().getDataSource();
 	}
 
