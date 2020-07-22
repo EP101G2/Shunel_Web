@@ -16,6 +16,9 @@ public interface Product_DAO {
 	int update(Product product, byte[] image,byte[] image2,byte[] image3);
 	int delete(int id);
 	Product findById(int prouct_id);
+	
+	
+	List<Product> getTOP5Product();
 	List<Product> getAll();
 	List<Product> getSaleProduct();
 	List<Product> getCategoryProduct(int category_id);

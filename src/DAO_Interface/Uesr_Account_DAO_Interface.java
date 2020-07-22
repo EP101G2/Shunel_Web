@@ -98,7 +98,25 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 		}
 		return count;
 }
-
+	@Override
+	public int update(String phone, String password) {
+		// TODO Auto-generated method stub
+		int count = 0;
+		String sql = "";
+		System.out.println("11111111111111111111111");
+		sql = "UPDATE User_Account SET PASSWORD = ? WHERE PHONE = ?;";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, password);
+			ps.setString(2, phone);
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("22222222222222222222222222");
+		return count;
+}
 	@Override
 	public User_Account login(String user_Account_ID) {
 		String sql = "SELECT * FROM USER_ACCOUNT WHERE ACCOUNT_ID = ?;";
@@ -127,6 +145,7 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println("========="+user_Account);
 		return user_Account;
 	}
 
@@ -163,12 +182,12 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 		return accounts;
 	}
 	@Override
-	public byte[] getImage(int id) {
+	public byte[] getImage(String id) {
 		String sql = "SELECT PHOTO FROM USER_ACCOUNT WHERE ACCOUNT_ID = ?;";
 		byte[] image = null;
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-			ps.setInt(1, id);
+			ps.setString(1, id);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				image = rs.getBytes(1);

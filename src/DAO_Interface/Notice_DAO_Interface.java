@@ -244,4 +244,5 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return lastSaleN;
 	}
 
+
 }

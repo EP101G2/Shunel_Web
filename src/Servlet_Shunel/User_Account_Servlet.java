@@ -3,6 +3,7 @@ package Servlet_Shunel;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -36,6 +37,7 @@ public class User_Account_Servlet extends HttpServlet {
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 		if (account_DAO == null) {
 			account_DAO = new Uesr_Account_DAO_Interface();
+
 		}
 		List<User_Account> user_Accounts = account_DAO.getAll();
 		writeText(response, new Gson().toJson(user_Accounts));
@@ -76,10 +78,9 @@ public class User_Account_Servlet extends HttpServlet {
 			JsonObject jsonLoginResult = new JsonObject();
 			Uesr_Account_DAO user_Account_DAO = new Uesr_Account_DAO_Interface();
 			User_Account user = user_Account_DAO.login(user_Account);
-			//int delete(int user_Account_ID););
+			// int delete(int user_Account_ID););
 			if (user == null) {
 				jsonLoginResult.addProperty("result", "fail");
-
 				jsonLoginResult.addProperty("message", "查無此帳號");
 
 			} else {
@@ -127,13 +128,37 @@ public class User_Account_Servlet extends HttpServlet {
 		case "UpdatePw": {
 			String user = jsonObject.get("user").getAsString();
 			User_Account user_Account = gson.fromJson(user, User_Account.class); // 左邊放ＪＳＯＮ格是自串，右邊放定義他要轉成何種類別物件
-			Uesr_Account_DAO user_Account_DAO = new Uesr_Account_DAO_Interface(); // 先實體ＤＡＯ才可已用
-			
-			int count = user_Account_DAO.update(user_Account);
+			account_DAO = new Uesr_Account_DAO_Interface(); // 先實體ＤＡＯ才可已用
+
+			int count = account_DAO.update(user_Account);
 
 			writeText(response, String.valueOf(count));
 			break;
 
+		}
+		case "UpdateNewPw": {
+
+			String phone = jsonObject.get("phone").getAsString();
+			String password = jsonObject.get("password").getAsString();
+
+			int count = account_DAO.update(phone, password);
+			System.out.println("33333333333333333333333333" + count);
+			writeText(response, String.valueOf(count));
+			break;
+
+		}
+		case "getImage": {
+			OutputStream os = response.getOutputStream();
+			String id = jsonObject.get("id").getAsString();
+			int imageSize = jsonObject.get("imageSize").getAsInt();
+			byte[] image = account_DAO.getImage(id);
+			if (image != null) {
+				image = ImageUtil.shrink(image, imageSize);
+				response.setContentType("image/jpeg");
+				response.setContentLength(image.length);
+				os.write(image);
+			}
+			break;
 		}
 
 		default:

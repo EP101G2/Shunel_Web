@@ -40,7 +40,7 @@ public class Order_Detail_DAO_Interface implements Order_Detail_DAO {
 			ps.setInt(5, order_Detail.getOrder_Detail_Buy_Price());
 			count = ps.executeUpdate();
 			
-//			System.out.print("----------------test11111112222222----------------------"+ps.toString());
+			System.out.print("----------------test11111112222222----------------------"+ps.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
