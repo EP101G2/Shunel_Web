@@ -2,12 +2,17 @@ package DAO_Interface;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import Bean.Order_Detail;
+import Bean.Order_Main;
 import Bean.Product;
 import DAO.Order_Detail_DAO;
 import Servlet_Shunel.ServiceLocator;
@@ -18,29 +23,33 @@ public class Order_Detail_DAO_Interface implements Order_Detail_DAO {
 
 	public Order_Detail_DAO_Interface() {
 		dataSource = ServiceLocator.getInstance().getDataSource();
-
 	}
 
 	@Override
 	public int insert(Order_Detail order_Detail) {
 		// TODO Auto-generated method stub
-//		System.out.print("----------------test099192389123----------------------");
+		
 		int count = 0;
-		//INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS) VALUES (?, ?, ?, ?);
-//		INSERT INTO ORDER_DETAIL (ORDER_ID, PRODUCT_ID, AMOUNT, COLOR, BUY_PRICE) VALUES (?, ?, ?, ?, ?);
-//		INSERT INTO ORDER_DETAIL (ORDER_ID, PRODUCT_ID, AMOUNT, COLOR) VALUES (?, ?, ?, ?);
-
+		int id = 0;
 		String sql = "INSERT INTO ORDER_DETAIL (ORDER_ID, PRODUCT_ID, AMOUNT, COLOR, BUY_PRICE) VALUES (?, ?, ?, ?, ?);";
+		
 		try (Connection connection = dataSource.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql);) {
-			ps.setInt(1, order_Detail.getOrder_ID());
-			ps.setInt(2, order_Detail.getProduct_ID());
-			ps.setInt(3, order_Detail.getOrder_Detail_Amount());
-			ps.setString(4, order_Detail.getColor());
-			ps.setInt(5, order_Detail.getOrder_Detail_Buy_Price());
-			count = ps.executeUpdate();
+				PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+					
+					ps.setInt(1, order_Detail.getOrder_ID());
+					ps.setInt(2, order_Detail.getProduct_ID());
+					ps.setInt(3, order_Detail.getOrder_Detail_Amount());
+					ps.setString(4, order_Detail.getColor());
+					ps.setInt(5, order_Detail.getOrder_Detail_Buy_Price());
+					count = ps.executeUpdate();
+					ResultSet generatedKeys = ps.getGeneratedKeys();
+					
+					while (generatedKeys.next()) {
+						id = generatedKeys.getInt(1);
+					}
+					System.out.print("取得order_id :" + id);
 			
-			System.out.print("----------------test11111112222222----------------------"+ps.toString());
+					System.out.print("----------------testOrderDetail----------------------"+ps.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -51,6 +60,21 @@ public class Order_Detail_DAO_Interface implements Order_Detail_DAO {
 	@Override
 	public int update(Order_Detail order_Detail) {
 		// TODO Auto-generated method stub
+		int count = 0;
+		String sql = "UPDATE ORDER_MAIN SET AMOUNT = ?, COLOR = ?,BUY_PRICE = ? WHERE (ORDER_ID = ?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+
+			ps.setInt(1, order_Detail.getOrder_Detail_Amount());
+			ps.setString(2, order_Detail.getColor());
+			ps.setInt(3, order_Detail.getOrder_Detail_Buy_Price());
+			ps.setInt(4, order_Detail.getOrder_ID());
+			count = ps.executeUpdate();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			  e.printStackTrace();
+		}
 		return 0;
 	}
 
@@ -79,12 +103,56 @@ public class Order_Detail_DAO_Interface implements Order_Detail_DAO {
 	@Override
 	public Order_Detail findById(int Order_ID) {
 		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM ORDER_DETAIL WHERE ORDER_ID = ?;";
+		Order_Detail order_Detail = null;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, Order_ID);
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				int  order_Detail_Amount= rs.getInt(1);
+				int Product_ID = rs.getInt(2);
+				int order_Detail_Buy_Price = rs.getInt(3);
+				String color = rs.getString(4);
+				order_Detail = new Order_Detail(Order_ID, order_Detail_Amount, Product_ID, order_Detail_Buy_Price, color); 
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return order_Detail;
 	}
 
 	@Override
 	public List<Order_Detail> getAll() {
 		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM Shunel.ORDER_DETAIL;";
+		List<Order_Detail> orderDetailsList = new ArrayList<Order_Detail>();
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+//			ps.setString(1, oMList.);
+			/*
+			 * 當Statement關閉，ResultSet也會自動關閉， 可以不需要將ResultSet宣告置入try with
+			 * resources小括號內，參看ResultSet說明
+			 */
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				int order_ID = rs.getInt("ORDER_ID");
+				int product_ID = rs.getInt("PRODUCT_ID");
+				int order_Detail_Amount = rs.getInt("AMOUNT");
+				String color = rs.getString("COLOR");
+				int order_Detail_Buy_Price = rs.getInt("BUY_PRICE");
+				
+				Order_Detail orderDetails = new Order_Detail(order_ID, order_Detail_Amount, product_ID, order_Detail_Buy_Price, color);
+				orderDetailsList.add(orderDetails);
+				System.out.print(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("OrderMainDAO"+orderDetailsList);
+		return orderDetailsList;
 	}
 }
