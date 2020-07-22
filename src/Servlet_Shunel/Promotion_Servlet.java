@@ -2,6 +2,7 @@ package Servlet_Shunel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -15,30 +16,25 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-import Bean.Notice;
-import Bean.Product;
 import Bean.Promotion;
-import Bean.Shopping_Cart;
 import DAO.Notice_DAO;
 import DAO.Promotion_DAO;
 import DAO_Interface.Notice_DAO_Interface;
-import DAO_Interface.Product_DAO_Interface;
 import DAO_Interface.Promotion_DAO_Interface;
-import DAO_Interface.Shopping_Card_DAO_Interdace;
 
 /**
- * Servlet implementation class Notice_Servlet
+ * Servlet implementation class Promotion_servlet
  */
-@WebServlet("/Notice_Servlet")
-public class Notice_Servlet extends HttpServlet {
+@WebServlet("/Promotion_servlet")
+public class Promotion_Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "text/html; charset=utf-8";
-	Notice_DAO notice_DAO = null;
+	Promotion_DAO promotion_DAO = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Notice_Servlet() {
+	public Promotion_Servlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -49,13 +45,10 @@ public class Notice_Servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		if (notice_DAO == null) {
-			notice_DAO = new Notice_DAO_Interface();
+		// TODO Auto-generated method stub
+		if (promotion_DAO == null) {
+			promotion_DAO = new Promotion_DAO_Interface();
 		}
-
-//		List<Notice> notices = notice_DAO.getNoticeAll();
-//		writeText(response, new Gson().toJson(notices));
-
 	}
 
 	/**
@@ -64,6 +57,7 @@ public class Notice_Servlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 		BufferedReader br = request.getReader();
@@ -75,50 +69,34 @@ public class Notice_Servlet extends HttpServlet {
 		System.out.print("input:" + jsonIn);
 
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
-		if (notice_DAO == null) {
-			notice_DAO = new Notice_DAO_Interface();
+		if (promotion_DAO == null) {
+			promotion_DAO = new Promotion_DAO_Interface();
 		}
 
 		String action = jsonObject.get("action").getAsString();
-	
-		
+
 		switch (action) {
-		case "getNoticeAll":
-			List<Notice> notices = notice_DAO.getNoticeAll();
-			writeText(response, gson.toJson(notices));
+		case "getPromotionAll":
+			List<Promotion> promotions = promotion_DAO.getPromotionAll();
+			writeText(response, gson.toJson(promotions));
 			break;
-
-		case "getSaleAll":
-			List<Notice> saleNotices = notice_DAO.getSaleAll();
-			writeText(response, gson.toJson(saleNotices));
+		case "getPromotionForNotice":
+			List<Promotion> promotionsForNotice = promotion_DAO.getPromotionAll();
+			writeText(response, gson.toJson(promotionsForNotice));
 			break;
+		case "getImage":
+			OutputStream os = response.getOutputStream();
+			int id = jsonObject.get("id").getAsInt();
+			int imageSize = jsonObject.get("imageSize").getAsInt();
+			byte[] image = promotion_DAO.getImage(id);
+			if (image != null) {
+				image = ImageUtil.shrink(image, imageSize);
+				response.setContentType("image/jpeg");
+				response.setContentLength(image.length);
+				os.write(image);
+				break;
 
-		case "getQAAll":
-			List<Notice> qANotices = notice_DAO.getQAAll();
-			writeText(response, gson.toJson(qANotices));
-			break;
-
-		case "getSystemAll":
-			List<Notice> systemNotices = notice_DAO.getSystemAll();
-			writeText(response, gson.toJson(systemNotices));
-			break;	
-			
-		case "getLastSaleN":
-			Notice lastSaleN = notice_DAO.getLastSaleN();
-			writeText(response, gson.toJson(lastSaleN));
-			break;	
-
-		case "getLastQAN":
-			Notice lastQAN = notice_DAO.getLastQAN();
-			writeText(response, gson.toJson(lastQAN));
-			break;	
-
-		case "getLastSystemN":
-			Notice lastSystemN = notice_DAO.getLastSystemN();
-			writeText(response, gson.toJson(lastSystemN));
-			break;	
-	
-		
+			}
 		}
 
 	}
