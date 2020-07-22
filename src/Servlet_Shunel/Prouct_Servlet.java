@@ -41,7 +41,6 @@ import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
 import DAO_Interface.Shopping_Card_DAO_Interdace;
 
-
 //import idv.ron.server.spots.Spot;
 
 /**
@@ -209,6 +208,15 @@ public class Prouct_Servlet extends HttpServlet {
 			writeText(response, gson.toJson(proucts));
 			break;
 		}
+		
+		
+		
+		case "getTOP5Product": {
+			List<Product> proucts = product_DAO.getTOP5Product();
+			writeText(response, gson.toJson(proucts));
+			break;
+		}
+		
 
 //		case "getImage": {
 //			OutputStream os = response.getOutputStream();
@@ -313,6 +321,15 @@ public class Prouct_Servlet extends HttpServlet {
 			break;
 		}
 
+		case "findById": {
+			int id = jsonObject.get("PRODUCT_Id").getAsInt();
+			Product product = product_DAO.findById(id);
+			writeText(response,new Gson().toJson(product));
+			
+			break;
+
+		}
+
 //		case "Main_Recriver": {
 //			int count = 0;
 //			String orderJson = jsonObject.get("orderupdate").getAsString();
@@ -357,11 +374,6 @@ public class Prouct_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(orderid));
 			break;
 		}
-		
-	
-		
-		
-		
 
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
