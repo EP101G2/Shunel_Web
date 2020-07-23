@@ -6,6 +6,10 @@ import Bean.Notice;
 
 public interface Notice_DAO {
 	int insert(Notice notice);
+	
+	int putGoodNotice(int order_id );
+	
+	
 
 	int update(Notice notice);
 

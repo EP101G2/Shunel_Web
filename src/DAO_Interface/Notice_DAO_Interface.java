@@ -141,7 +141,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	@Override
 
 	public List<Notice> getNoticeAll() {
-		String sql = "SELECT * FROM NOTICE WHERE NOTICE_CATEGORY_ID = 3 ; ";
+		String sql = "SELECT * FROM Shunel.NOTICE WHERE NOTICE_CATEGORY_ID = 3 or NOTICE_CATEGORY_ID = 4 order by notice_time desc; ";
 		List<Notice> noticeList = new ArrayList<Notice>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -166,7 +166,6 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return noticeList;
 
 	}
-
 
 	@Override
 	public Notice getLastSystemN() {
@@ -244,5 +243,18 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return lastSaleN;
 	}
 
-
+	@Override
+	public int putGoodNotice(int order_id) {
+		int count = 0;
+		
+		String sql = "INSERT INTO Shunel . NOTICE ( NOTICE_CATEGORY_ID, CATEGORY_MESSAGE_ID ) VALUES ( 3, ? );";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, order_id );
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 }
