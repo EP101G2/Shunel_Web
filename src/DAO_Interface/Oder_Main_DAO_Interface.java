@@ -34,16 +34,22 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		// TODO Auto-generated method stub
 		int count = 0;
 		int id = 0;
+		System.out.println("---------------------"+oM.getAccount_ID());
+		
 		String sql = "INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE) VALUES ( ?, ?, ?, ?, ?);";
 
 		try (Connection connection = dataSource.getConnection();
-<<<<<<< HEAD
+
 				PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+			
+			
 			ps.setString(1, oM.getAccount_ID());
 			ps.setInt(2, oM.getOrder_Main_Total_Price());
-			ps.setString(3, oM.getOrder_Main_Recriver());
+			ps.setString(3, oM.getOrder_Main_Receiver());
 			ps.setString(4, oM.getOrder_Main_Address());
 			ps.setString(5, oM.getOrder_Main_Phone());
+			System.out.println("-----------------"+ps.toString());
+			
 //			ps.setInt(6, oM.getOrder_Main_Order_Status());
 			count = ps.executeUpdate();
 			ResultSet generatedKeys = ps.getGeneratedKeys();
@@ -52,29 +58,29 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 				id = generatedKeys.getInt(1);
 			}
 			System.out.print("取得order_id :" + id);
-=======
-			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-				ps.setString(1, oM.getAccount_ID());
-				ps.setInt(2, oM.getOrder_Main_Total_Price());
-				ps.setString(3, oM.getOrder_Main_Recriver());
-				ps.setString(4, oM.getOrder_Main_Address());
-				ps.setString(5, oM.getOrder_Main_Phone());
-				ps.setInt(6, oM.getOrder_Main_Order_Status());
-				count = ps.executeUpdate();
-				ResultSet generatedKeys = ps.getGeneratedKeys();
 
-				while (generatedKeys.next()) {
-					id = generatedKeys.getInt(1);
-				}
-				System.out.print("取得order_id :" + id);
->>>>>>> 36a4484aea2b9a3226f57832225a483d6f5179f6
+//			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+//				ps.setString(1, oM.getAccount_ID());
+//				ps.setInt(2, oM.getOrder_Main_Total_Price());
+//				ps.setString(3, oM.getOrder_Main_Recriver());
+//				ps.setString(4, oM.getOrder_Main_Address());
+//				ps.setString(5, oM.getOrder_Main_Phone());
+//				ps.setInt(6, oM.getOrder_Main_Order_Status());
+//				count = ps.executeUpdate();
+//				ResultSet generatedKeys = ps.getGeneratedKeys();
+//
+//				while (generatedKeys.next()) {
+//					id = generatedKeys.getInt(1);
+//				}
+//				System.out.print("取得order_id :" + id);
 
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return id;
 	}
-
+	
 	@Override
 	public int update(Order_Main oM) {
 		// TODO Auto-generated method stub
@@ -84,7 +90,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 
-			ps.setString(1, oM.getOrder_Main_Recriver());
+			ps.setString(1, oM.getOrder_Main_Receiver());
 			ps.setString(2, oM.getOrder_Main_Address());
 			ps.setString(3, oM.getOrder_Main_Phone());
 			ps.setInt(4, oM.getOrder_ID());
