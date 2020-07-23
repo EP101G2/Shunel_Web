@@ -2,6 +2,7 @@ package Bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Order_Main implements Serializable {
 
@@ -45,7 +46,7 @@ public class Order_Main implements Serializable {
 		this.Order_Main_Order_Status = order_Main_Order_Status;
 		this.Order_Main_Modify_Date = order_Main_Modify_Date;
 	}
-	
+
 	public int getOrder_ID() {
 		return Order_ID;
 	}
@@ -117,5 +118,4 @@ public class Order_Main implements Serializable {
 	public void setOrder_Main_Modify_Date(Timestamp order_Main_Modify_Date) {
 		this.Order_Main_Modify_Date = order_Main_Modify_Date;
 	}
-
 }
