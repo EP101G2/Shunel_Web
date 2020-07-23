@@ -120,7 +120,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 			 * resources小括號內，參看ResultSet說明
 			 */
 			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
+			while (rs.next()) {
 				int order_ID = rs.getInt("ORDER_ID");
 				String account_ID = rs.getString("ACCOUNT_ID");
 				int total_Price = rs.getInt("TOTAL_PRICE");
@@ -240,26 +240,33 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		return image;
 	}
 	
-////	get short orderlist
-//	@Override
-//	public List<Order_Main> getShortOrderMains(){
-//		String sql = "SELECT ORDER_ID, ORDER_STATUS FROM ORDER_MAIN WHERE ACCOUNT_ID = ?;";
-//		List<Order_Main> orderMainShortList = new ArrayList<>();
-//		try (Connection connection = dataSource.getConnection();
-//				PreparedStatement ps = connection.prepareStatement(sql);) {
-//			ResultSet rs = ps.executeQuery();
-//			if (rs.next()) {
-//				int order_ID = rs.getInt("ORDER_ID");
-//				int status = rs.getInt("ORDER_STATUS");
-////				Order_Main orderMainShort = new Order_Main(order_ID, status);
-////				orderMainShort.add(orderMainShortList);
-//				System.out.print(rs);
-//			}	
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return orderMainShortList;
-//	}
-
+//	get short orderlist
+	@Override
+	public List<Order_Main> getShortOrderMains(String user_id) {
+		String sql = "SELECT ORDER_ID, ORDER_STATUS FROM Shunel.ORDER_MAIN WHERE Shunel.ORDER_MAIN.ACCOUNT_ID = ?;";
+		
+		List<Order_Main> orderMainShortList = new ArrayList<>();
+		Order_Main orderMainShort = null;
+		System.out.println("orderMainDao.getShortOrderMains");
+		
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, user_id);
+			System.out.println(connection.isClosed());
+			System.out.println(ps.isClosed());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.print("-----for get short OrderMains in Order Main Dao-----");
+				int order_ID = rs.getInt("ORDER_ID");
+				int status = rs.getInt("ORDER_STATUS");
+				orderMainShort = new Order_Main(order_ID, status);
+				orderMainShortList.add(orderMainShort);
+			}	
+			return orderMainShortList;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return orderMainShortList;
+	}
 }
