@@ -45,9 +45,9 @@ public class Orders_Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = "TAG_Orders_Servlet";
 	private final static String CONTENT_TYPE = "text/html; charset=utf-8";
-	Oder_Main_DAO_Interface orderMainDaoImpliment = null;
-	Order_Detail_DAO_Interface orderDetailDaoImpliment = null;
-	Product_DAO_Interface productDaoImpliment;
+//	Oder_Main_DAO_Interface orderMainDaoImpliment = null;
+//	Order_Detail_DAO_Interface orderDetailDaoImpliment = null;
+//	Product_DAO_Interface productDaoImpliment;
 	
 	Order_Main_DAO order_Main_DAO = null;
 	Order_Detail_DAO order_Detail_DAO = null;
@@ -67,29 +67,29 @@ public class Orders_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-//		if (product_DAO == null) {
-//			product_DAO = new Product_DAO_Interface();
-//		}
-//		if (order_Main_DAO== null) {
-//			order_Main_DAO = new Oder_Main_DAO_Interface();
-//				
-//		}
-//		if (order_Detail_DAO == null) {
-//			order_Detail_DAO = new Order_Detail_DAO_Interface();
-//		}
-		if (productDaoImpliment == null) {
-			productDaoImpliment = new Product_DAO_Interface();
+		if (product_DAO == null) {
+			product_DAO = new Product_DAO_Interface();
 		}
-		if (orderMainDaoImpliment== null) {
-			orderMainDaoImpliment = new Oder_Main_DAO_Interface();
+		if (order_Main_DAO== null) {
+			order_Main_DAO = new Oder_Main_DAO_Interface();
 				
 		}
-		if (orderDetailDaoImpliment == null) {
-			orderDetailDaoImpliment = new Order_Detail_DAO_Interface();
+		if (order_Detail_DAO == null) {
+			order_Detail_DAO = new Order_Detail_DAO_Interface();
 		}
+//		if (productDaoImpliment == null) {
+//			productDaoImpliment = new Product_DAO_Interface();
+//		}
+//		if (orderMainDaoImpliment== null) {
+//			orderMainDaoImpliment = new Oder_Main_DAO_Interface();
+//				
+//		}
+//		if (orderDetailDaoImpliment == null) {
+//			orderDetailDaoImpliment = new Order_Detail_DAO_Interface();
+//		}
 		
-		List<Order_Main> order_Mains = orderMainDaoImpliment.getAll();
-		List<Order_Detail> order_Details = orderDetailDaoImpliment.getAll();
+		List<Order_Main> order_Mains = order_Main_DAO.getAll();
+		List<Order_Detail> order_Details = order_Detail_DAO.getAll();
 		
 
 		writeText(response, new Gson().toJson(order_Mains));
@@ -101,12 +101,7 @@ public class Orders_Servlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
-//		doGet(request, response);
-
 		request.setCharacterEncoding("UTF-8");
-		
-//		Gson gson = new Gson();
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 		BufferedReader br = request.getReader();
@@ -119,31 +114,31 @@ public class Orders_Servlet extends HttpServlet {
 		System.out.println("Input:" + jsonIn);
 		
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
-//		if (product_DAO == null) {
-//			product_DAO = new Product_DAO_Interface();
-//		}
-//		if (order_Main_DAO== null) {
-//			order_Main_DAO = new Oder_Main_DAO_Interface();//? 
-//		}
-//		if (order_Detail_DAO==null) {
-//			order_Detail_DAO = new Order_Detail_DAO_Interface();
-//		}
-		if (productDaoImpliment == null) {
-			productDaoImpliment = new Product_DAO_Interface();
+		if (product_DAO == null) {
+			product_DAO = new Product_DAO_Interface();
 		}
-		if (orderMainDaoImpliment== null) {
-			orderMainDaoImpliment = new Oder_Main_DAO_Interface();//? 
+		if (order_Main_DAO== null) {
+			order_Main_DAO = new Oder_Main_DAO_Interface();//? 
 		}
-		if (orderDetailDaoImpliment==null) {
-			orderDetailDaoImpliment = new Order_Detail_DAO_Interface();
+		if (order_Detail_DAO==null) {
+			order_Detail_DAO = new Order_Detail_DAO_Interface();
 		}
+//		if (productDaoImpliment == null) {
+//			productDaoImpliment = new Product_DAO_Interface();
+//		}
+//		if (orderMainDaoImpliment== null) {
+//			orderMainDaoImpliment = new Oder_Main_DAO_Interface();//? 
+//		}
+//		if (orderDetailDaoImpliment==null) {
+//			orderDetailDaoImpliment = new Order_Detail_DAO_Interface();
+//		}
 
 		String action = jsonObject.get("action").getAsString();
 		
 		if (action.equals("getAll")) {
 			System.out.println("OrdersServlet");
-			List<Order_Main> orderMains = orderMainDaoImpliment.getAll();
-			List<Order_Detail> orderDetail = orderDetailDaoImpliment.getAll();
+			List<Order_Main> orderMains = order_Main_DAO.getAll();
+			List<Order_Detail> orderDetail = order_Detail_DAO.getAll();
 			writeText(response, gson.toJson(orderMains));
 			writeText(response, gson.toJson(orderDetail));
 			return;
@@ -169,6 +164,7 @@ public class Orders_Servlet extends HttpServlet {
 				response.setContentLength(image.length);
 				os.write(image);
 			}
+			break;
 		}
 		//結帳後修改狀態0->1		
 		case "changeOrderStatus":{
@@ -178,27 +174,37 @@ public class Orders_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(count));
 			break;
 		}
+//		get shortOrderList for orderListFragment
+		case "getOrderMainShort": {
+			String account_id = jsonObject.get("account_id").getAsString();
+			int order_ID = jsonObject.get("order_ID").getAsInt();
+			int status = jsonObject.get("status").getAsInt();
+			
+			
+			break;
+		}
+		
 //		select by status
 		case "status":{
 			int status = jsonObject.get("status").getAsInt();
 			if (status == 0) {
-				List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(0);
+				int order_Mains = order_Main_DAO.getStatus(0);
 //				List<Order_Main> order_Mains = order_Main_DAO.getStatus(0);
 				writeText(response, gson.toJson(order_Mains));
 			}else if(status == 1){
-				List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(1);
+				int order_Mains = order_Main_DAO.getStatus(1);
 //				List<Order_Main> order_Mains = order_Main_DAO.getStatus(1);
 				writeText(response, gson.toJson(order_Mains));
 			}else if(status == 2){
-				List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(2);
+				int order_Mains = order_Main_DAO.getStatus(2);
 //				List<Order_Main> order_Mains = order_Main_DAO.getStatus(2);
 				writeText(response, gson.toJson(order_Mains));
 			}else if(status == 3){
-				List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(3);
+				int order_Mains = order_Main_DAO.getStatus(3);
 //				List<Order_Main> order_Mains = order_Main_DAO.getStatus(3);
 				writeText(response, gson.toJson(order_Mains));
 			}else if(status == 4){
-				List<Order_Main> order_Mains = orderMainDaoImpliment.getStatus(4);
+				int order_Mains = order_Main_DAO.getStatus(4);
 //				List<Order_Main> order_Mains = order_Main_DAO.getStatus(4);
 				writeText(response, gson.toJson(order_Mains));
 			}
