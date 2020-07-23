@@ -34,8 +34,8 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 
 		int count = 0;
 		int id = 0;
-		String sql = "INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE, STATUS) VALUES (?, ?, ?, ?, ?, ?);";
-
+		String sql = "INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE) VALUES (?, ?, ?, ?, ?);";
+//, STATUS
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 			ps.setString(1, oM.getAccount_ID());
@@ -43,7 +43,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 			ps.setString(3, oM.getOrder_Main_Recriver());
 			ps.setString(4, oM.getOrder_Main_Address());
 			ps.setString(5, oM.getOrder_Main_Phone());
-			ps.setInt(6, oM.getOrder_Main_Order_Status());
+//			ps.setInt(6, oM.getOrder_Main_Order_Status());
 			count = ps.executeUpdate();
 			ResultSet generatedKeys = ps.getGeneratedKeys();
 
@@ -55,6 +55,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.print("-------------------------------------------order_id :" + id);
 		return id;
 	}
 
@@ -181,14 +182,15 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	@Override
 	public int updataOrder(int oM_ID) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("===================1==================");
 		int Count = 0;
-		String sql = "UPDATE ORDER_MAIN SET ORDER_STATUS = 1 WHERE (ORDER_ID = ?);";
+		String sql = "UPDATE ORDER_MAIN SET ORDER_STATUS = 1 WHERE ORDER_ID = ?;";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);
+				
 				){
 			ps.setInt(1, oM_ID);
-			
+			System.out.println("===================1=================="+ps.toString());
 			Count = ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
