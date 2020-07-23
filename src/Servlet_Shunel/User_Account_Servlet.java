@@ -77,7 +77,7 @@ public class User_Account_Servlet extends HttpServlet {
 
 			JsonObject jsonLoginResult = new JsonObject();
 			Uesr_Account_DAO user_Account_DAO = new Uesr_Account_DAO_Interface();
-			User_Account user = user_Account_DAO.login(user_Account);
+			User_Account user = user_Account_DAO.login(user_Account);//這邊user是去ＤＡＯ拿到Login的
 			// int delete(int user_Account_ID););
 			if (user == null) {
 				jsonLoginResult.addProperty("result", "fail");

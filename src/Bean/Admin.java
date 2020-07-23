@@ -23,6 +23,7 @@ public class Admin implements Serializable {
 	}
 
 
+
 	//方法區
 	
 	
