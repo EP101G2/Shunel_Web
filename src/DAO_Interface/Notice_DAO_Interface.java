@@ -141,7 +141,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	@Override
 
 	public List<Notice> getNoticeAll() {
-		String sql = "SELECT * FROM NOTICE WHERE NOTICE_CATEGORY_ID = 3 ; ";
+		String sql = "SELECT * FROM Shunel.NOTICE WHERE NOTICE_CATEGORY_ID = 3 or NOTICE_CATEGORY_ID = 4 order by notice_time desc; ";
 		List<Notice> noticeList = new ArrayList<Notice>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {

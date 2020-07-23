@@ -34,7 +34,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 
 		int count = 0;
 		int id = 0;
-		String sql = "INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE, STATUS) VALUES (?, ?, ?, ?, ?, ?);";
+		String sql = "INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE) VALUES ( ?, ?, ?, ?, ?);";
 
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -43,7 +43,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 			ps.setString(3, oM.getOrder_Main_Recriver());
 			ps.setString(4, oM.getOrder_Main_Address());
 			ps.setString(5, oM.getOrder_Main_Phone());
-			ps.setInt(6, oM.getOrder_Main_Order_Status());
+//			ps.setInt(6, oM.getOrder_Main_Order_Status());
 			count = ps.executeUpdate();
 			ResultSet generatedKeys = ps.getGeneratedKeys();
 
