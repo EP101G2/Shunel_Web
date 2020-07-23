@@ -47,6 +47,12 @@ public class Order_Main implements Serializable {
 		this.Order_Main_Modify_Date = order_Main_Modify_Date;
 	}
 
+	public Order_Main(int ORDER_ID, int ORDER_STATUS) {
+		// TODO Auto-generated constructor stub
+		Order_ID = ORDER_ID;
+		Order_Main_Order_Status = ORDER_STATUS;
+	}
+
 	public int getOrder_ID() {
 		return Order_ID;
 	}

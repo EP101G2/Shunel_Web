@@ -15,6 +15,8 @@ import javax.sql.DataSource;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import DAO.Order_Detail_DAO;
@@ -90,7 +92,6 @@ public class Orders_Servlet extends HttpServlet {
 		
 		List<Order_Main> order_Mains = order_Main_DAO.getAll();
 		List<Order_Detail> order_Details = order_Detail_DAO.getAll();
-		
 
 		writeText(response, new Gson().toJson(order_Mains));
 		writeText(response, new Gson().toJson(order_Details));
@@ -174,13 +175,12 @@ public class Orders_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(count));
 			break;
 		}
+		
 //		get shortOrderList for orderListFragment
 		case "getOrderMainShort": {
-			String account_id = jsonObject.get("account_id").getAsString();
-			int order_ID = jsonObject.get("order_ID").getAsInt();
-			int status = jsonObject.get("status").getAsInt();
-			
-			
+			String user_id = jsonObject.get("id").getAsString();
+			List<Order_Main> orderShortMainMainList = order_Main_DAO.getShortOrderMains(user_id);
+			writeText(response, gson.toJson(orderShortMainMainList));
 			break;
 		}
 		
