@@ -31,11 +31,13 @@ import Bean.Product;
 import Bean.Shopping_Cart;
 import Bean.User_Account;
 import DAO.Like_DAO;
+import DAO.Notice_DAO;
 import DAO.Order_Detail_DAO;
 import DAO.Order_Main_DAO;
 import DAO.Product_DAO;
 import DAO.Shopping_Card_DAO;
 import DAO_Interface.Like_DAO_Interface;
+import DAO_Interface.Notice_DAO_Interface;
 import DAO_Interface.Oder_Main_DAO_Interface;
 import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
@@ -56,6 +58,7 @@ public class Prouct_Servlet extends HttpServlet {
 	Shopping_Card_DAO shopping_Card_DAO = null;
 	Order_Main_DAO order_Main = null;
 	Like_DAO like_DAO = null;
+	Notice_DAO notice_DAO  = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -134,6 +137,11 @@ public class Prouct_Servlet extends HttpServlet {
 		if (order_Main == null) {
 			order_Main = new Oder_Main_DAO_Interface();
 		}
+		
+		if (notice_DAO == null) {
+			notice_DAO = new Notice_DAO_Interface();
+		}
+		
 
 		//
 		String action = jsonObject.get("action").getAsString();
@@ -345,6 +353,8 @@ public class Prouct_Servlet extends HttpServlet {
 			String order_ID = jsonObject.get("OrderID").getAsString();
 			String order_Details = jsonObject.get("OrderDetail").getAsString();
 			Order_Detail oDetails = null;
+//			System.out.println("========"+order_ID);
+			
 			Type collectionType = new TypeToken<List<Shopping_Cart>>() {
 			}.getType();
 			List<Shopping_Cart> myBookList = gson.fromJson(order_Details, collectionType);
@@ -353,12 +363,17 @@ public class Prouct_Servlet extends HttpServlet {
 			}
 
 			Order_Main order_Main = gson.fromJson(order_ID, Order_Main.class);
+//			System.out.println(order_Main.getAccount_ID()+"123456789");
 			JsonArray jsonArray = gson.fromJson(order_Details, JsonArray.class);
 
 			int orderid = 0;
 			int orderdetail = 0;
+			int notice =0;
 			orderid = this.order_Main.insert(order_Main);
-
+//			System.out.println("orderid======================="+orderid);
+			notice = notice_DAO.putGoodNotice(orderid);
+//			System.out.println("notice======================="+notice);
+			
 			for (JsonElement element : jsonArray) {
 				JsonObject obj = element.getAsJsonObject();
 				int order_id = orderid;

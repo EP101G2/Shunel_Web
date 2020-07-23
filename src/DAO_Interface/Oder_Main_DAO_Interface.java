@@ -17,6 +17,7 @@ import Bean.Order_Detail;
 import Bean.Order_Main;
 
 import DAO.Order_Main_DAO;
+//import DAO.Order_Main_Short;
 import Servlet_Shunel.ServiceLocator;
 //import idv.ron.server.spots.Spot;
 
@@ -31,18 +32,24 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	@Override
 	public int insert(Order_Main oM) {
 		// TODO Auto-generated method stub
-
 		int count = 0;
 		int id = 0;
-		String sql = "INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE) VALUES (?, ?, ?, ?, ?);";
-//, STATUS
+//		System.out.println("---------------------"+oM.getAccount_ID());
+		
+		String sql = "INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE) VALUES ( ?, ?, ?, ?, ?);";
+
 		try (Connection connection = dataSource.getConnection();
+
 				PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+			
+			
 			ps.setString(1, oM.getAccount_ID());
 			ps.setInt(2, oM.getOrder_Main_Total_Price());
-			ps.setString(3, oM.getOrder_Main_Recriver());
+			ps.setString(3, oM.getOrder_Main_Receiver());
 			ps.setString(4, oM.getOrder_Main_Address());
 			ps.setString(5, oM.getOrder_Main_Phone());
+			System.out.println("-----------------"+ps.toString());
+			
 //			ps.setInt(6, oM.getOrder_Main_Order_Status());
 			count = ps.executeUpdate();
 			ResultSet generatedKeys = ps.getGeneratedKeys();
@@ -50,25 +57,27 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 			while (generatedKeys.next()) {
 				id = generatedKeys.getInt(1);
 			}
-			System.out.print("取得order_id :" + id);
+//			System.out.print("取得order_id :" + id);
 
+
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.print("-------------------------------------------order_id :" + id);
+//		System.out.print("-------------------------------------------order_id :" + id);
 		return id;
 	}
-
+	
 	@Override
 	public int update(Order_Main oM) {
 		// TODO Auto-generated method stub
 //		UPDacATE ORDER_MAIN SET RECRIVER = ?, ADDRESS = ?,PHONE = ? WHERE (ORDER_ID = ?);
 		int count = 0;
-		String sql = "UPDacATE ORDER_MAIN SET RECRIVER = ?, ADDRESS = ?,PHONE = ? WHERE (ORDER_ID = ?);";
+		String sql = "UPDATE ORDER_MAIN SET RECRIVER = ?, ADDRESS = ?,PHONE = ? WHERE (ORDER_ID = ?);";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 
-			ps.setString(1, oM.getOrder_Main_Recriver());
+			ps.setString(1, oM.getOrder_Main_Receiver());
 			ps.setString(2, oM.getOrder_Main_Address());
 			ps.setString(3, oM.getOrder_Main_Phone());
 			ps.setInt(4, oM.getOrder_ID());
@@ -145,7 +154,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		String sql = "SELECT * FROM ORDER_MAIN WHERE ACCOUNT_ID = ?;";
 		Order_Main order_Main = null;
 		try (Connection connection = dataSource.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql);) {
+				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setString(1, Account_ID);
 //			ps.setInt(1, Order_Id);
 			/*
@@ -174,11 +183,26 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	}
 
 	@Override
-	public List<Order_Main> getStatus(int status) {
+	public int getStatus(int Order_Id) {
 		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT STATUS FROM ORDER_MAIN WHERE (ORDER_ID = ?);";
+//		List<Order_Main> orderMainList = new ArrayList<Order_Main>();
+		int status = 0;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql)){
+			ps.setInt(1, Order_Id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				int ORDER_STATUS = rs.getInt("ORDER_STATUS");
+				status = ORDER_STATUS;
+			}
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return status;
 	}
-
+//update order status
 	@Override
 	public int updataOrder(int oM_ID) {
 		// TODO Auto-generated method stub
@@ -198,4 +222,44 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		}
 		return Count;
 	}
+	
+	@Override
+	public byte[] getImage(int id) {
+		String sql = "SELECT PRODUCT_IMG1 FROM PRODUCT WHERE PRODUCT_ID = ?;";
+		byte[] image = null;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				image = rs.getBytes(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return image;
+	}
+	
+////	get short orderlist
+//	@Override
+//	public List<Order_Main> getShortOrderMains(){
+//		String sql = "SELECT ORDER_ID, ORDER_STATUS FROM ORDER_MAIN WHERE ACCOUNT_ID = ?;";
+//		List<Order_Main> orderMainShortList = new ArrayList<>();
+//		try (Connection connection = dataSource.getConnection();
+//				PreparedStatement ps = connection.prepareStatement(sql);) {
+//			ResultSet rs = ps.executeQuery();
+//			if (rs.next()) {
+//				int order_ID = rs.getInt("ORDER_ID");
+//				int status = rs.getInt("ORDER_STATUS");
+////				Order_Main orderMainShort = new Order_Main(order_ID, status);
+////				orderMainShort.add(orderMainShortList);
+//				System.out.print(rs);
+//			}	
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return orderMainShortList;
+//	}
+
 }
