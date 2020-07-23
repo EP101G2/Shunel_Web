@@ -334,7 +334,6 @@ public class Product_DAO_Interface implements Product_DAO {
 		return prouctList;
 	}
 
-<<<<<<< HEAD
 	@Override
 	public List<Product> getTOP5Product() {
 		// TODO Auto-generated method stub
@@ -385,8 +384,4 @@ public class Product_DAO_Interface implements Product_DAO {
 
 	
 
-	
-	
-=======
->>>>>>> c4b64ca95f1554cadd31251a21ac8bd60dff24cd
 }
