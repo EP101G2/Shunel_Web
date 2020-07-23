@@ -334,4 +334,56 @@ public class Product_DAO_Interface implements Product_DAO {
 		return prouctList;
 	}
 
+	@Override
+	public List<Product> getTOP5Product() {
+		// TODO Auto-generated method stub
+		String sql = "select  PRODUCT.PRODUCT_ID, PRODUCT_NAME, PRODUCT.COLOR , PRODUCT.PRICE, PRODUCT.DITAL , PRODUCT.CATEGORY_ID , PRODUCT.PRODUCT_STATUS , sum(AMOUNT) as total_qty  from ORDER_DETAIL  join PRODUCT on  ORDER_DETAIL.PRODUCT_ID = PRODUCT.PRODUCT_ID  group by PRODUCT_ID    ORDER BY total_qty DESC  		limit 5  "; 
+		List<Product> prouctList = new ArrayList<Product>();
+		System.out.println("333");
+		try (Connection connection = dataSource.getConnection();
+			
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+
+	
+			System.out.println(connection.isClosed());
+			System.out.println(ps.isClosed());
+
+
+			ResultSet rs = ps.executeQuery();
+//			System.out.println("test"+rs);
+			while (rs.next()) {
+				System.out.println("--------");
+				int id = rs.getInt("PRODUCT_ID");
+				String prouct_Name = rs.getString("PRODUCT_NAME");
+				String prouct_Color = rs.getString("COLOR");
+				int prouct_Price = rs.getInt("PRICE");
+				String prouct_Dital = rs.getString("DITAL");
+				int prouct_Category_ID = rs.getInt("CATEGORY_ID");
+				int prouct_Status = rs.getInt("PRODUCT_STATUS");
+//				Timestamp prouct_Time = rs.getTimestamp("MODIFY_DATE");
+
+				Product prouct = new Product(id, prouct_Name, prouct_Color, prouct_Price, prouct_Dital,
+						prouct_Category_ID, prouct_Status);
+				prouctList.add(prouct);
+			}
+			
+			return prouctList;
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+
+		return prouctList;
+	}
+
+	
+
+
+
+	
+
+	
+	
 }

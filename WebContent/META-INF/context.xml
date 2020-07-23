@@ -1,18 +1,18 @@
 
 
 
-<!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> -->
 
 <!--Jack -->
-<!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
+
+<Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="qazwsxedc" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
-	/> </Context> -->
+	/> </Context>
 
 
-<!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> -->
 
+<<<<<<< HEAD
 <!--Jack -->
  <!-- <Context docBase="Shunel_Web" path="/Shunel_Web"
 	reloadable="true">
@@ -25,6 +25,8 @@
 
 
  -->
+=======
+>>>>>>> 38aca46a0c38036915969a62c456d1d51d10e584
 
 <!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
@@ -58,11 +60,16 @@
 
 <!-- Edward -->
 
+<!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
+	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
+	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
+	username="root" password="Careeverything" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
+	/> </Context> -->
 <!--  <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="Careeverything" maxTotal="20" maxIdle="10" maxWaitMillis="5000" /> 
-	</Context>  --> 
+	</Context>  -->
 
 
 
@@ -76,8 +83,16 @@
 		type="javax.sql.DataSource" driverClassName="com.mysql.cj.jdbc.Driver"
 		url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei"
 		username="root" password="s03550201" maxTotal="20" maxIdle="10"
+<<<<<<< HEAD
 		maxWaitMillis="5000" />
+<<<<<<< HEAD
 </Context> 
+=======
+=======
+		maxWaitMillis="5000" />  
+>>>>>>> dc3adf5b883226ea05d790c6ca2c0caa495d9ba5
+</Context> -->
+>>>>>>> 38aca46a0c38036915969a62c456d1d51d10e584
 
 <!-- Sam -->
 
@@ -86,21 +101,28 @@
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="1qaz2wsx" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
-	/> </Context> -->
-
-
+	/> </Context>  -->
 <!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="1qaz2wsx" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
 	/> </Context> -->
+<<<<<<< HEAD
 
+=======
+	
+	
+>>>>>>> 38aca46a0c38036915969a62c456d1d51d10e584
   <!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="1qaz2wsx" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
+<<<<<<< HEAD
 	/> </Context>  -->
  
+=======
+	/> </Context>   -->
+>>>>>>> 38aca46a0c38036915969a62c456d1d51d10e584
 
 
 
@@ -111,4 +133,4 @@
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="1qaz2wsx" maxTotal="20" maxIdle="10" maxWaitMillis="5000"/> 
-	</Context> -->
+	</Context>  -->

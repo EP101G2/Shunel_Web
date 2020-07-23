@@ -208,6 +208,15 @@ public class Prouct_Servlet extends HttpServlet {
 			writeText(response, gson.toJson(proucts));
 			break;
 		}
+		
+		
+		
+		case "getTOP5Product": {
+			List<Product> proucts = product_DAO.getTOP5Product();
+			writeText(response, gson.toJson(proucts));
+			break;
+		}
+		
 
 //		case "getImage": {
 //			OutputStream os = response.getOutputStream();
