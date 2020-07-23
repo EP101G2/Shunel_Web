@@ -13,6 +13,9 @@ public interface Promotion_DAO {
 
 	Promotion findById(int Promotion_ID);
 
-	List<Promotion> getAll();
-
+	List<Promotion> getPromotionAll();
+	
+	List<Promotion> getPromotionForNotice();
+	
+	byte[] getImage(int id);
 }
