@@ -371,12 +371,12 @@ public class Prouct_Servlet extends HttpServlet {
 			int orderdetail = 0;
 			int notice =0;
 			orderid = this.order_Main.insert(order_Main);
-<<<<<<< HEAD
+
 			String title = "您的訂單已成立";
 			String content ="您的訂單已成立，訂單編號為";
-=======
+
 //			System.out.println("orderid======================="+orderid);
->>>>>>> 62249bd2427bb975d74dca574f0cde8abbc836f3
+
 			notice = notice_DAO.putGoodNotice(orderid);
 //			System.out.println("notice======================="+notice);
 			

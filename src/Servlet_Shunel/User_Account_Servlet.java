@@ -163,8 +163,7 @@ public class User_Account_Servlet extends HttpServlet {
 			break;
 		}
 		
-<<<<<<< HEAD
-=======
+
 		case "getAll":{
 			
 			List<User_Account> user_Accounts = account_DAO.getAll();
@@ -175,7 +174,6 @@ public class User_Account_Servlet extends HttpServlet {
 			
 			break;
 		}
->>>>>>> 62249bd2427bb975d74dca574f0cde8abbc836f3
 
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
