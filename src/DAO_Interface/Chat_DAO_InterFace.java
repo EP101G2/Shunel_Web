@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -62,7 +63,36 @@ public class Chat_DAO_InterFace implements Chat_DAO {
 	@Override
 	public long insert(Chat_Record cRecord, byte[] image) {
 		// TODO Auto-generated method stub
-		return 0;
+		int updateCount = 0;
+		  long gid = 0;
+
+		  try (Connection connection = dataSource.getConnection();
+		    PreparedStatement ps = connection.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS)) {
+
+		   
+		   ps.setInt(1, cRecord.getCHAT_NO());
+		   ps.setString(2, cRecord.getCHAT_MSG());
+		   ps.setInt(3, cRecord.getFLAG());
+		   ps.setString(4, cRecord.getCHAT_RECRIVER());
+		   ps.setString(5, cRecord.getCHAT_SENDER());
+		   if (image != null) {
+		    ps.setBytes(6, image);
+		   } else {
+		    ps.setBytes(6, null);
+		   }
+
+		   updateCount = ps.executeUpdate();
+
+		   if (updateCount != 0) {
+		    ResultSet generatedKeys = ps.getGeneratedKeys();
+		    if (generatedKeys.next()) {
+		     gid = generatedKeys.getLong(1);// here is your generated Id 
+		    }
+		   }
+		  } catch (SQLException se) {
+		   se.printStackTrace(System.err);
+		  }
+		  return gid;
 	}
 
 	@Override
@@ -104,7 +134,33 @@ public class Chat_DAO_InterFace implements Chat_DAO {
 	@Override
 	public List<Chat_Record> getAll(int chatRoom) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Chat_Record> list = new ArrayList<>();
+		  ResultSet rs = null;
+		  Chat_Record chat = null;
+		  try (Connection connection = dataSource.getConnection();
+		    PreparedStatement ps = connection.prepareStatement(GET_ALL)) {
+		   ps.setInt(1, chatRoom);
+		   
+		   rs = ps.executeQuery();
+		   
+
+		   while (rs.next()) {
+		    chat = new Chat_Record();
+		    chat.setID(rs.getInt("ID"));
+		    chat.setCHAT_NO(rs.getInt("CHAT_NO"));
+		    chat.setCHAT_MSG(rs.getString("CHAT_MSG"));
+		    chat.setCHAT_SENDER(rs.getString("CHAT_SENDER"));
+		    chat.setCHAT_RECRIVER(rs.getString("CHAT_RECEIVER"));
+		    chat.setFLAG(rs.getInt("FLAG"));
+		    chat.setCHAT_DATE(rs.getTimestamp("CHAT_DATE"));
+		    chat.setCHAT_IMAGE(rs.getBytes("CHAT_IMAGE"));
+		    list.add(chat);
+		   }
+
+		  } catch (SQLException se) {
+		   se.printStackTrace(System.err);
+		  }
+		  return list;
 	}
 
 }
