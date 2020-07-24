@@ -169,7 +169,8 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 				int notoce_status = rs.getInt("NOTICE_STATUS");
 				int account_status = rs.getInt("ACCOUNT_STATUS");
 				Timestamp time = rs.getTimestamp("MODIFY_DATE");
-				User_Account account = new User_Account(username,id, phone, password, address, price, notoce_status, account_status, time);
+				String token=rs.getString("TOKEN");
+				User_Account account = new User_Account(username,id, phone, password, address, price, notoce_status, account_status, time,token);
 				accounts.add(account);
 			}
 			return accounts;
