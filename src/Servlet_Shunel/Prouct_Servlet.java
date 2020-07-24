@@ -75,6 +75,7 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		FirebaseCloudMsg.getInstance().FCMsendMsg("c7_4_x7dZLU:APA91bEEaS91qETCEIbd_ZbYP5RfohNY6apJAIgUpkLI8tNDXKnxBE5VgPfVxseGNxHS9FSY8M-5wQBGDXfJUh89CXdZCsbb-IH67MBb8QboRUQdNezQwLJKDMXInI_jbZqaAuZF0GTw", "title", "msg");		
 		if (like_DAO == null) {
 			like_DAO = new Like_DAO_Interface();
 		}
@@ -353,7 +354,7 @@ public class Prouct_Servlet extends HttpServlet {
 			String order_ID = jsonObject.get("OrderID").getAsString();
 			String order_Details = jsonObject.get("OrderDetail").getAsString();
 			Order_Detail oDetails = null;
-			System.out.println("========"+order_ID);
+//			System.out.println("========"+order_ID);
 			
 			Type collectionType = new TypeToken<List<Shopping_Cart>>() {
 			}.getType();
@@ -363,17 +364,21 @@ public class Prouct_Servlet extends HttpServlet {
 			}
 
 			Order_Main order_Main = gson.fromJson(order_ID, Order_Main.class);
-			System.out.println(order_Main.getAccount_ID()+"123456789");
+//			System.out.println(order_Main.getAccount_ID()+"123456789");
 			JsonArray jsonArray = gson.fromJson(order_Details, JsonArray.class);
 
 			int orderid = 0;
 			int orderdetail = 0;
 			int notice =0;
 			orderid = this.order_Main.insert(order_Main);
+<<<<<<< HEAD
 			String title = "您的訂單已成立";
 			String content ="您的訂單已成立，訂單編號為";
+=======
+//			System.out.println("orderid======================="+orderid);
+>>>>>>> 62249bd2427bb975d74dca574f0cde8abbc836f3
 			notice = notice_DAO.putGoodNotice(orderid);
-			System.out.println("notice======================="+notice);
+//			System.out.println("notice======================="+notice);
 			
 			for (JsonElement element : jsonArray) {
 				JsonObject obj = element.getAsJsonObject();

@@ -15,6 +15,8 @@ import javax.sql.DataSource;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import DAO.Order_Detail_DAO;
@@ -90,7 +92,6 @@ public class Orders_Servlet extends HttpServlet {
 		
 		List<Order_Main> order_Mains = order_Main_DAO.getAll();
 		List<Order_Detail> order_Details = order_Detail_DAO.getAll();
-		
 
 		writeText(response, new Gson().toJson(order_Mains));
 		writeText(response, new Gson().toJson(order_Details));
@@ -114,6 +115,15 @@ public class Orders_Servlet extends HttpServlet {
 		System.out.println("Input:" + jsonIn);
 		
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
+//		if (product_DAO == null) {
+//			product_DAO = new Product_DAO_Interface();
+//		}
+		if (order_Main_DAO== null) {
+			order_Main_DAO = new Oder_Main_DAO_Interface();//? 
+		}
+		if (order_Detail_DAO==null) {
+			order_Detail_DAO = new Order_Detail_DAO_Interface();
+		}
 		if (product_DAO == null) {
 			product_DAO = new Product_DAO_Interface();
 		}
@@ -147,10 +157,12 @@ public class Orders_Servlet extends HttpServlet {
 		switch (action) {
 		case "getOrderMain": {
 			int orderMainID = jsonObject.get("orderID").getAsInt();
+			writeText(response, gson.toJson(orderMainID));
 			break;
 		}
 		case "getOrderDetail":{
 			int orderDetailID = jsonObject.get("orderID").getAsInt();
+			writeText(response, gson.toJson(orderDetailID));
 			break;
 		}
 		case "getImage":{
@@ -174,13 +186,12 @@ public class Orders_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(count));
 			break;
 		}
+		
 //		get shortOrderList for orderListFragment
 		case "getOrderMainShort": {
-			String account_id = jsonObject.get("account_id").getAsString();
-			int order_ID = jsonObject.get("order_ID").getAsInt();
-			int status = jsonObject.get("status").getAsInt();
-			
-			
+			String account_ID = jsonObject.get("Account_ID").getAsString();
+			List<Order_Main> orderShortMainMainList = order_Main_DAO.getShortOrderMains(account_ID);
+			writeText(response, gson.toJson(orderShortMainMainList));
 			break;
 		}
 		
@@ -205,6 +216,10 @@ public class Orders_Servlet extends HttpServlet {
 				writeText(response, gson.toJson(order_Mains));
 			}else if(status == 4){
 				int order_Mains = order_Main_DAO.getStatus(4);
+//				List<Order_Main> order_Mains = order_Main_DAO.getStatus(4);
+				writeText(response, gson.toJson(order_Mains));
+			}else if(status == 5){
+				int order_Mains = order_Main_DAO.getStatus(5);
 //				List<Order_Main> order_Mains = order_Main_DAO.getStatus(4);
 				writeText(response, gson.toJson(order_Mains));
 			}

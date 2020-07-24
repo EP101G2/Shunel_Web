@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import Bean.Notice;
 import Bean.User_Account;
 import DAO.Uesr_Account_DAO;
 import DAO_Interface.Uesr_Account_DAO_Interface;
@@ -162,6 +163,19 @@ public class User_Account_Servlet extends HttpServlet {
 			break;
 		}
 		
+<<<<<<< HEAD
+=======
+		case "getAll":{
+			
+			List<User_Account> user_Accounts = account_DAO.getAll();
+			writeText(response, new Gson().toJson(user_Accounts));
+			
+			
+			
+			
+			break;
+		}
+>>>>>>> 62249bd2427bb975d74dca574f0cde8abbc836f3
 
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);

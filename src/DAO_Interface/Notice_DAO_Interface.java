@@ -247,6 +247,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	@Override
 	public int putGoodNotice(int order_id) {
 		int count = 0;
+<<<<<<< HEAD
 
 		String sql = "INSERT INTO Shunel.NOTICE ( NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CATEGORY_ID, CATEGORY_MESSAGE_ID ) VALUES ( ? , ? , ?, ? );";
 
@@ -293,6 +294,13 @@ public class Notice_DAO_Interface implements Notice_DAO {
 			ps.setInt(3, 4);
 			ps.setInt(4, product_id);
 			System.out.print(ps.toString());
+=======
+		
+		String sql = "INSERT INTO NOTICE ( NOTICE_CATEGORY_ID, CATEGORY_MESSAGE_ID ) VALUES ( 3, ? );";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, order_id);
+>>>>>>> 62249bd2427bb975d74dca574f0cde8abbc836f3
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
