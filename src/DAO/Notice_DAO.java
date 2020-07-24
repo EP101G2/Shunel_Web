@@ -7,8 +7,13 @@ import Bean.Notice;
 public interface Notice_DAO {
 	int insert(Notice notice);
 	
-	int putGoodNotice(int order_id );
+	//訂單成立時把order_id 及 NOTICE_CATEGORY_ID = 3 放入Notice 表格中
+	int putGoodNotice(int order_id);
 	
+	//找到Notice表格中的 order_id，並對其發送個人通知
+	int getGoodNotice(int order_id);
+	
+	int putProductNotice(int product_id,String product_name);
 	
 
 	int update(Notice notice);
@@ -30,5 +35,4 @@ public interface Notice_DAO {
 	Notice getLastQAN();
 
 	Notice getLastSystemN();
-
 }
