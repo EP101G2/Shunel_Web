@@ -72,6 +72,7 @@ public class User_Account_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
+		
 		case "getLogin": {
 			String user_Account = jsonObject.get("id").getAsString();
 			String user_Password = jsonObject.get("password").getAsString();
@@ -162,6 +163,7 @@ public class User_Account_Servlet extends HttpServlet {
 			break;
 		}
 		
+
 		case "getAll":{
 			
 			List<User_Account> user_Accounts = account_DAO.getAll();

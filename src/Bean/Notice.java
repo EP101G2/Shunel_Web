@@ -32,6 +32,14 @@ public class Notice implements Serializable {
 		NOTICE_CATEGORY_ID = nOTICE_CATEGORY_ID;
 		CATEGORY_MESSAGE_ID = cATEGORY_MESSAGE_ID;
 	}
+	
+	public Notice(String notice_Title, String notice_Content
+			) {
+		super();
+		this.Notice_Title = notice_Title;
+		Notice_Content = notice_Content;
+	}
+	
 
 	public String getNotice_Title() {
 		return Notice_Title;
