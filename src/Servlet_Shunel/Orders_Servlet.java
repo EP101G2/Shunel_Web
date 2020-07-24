@@ -157,10 +157,12 @@ public class Orders_Servlet extends HttpServlet {
 		switch (action) {
 		case "getOrderMain": {
 			int orderMainID = jsonObject.get("orderID").getAsInt();
+			writeText(response, gson.toJson(orderMainID));
 			break;
 		}
 		case "getOrderDetail":{
 			int orderDetailID = jsonObject.get("orderID").getAsInt();
+			writeText(response, gson.toJson(orderDetailID));
 			break;
 		}
 		case "getImage":{
@@ -187,8 +189,8 @@ public class Orders_Servlet extends HttpServlet {
 		
 //		get shortOrderList for orderListFragment
 		case "getOrderMainShort": {
-			String user_id = jsonObject.get("id").getAsString();
-			List<Order_Main> orderShortMainMainList = order_Main_DAO.getShortOrderMains(user_id);
+			String account_ID = jsonObject.get("Account_ID").getAsString();
+			List<Order_Main> orderShortMainMainList = order_Main_DAO.getShortOrderMains(account_ID);
 			writeText(response, gson.toJson(orderShortMainMainList));
 			break;
 		}
@@ -214,6 +216,10 @@ public class Orders_Servlet extends HttpServlet {
 				writeText(response, gson.toJson(order_Mains));
 			}else if(status == 4){
 				int order_Mains = order_Main_DAO.getStatus(4);
+//				List<Order_Main> order_Mains = order_Main_DAO.getStatus(4);
+				writeText(response, gson.toJson(order_Mains));
+			}else if(status == 5){
+				int order_Mains = order_Main_DAO.getStatus(5);
 //				List<Order_Main> order_Mains = order_Main_DAO.getStatus(4);
 				writeText(response, gson.toJson(order_Mains));
 			}

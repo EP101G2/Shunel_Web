@@ -75,6 +75,7 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		FirebaseCloudMsg.getInstance().FCMsendMsg("c7_4_x7dZLU:APA91bEEaS91qETCEIbd_ZbYP5RfohNY6apJAIgUpkLI8tNDXKnxBE5VgPfVxseGNxHS9FSY8M-5wQBGDXfJUh89CXdZCsbb-IH67MBb8QboRUQdNezQwLJKDMXInI_jbZqaAuZF0GTw", "title", "msg");		
 		if (like_DAO == null) {
 			like_DAO = new Like_DAO_Interface();
 		}
@@ -370,7 +371,12 @@ public class Prouct_Servlet extends HttpServlet {
 			int orderdetail = 0;
 			int notice =0;
 			orderid = this.order_Main.insert(order_Main);
+
+			String title = "您的訂單已成立";
+			String content ="您的訂單已成立，訂單編號為";
+
 //			System.out.println("orderid======================="+orderid);
+
 			notice = notice_DAO.putGoodNotice(orderid);
 //			System.out.println("notice======================="+notice);
 			
