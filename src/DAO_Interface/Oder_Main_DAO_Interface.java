@@ -161,14 +161,14 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	}
 
 	@Override
-	public Order_Main findById(String Account_ID) {
+	public Order_Main findById(String account_ID) {
 //	public Order_Main findById(int Order_Id) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT * FROM ORDER_MAIN WHERE ACCOUNT_ID = ?;";
+		String sql = "SELECT * FROM ORDER_MAIN WHERE (ACCOUNT_ID = ?) and (ORDER_ID = ?);";
 		Order_Main order_Main = null;
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql)) {
-			ps.setString(1, Account_ID);
+			ps.setString(1, account_ID);
 //			ps.setInt(1, Order_Id);
 			/*
 			 * 當Statement關閉，ResultSet也會自動關閉， 可以不需要將ResultSet宣告置入try with
@@ -176,16 +176,16 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 			 */
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				int Order_ID = rs.getInt(1);
-				int TOTAL_PRICE = rs.getInt(2);
-				String RECRIVER = rs.getString(3);
-				String ADDRESS = rs.getString(4);
-				String PHONE = rs.getString(5);
-				Timestamp ORDER_DATE = rs.getTimestamp(6);
-				int ORDER_STATUS = rs.getInt(7);
-				Timestamp MODIFY_DATE = rs.getTimestamp(8);
-				order_Main = new Order_Main(Order_ID, Account_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE, ORDER_DATE,
-						ORDER_STATUS, MODIFY_DATE); 
+				int order_ID = rs.getInt("ORDER_ID");
+				int order_Main_Total_Price = rs.getInt("TOTAL_PRICE");
+				String order_Main_Receiver = rs.getString("RECRIVER");
+				String order_Main_Address = rs.getString("ADDRESS");
+				String order_Main_Phone = rs.getString("PHONE");
+				Timestamp Order_Main_Order_Date = rs.getTimestamp("ORDER_DATE");
+				int order_Status = rs.getInt("ORDER_STATUS");
+				Timestamp Order_Main_Modify_Date = rs.getTimestamp("MODIFY_DATE");
+				order_Main = new Order_Main(order_ID, account_ID, order_Main_Total_Price, order_Main_Receiver, order_Main_Address, order_Main_Phone, Order_Main_Order_Date,
+						order_Status, Order_Main_Modify_Date); 
 			}
 
 		} catch (SQLException e) {
@@ -259,7 +259,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		
 		List<Order_Main> orderMainShortList = new ArrayList<>();
 		Order_Main orderMainShort = null;
-		System.out.println("orderMainDao.getShortOrderMains");
+		System.out.println("-----orderMainDao.getShortOrderMains-----");
 		
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -280,5 +280,5 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 			e.printStackTrace();
 		}
 		return orderMainShortList;
-	}
+	}//ok
 }

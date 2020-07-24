@@ -13,7 +13,7 @@ public interface Order_Main_DAO {
 	List<Order_Main> getAll();
 	int getStatus(int status);
 	int updataOrder(int oM_ID);
-	Order_Main findById(String Account_ID);
+	Order_Main findById(String account_ID);
 	byte[] getImage(int id);
-	List<Order_Main> getShortOrderMains(String user_id);
+	List<Order_Main> getShortOrderMains(String account_ID);
 }
