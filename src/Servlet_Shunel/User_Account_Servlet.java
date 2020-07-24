@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import Bean.Notice;
 import Bean.User_Account;
 import DAO.Uesr_Account_DAO;
 import DAO_Interface.Uesr_Account_DAO_Interface;
@@ -158,6 +159,17 @@ public class User_Account_Servlet extends HttpServlet {
 				response.setContentLength(image.length);
 				os.write(image);
 			}
+			break;
+		}
+		
+		case "getAll":{
+			
+			List<User_Account> user_Accounts = account_DAO.getAll();
+			writeText(response, new Gson().toJson(user_Accounts));
+			
+			
+			
+			
 			break;
 		}
 
