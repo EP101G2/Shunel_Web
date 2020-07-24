@@ -115,6 +115,15 @@ public class Orders_Servlet extends HttpServlet {
 		System.out.println("Input:" + jsonIn);
 		
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
+//		if (product_DAO == null) {
+//			product_DAO = new Product_DAO_Interface();
+//		}
+		if (order_Main_DAO== null) {
+			order_Main_DAO = new Oder_Main_DAO_Interface();//? 
+		}
+		if (order_Detail_DAO==null) {
+			order_Detail_DAO = new Order_Detail_DAO_Interface();
+		}
 		if (product_DAO == null) {
 			product_DAO = new Product_DAO_Interface();
 		}

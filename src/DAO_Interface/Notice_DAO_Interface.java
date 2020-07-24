@@ -247,10 +247,10 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	public int putGoodNotice(int order_id) {
 		int count = 0;
 		
-		String sql = "INSERT INTO Shunel . NOTICE ( NOTICE_CATEGORY_ID, CATEGORY_MESSAGE_ID ) VALUES ( 3, ? );";
+		String sql = "INSERT INTO NOTICE ( NOTICE_CATEGORY_ID, CATEGORY_MESSAGE_ID ) VALUES ( 3, ? );";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-			ps.setInt(1, order_id );
+			ps.setInt(1, order_id);
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

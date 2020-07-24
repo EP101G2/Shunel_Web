@@ -353,7 +353,7 @@ public class Prouct_Servlet extends HttpServlet {
 			String order_ID = jsonObject.get("OrderID").getAsString();
 			String order_Details = jsonObject.get("OrderDetail").getAsString();
 			Order_Detail oDetails = null;
-			System.out.println("========"+order_ID);
+//			System.out.println("========"+order_ID);
 			
 			Type collectionType = new TypeToken<List<Shopping_Cart>>() {
 			}.getType();
@@ -363,15 +363,16 @@ public class Prouct_Servlet extends HttpServlet {
 			}
 
 			Order_Main order_Main = gson.fromJson(order_ID, Order_Main.class);
-			System.out.println(order_Main.getAccount_ID()+"123456789");
+//			System.out.println(order_Main.getAccount_ID()+"123456789");
 			JsonArray jsonArray = gson.fromJson(order_Details, JsonArray.class);
 
 			int orderid = 0;
 			int orderdetail = 0;
 			int notice =0;
 			orderid = this.order_Main.insert(order_Main);
+//			System.out.println("orderid======================="+orderid);
 			notice = notice_DAO.putGoodNotice(orderid);
-			System.out.println("notice======================="+notice);
+//			System.out.println("notice======================="+notice);
 			
 			for (JsonElement element : jsonArray) {
 				JsonObject obj = element.getAsJsonObject();
