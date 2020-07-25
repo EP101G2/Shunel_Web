@@ -75,7 +75,7 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		FirebaseCloudMsg.getInstance().FCMsendMsg("c7_4_x7dZLU:APA91bEEaS91qETCEIbd_ZbYP5RfohNY6apJAIgUpkLI8tNDXKnxBE5VgPfVxseGNxHS9FSY8M-5wQBGDXfJUh89CXdZCsbb-IH67MBb8QboRUQdNezQwLJKDMXInI_jbZqaAuZF0GTw", "title", "msg");		
+		FirebaseCloudMsg.getInstance().FCMsendMsg("chA6q9_2Rkk:APA91bHL42P6eBvENabCMbwSIe0u_wF7HkkSQqJ9MNyY_BkFhSiv322eRgHVNSGSkLnX4eHLpSUZgM0hSqkm4mtRvElQ63VUR3FFee3QN_lt_UQ7sxiCYO8wIJEwnsDFI7IGbwlqN_Di", "title", "msg");		
 		if (like_DAO == null) {
 			like_DAO = new Like_DAO_Interface();
 		}
@@ -247,7 +247,7 @@ public class Prouct_Servlet extends HttpServlet {
 			int imageSize = jsonObject.get("imageSize").getAsInt();
 			byte[] image = product_DAO.getImage(id);
 			if (image != null) {
-				image = ImageUtil.shrink(image, imageSize);
+ 
 				response.setContentType("image/jpeg");
 				response.setContentLength(image.length);
 				os.write(image);

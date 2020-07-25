@@ -104,31 +104,109 @@ public class Chat_DAO_InterFace implements Chat_DAO {
 	@Override
 	public int selectId() {
 		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		  try (Connection connection = dataSource.getConnection();
+		    PreparedStatement ps = connection.prepareStatement(SELECT_LAST_ID);) {
+
+		   result = ps.executeUpdate();
+
+		  } catch (SQLException se) {
+		   se.printStackTrace(System.err);
+		  }
+
+		  return result;
 	}
 
 	@Override
 	public byte[] getImage(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		byte[] image = null;
+		  ResultSet rs = null;
+
+		  try (Connection connection = dataSource.getConnection();
+		    PreparedStatement ps = connection.prepareStatement(GET_IMAGE_STMT);) {
+
+		   ps.setInt(1, id);
+		   rs = ps.executeQuery();
+
+		   while (rs.next()) {
+		    image = rs.getBytes("CHAT_IMAGE");
+		   }
+		  } catch (SQLException se) {
+		   se.printStackTrace(System.err);
+		  }
+		  return image;
 	}
 
 	@Override
 	public int update(String sender, int chatRoom) {
 		// TODO Auto-generated method stub
-		return 0;
+		int updateCount = 0;
+		  try (Connection connection = dataSource.getConnection();
+		    PreparedStatement ps = connection.prepareStatement(UPDATE_FLAG);) {
+
+		   ps.setInt(1, chatRoom);
+		   ps.setString(2, sender);
+
+		   updateCount = ps.executeUpdate();
+
+		  } catch (SQLException se) {
+		   se.printStackTrace(System.err);
+		  }
+
+		  return 0;
 	}
 
 	@Override
 	public int selectChatRoom(String chef_no, String user_no) {
 		// TODO Auto-generated method stub
-		return 0;
+		ResultSet rs = null;
+		  Chat_Record chat = null;
+		  
+		  try (Connection connection = dataSource.getConnection();
+		    PreparedStatement ps = connection.prepareStatement(SELECT_ROOM)) {
+		   ps.setString(1, user_no);
+		   ps.setString(2, chef_no);
+		   
+		   rs = ps.executeQuery();
+
+		   while (rs.next()) {
+		    chat = new Chat_Record();
+		    chat.setCHAT_NO(rs.getInt("CHAT_NO"));
+		   }
+
+		  } catch (SQLException se) {
+		   se.printStackTrace(System.err);
+		  }
+		  return chat == null ? 0 : chat.getCHAT_NO();
 	}
 
 	@Override
 	public List<Chat_Room> selectChatRoomList(String chef_no, String user_no) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Chat_Room> list = new ArrayList<>();
+		  ResultSet rs = null;
+		  Chat_Room room = null;
+		  try (Connection connection = dataSource.getConnection();
+		    PreparedStatement ps = connection.prepareStatement(SELECT_ROOM_LIST)) {
+		   ps.setString(1, user_no);
+		   ps.setString(2, chef_no);
+		   rs = ps.executeQuery();
+
+		   while (rs.next()) {
+//		    room = new Chat_Room();
+//		    room.setChat_ID(rs.getInt("CHAT_NO"));
+//		    room.setAccount_ID(rs.getString("USER_NO"));
+//		    room.set(rs.getString("CHEF_NO"));
+//		    room.setUser_name(rs.getString("USER_NAME"));
+//		    room.setChef_name(rs.getString("CHEF_NAME"));
+//		    list.add(room);
+		   }
+
+		  } catch (SQLException se) {
+		   se.printStackTrace(System.err);
+		  }
+		  return list;
 	}
 
 	@Override
