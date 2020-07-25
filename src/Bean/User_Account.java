@@ -14,13 +14,17 @@ public class User_Account implements Serializable {
 	private int Account_Notice_Status;
 	private int Account_Status;
 	private Timestamp Account_Modify_Date;
+	private String TOKEN;
 	
 	
 	
 	
 	
+	
+
+
 	public User_Account(String account_User_Name,String account_ID, String account_Phone, String account_Password, String account_Address,
-			int account_Total_Price, int account_Notice_Status, int account_Status) {
+			int account_Total_Price, int account_Notice_Status, int account_Status,String token) {
 		super();
 		Account_User_Name= account_User_Name;
 		Account_ID = account_ID;
@@ -30,11 +34,13 @@ public class User_Account implements Serializable {
 		Account_Total_Price = account_Total_Price;
 		Account_Notice_Status = account_Notice_Status;
 		Account_Status = account_Status;
+		TOKEN = token;
+		
 	}
 
 
 	public User_Account(String account_User_Name,String account_ID, String account_Phone, String account_Password, String account_Address,
-			int account_Total_Price, int account_Notice_Status, int account_Status, Timestamp account_Modify_Date) {
+			int account_Total_Price, int account_Notice_Status, int account_Status, Timestamp account_Modify_Date ,String token) {
 		super();
 		Account_User_Name= account_User_Name;
 		Account_ID = account_ID;
@@ -45,6 +51,7 @@ public class User_Account implements Serializable {
 		Account_Notice_Status = account_Notice_Status;
 		Account_Status = account_Status;
 		Account_Modify_Date = account_Modify_Date;
+		TOKEN = token;
 	}
 
     public User_Account(String account_User_Name,String account_ID, String account_Phone, String account_Password, String account_Address) {
@@ -156,6 +163,13 @@ public class User_Account implements Serializable {
 	
 	
 	
-	
+	public String getTOKEN() {
+		return TOKEN;
+	}
+
+
+	public void setTOKEN(String tOKEN) {
+		TOKEN = tOKEN;
+	}
 
 }

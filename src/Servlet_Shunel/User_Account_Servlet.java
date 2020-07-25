@@ -54,6 +54,7 @@ public class User_Account_Servlet extends HttpServlet {
 		// TODO Auto-generated method stub
 //		doGet(request, response);
 		request.setCharacterEncoding("UTF-8");
+		int b = 0;
 		Gson gson = new Gson();
 		BufferedReader br = request.getReader(); // request就是android接收的東西（ＪＳＯＮ ＳＴＲＩＮＧ）
 		StringBuilder ServletJsonIn = new StringBuilder();
@@ -72,13 +73,15 @@ public class User_Account_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
+
 		case "getLogin": {
 			String user_Account = jsonObject.get("id").getAsString();
 			String user_Password = jsonObject.get("password").getAsString();
-
+			String token = jsonObject.get("getToken").getAsString();
 			JsonObject jsonLoginResult = new JsonObject();
 			Uesr_Account_DAO user_Account_DAO = new Uesr_Account_DAO_Interface();
-			User_Account user = user_Account_DAO.login(user_Account);//這邊user是去ＤＡＯ拿到Login的
+			User_Account user = user_Account_DAO.login(user_Account);// 這邊user是去ＤＡＯ拿到Login的
+			
 			// int delete(int user_Account_ID););
 			if (user == null) {
 				jsonLoginResult.addProperty("result", "fail");
@@ -88,6 +91,9 @@ public class User_Account_Servlet extends HttpServlet {
 				if (user.getAccount_Password().equals(user_Password)) {
 					jsonLoginResult.addProperty("result", "success");
 					jsonLoginResult.addProperty("user", gson.toJson(user)); // 包了兩層
+					if (!token.equals(user.getTOKEN())) {
+						 b = user_Account_DAO.updateToken(user.getAccount_ID(), token);//更新Token
+						} // 包了三層
 				} else {
 					jsonLoginResult.addProperty("result", "fail");
 				}
@@ -101,6 +107,7 @@ public class User_Account_Servlet extends HttpServlet {
 			String user = jsonObject.get("user").getAsString();
 			User_Account user_Account2 = gson.fromJson(user, User_Account.class); // 左邊放ＪＳＯＮ格是自串，右邊放定義他要轉成何種類別物件
 			Uesr_Account_DAO user_Account_DAO = new Uesr_Account_DAO_Interface(); // 先實體ＤＡＯ才可已用
+			System.out.println("44444444444444445");
 			int count = user_Account_DAO.insert(user_Account2);
 
 			writeText(response, String.valueOf(count));
@@ -161,15 +168,12 @@ public class User_Account_Servlet extends HttpServlet {
 			}
 			break;
 		}
-		
-		case "getAll":{
-			
+
+		case "getAll": {
+
 			List<User_Account> user_Accounts = account_DAO.getAll();
 			writeText(response, new Gson().toJson(user_Accounts));
-			
-			
-			
-			
+
 			break;
 		}
 

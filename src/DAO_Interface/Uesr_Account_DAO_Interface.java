@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+
+
 //import org.apache.catalina.valves.rewrite.InternalRewriteMap.Escape;
 
 import Bean.User_Account;
@@ -32,7 +34,7 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 		int count = 0;
 		
 		String sql = "INSERT INTO User_Account" + "(USER_NAME,ACCOUNT_ID,PHONE,PASSWORD,ADDRESS," + 
-				"TOTAL_PRICE, NOTICE_STATUS,ACCOUNT_STATUS) " + " VALUES(?,?,?,?,?,?,?,?);";
+				"TOTAL_PRICE, NOTICE_STATUS,ACCOUNT_STATUS,TOKEN) " + " VALUES(?,?,?,?,?,?,?,?,?);";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ps.setString(1, user_Account.getAccount_User_Name());
@@ -43,6 +45,8 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 			ps.setInt(6, 0);
 			ps.setInt(7, 1);
 			ps.setInt(8, 1);
+			ps.setString(9, user_Account.getTOKEN());
+			System.out.println(ps.toString());
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -98,6 +102,25 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 		}
 		return count;
 }
+	public int updateToken (String account_id,String token ) {
+		int count = 0;
+		String sql = "";
+		sql = "UPDATE User_Account SET TOKEN = ? WHERE ACCOUNT_ID = ?;";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, token);
+			ps.setString(2, account_id);
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.print("token更新:"+count);
+		return count;
+		
+	}
+	
+	
+	
 	@Override
 	public int update(String phone, String password) {
 		// TODO Auto-generated method stub
@@ -138,9 +161,10 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 				int account_Total_Price = rs.getInt("TOTAL_PRICE");
 				int account_Notice_Status = rs.getInt("NOTICE_STATUS");
 				int account_Status = rs.getInt("ACCOUNT_STATUS");
+				String token = rs.getString("TOKEN");
 //				Timestamp account_Modify_Date=rs.getTimestamp("MODIFY_DATE");
 				user_Account = new User_Account(account_User_Name,account_ID,account_Phone,  account_Password, account_Address,
-						 account_Total_Price,  account_Notice_Status,  account_Status);
+						 account_Total_Price,  account_Notice_Status,  account_Status,token);
 			}   //user_Account是我自己創建的物件（空容器），裡面塞我ＲＳ出來的東西（查的資料）
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -169,7 +193,8 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 				int notoce_status = rs.getInt("NOTICE_STATUS");
 				int account_status = rs.getInt("ACCOUNT_STATUS");
 				Timestamp time = rs.getTimestamp("MODIFY_DATE");
-				User_Account account = new User_Account(username,id, phone, password, address, price, notoce_status, account_status, time);
+				String token=rs.getString("TOKEN");
+				User_Account account = new User_Account(username,id, phone, password, address, price, notoce_status, account_status, time,token);
 				accounts.add(account);
 			}
 			return accounts;
@@ -197,6 +222,7 @@ public class Uesr_Account_DAO_Interface implements Uesr_Account_DAO {
 		}
 		return image;
 	}
+
 	
 
 }

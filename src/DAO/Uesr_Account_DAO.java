@@ -12,6 +12,7 @@ public interface Uesr_Account_DAO {
 	int update(String phone,String password);
 	int update(User_Account user_Account);
 	int update(User_Account user_Account,byte[] image);
+	int updateToken(String user_Account_ID,String token);
 	//int delete(int user_Account_ID);
 	User_Account login(String user_Account_ID);
 	
