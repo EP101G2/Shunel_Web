@@ -13,6 +13,7 @@ public interface Chat_DAO {
 
 	long insert(Chat_Record cRecord, byte[] image);
 
+	//不需
 	int insert(Chat_Room cr);
 
 	int selectId();

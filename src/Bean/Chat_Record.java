@@ -2,20 +2,28 @@ package Bean;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 public class Chat_Record implements Serializable {
 
 	int ID;
 	int CHAT_NO;
-	Time CHAT_DATE;
+	Timestamp CHAT_DATE;
 	String CHAT_MSG;
 	int FLAG;
-	int CHAT_IMAGE;
+	byte[] CHAT_IMAGE;
 	String CHAT_SENDER;
 	String CHAT_RECRIVER;
 	
 	
-	public Chat_Record(int iD, int cHAT_NO, Time cHAT_DATE, String cHAT_MSG, int fLAG, int cHAT_IMAGE,
+	
+	
+	public Chat_Record() {
+		super();
+	}
+
+
+	public Chat_Record(int iD, int cHAT_NO, Timestamp cHAT_DATE, String cHAT_MSG, int fLAG, byte[] cHAT_IMAGE,
 			String cHAT_SENDER, String cHAT_RECRIVER) {
 		super();
 		ID = iD;
@@ -49,13 +57,13 @@ public class Chat_Record implements Serializable {
 	}
 
 
-	public Time getCHAT_DATE() {
+	public Timestamp getCHAT_DATE() {
 		return CHAT_DATE;
 	}
 
 
-	public void setCHAT_DATE(Time cHAT_DATE) {
-		CHAT_DATE = cHAT_DATE;
+	public void setCHAT_DATE(Timestamp timestamp) {
+		CHAT_DATE = timestamp;
 	}
 
 
@@ -79,13 +87,13 @@ public class Chat_Record implements Serializable {
 	}
 
 
-	public int getCHAT_IMAGE() {
+	public byte[] getCHAT_IMAGE() {
 		return CHAT_IMAGE;
 	}
 
 
-	public void setCHAT_IMAGE(int cHAT_IMAGE) {
-		CHAT_IMAGE = cHAT_IMAGE;
+	public void setCHAT_IMAGE(byte[] bs) {
+		CHAT_IMAGE = bs;
 	}
 
 
