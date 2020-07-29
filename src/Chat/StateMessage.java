@@ -8,6 +8,8 @@ public class StateMessage {
 	private String user;
 	// total users
 	private Set<String> users;
+	
+	
 
 	public StateMessage(String type, String user, Set<String> users) {
 		super();

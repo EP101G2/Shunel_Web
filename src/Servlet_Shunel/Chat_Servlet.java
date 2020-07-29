@@ -55,9 +55,6 @@ public class Chat_Servlet extends HttpServlet {
 
 		System.out.println("Input:" + jsonIn);
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(), JsonObject.class);
-//		if(cDao == null) {
-//			cDao = new Chat_DAO_Interface();
-//		}
 		
 		
 		String action = jsonObject.get("action").getAsString();

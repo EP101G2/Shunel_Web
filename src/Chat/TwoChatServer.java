@@ -28,7 +28,10 @@ public class TwoChatServer {
 		/* Sends all the connected users to the new user */
 		Set<String> userNames = sessionsMap.keySet();
 		StateMessage stateMessage = new StateMessage("open", userName, userNames);
+		
 		String stateMessageJson = gson.toJson(stateMessage);
+		
+		System.out.println("============="+stateMessageJson);
 		Collection<Session> sessions = sessionsMap.values();
 		for (Session session : sessions) {
 			if (session.isOpen()) {
@@ -36,6 +39,9 @@ public class TwoChatServer {
 			}
 		}
 
+//		String text = String.format("Session ID = %s, connected; userName = %s%nusers: %s", userSession.getId(),
+//				userName, userNames);
+//		
 		String text = String.format("Session ID = %s, connected; userName = %s%nusers: %s", userSession.getId(),
 				userName, userNames);
 		System.out.println(text);
