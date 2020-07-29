@@ -194,8 +194,24 @@ public class Orders_Servlet extends HttpServlet {
 			writeText(response, gson.toJson(orderShortMainMainList));
 			break;
 		}
+//		get short order detail list insert here
+		case "getOrderDetailShort": {
+			String order_ID = jsonObject.get("Order_ID").getAsString(); //check if "Order_ID" matches the "Order_ID" in client
+//			create method getShortOrderDetails(order_ID)in DAO, DAO Interface
+			
+//			List<Order_Main> orderShortDetailList = order_Main_DAO.getShortOrderDetails(order_ID);
+//			writeText(response, gson.toJson(orderShortDetailList));
+		}//need to be modify later!!
 		
-//		select by status
+//		get short order management list data
+		case "getOrdersForManage": {
+			List<Order_Main> orderManageList = order_Main_DAO.getOrdersForManage();
+			writeText(response, gson.toJson(orderManageList));
+			System.out.println("---getOrdersForManage---"+orderManageList);
+			break;
+		}
+		
+//		select/show by status
 		case "status":{
 			int status = jsonObject.get("status").getAsInt();
 			if (status == 0) {

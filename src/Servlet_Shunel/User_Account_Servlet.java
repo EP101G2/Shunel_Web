@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import Bean.Notice;
@@ -54,8 +55,9 @@ public class User_Account_Servlet extends HttpServlet {
 		// TODO Auto-generated method stub
 //		doGet(request, response);
 		request.setCharacterEncoding("UTF-8");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 		int b = 0;
-		Gson gson = new Gson();
+//		Gson gson = new Gson();
 		BufferedReader br = request.getReader(); // request就是android接收的東西（ＪＳＯＮ ＳＴＲＩＮＧ）
 		StringBuilder ServletJsonIn = new StringBuilder();
 		String line = "";
@@ -172,8 +174,9 @@ public class User_Account_Servlet extends HttpServlet {
 		case "getAll": {
 
 			List<User_Account> user_Accounts = account_DAO.getAll();
-			writeText(response, new Gson().toJson(user_Accounts));
-
+			 
+			writeText(response, gson.toJson(user_Accounts));
+           System.out.println("------------"+user_Accounts);
 			break;
 		}
 
@@ -187,7 +190,7 @@ public class User_Account_Servlet extends HttpServlet {
 		PrintWriter printWriter = response.getWriter();
 		printWriter.print(outText);
 		// 將輸出資料列印出來除錯用
-		// System.out.println("output: " + outText);
+		 System.out.println("output: " + outText);
 	}
 
 }
