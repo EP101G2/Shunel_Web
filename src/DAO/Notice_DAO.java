@@ -29,10 +29,19 @@ public interface Notice_DAO {
 	List<Notice> getSaleAll();
 
 	List<Notice> getQAAll();
+	
+	List<String> getToken();
 
 	Notice getLastSaleN();
 
 	Notice getLastQAN();
 
 	Notice getLastSystemN();
+	
+	
+
+	int sendSaleN(String notice_title, String notice_content);
+
+	int sendSystemN(String notice_title, String notice_content);
+	
 }

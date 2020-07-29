@@ -75,7 +75,7 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		FirebaseCloudMsg.getInstance().FCMsendMsg("dy4jVjhTx8M:APA91bFM3P6MaKf8_E5VKGeXDdt1Rd5sJjL45m0168FGTwURBtWGfKiF0pjFCH40ghAAAU-StPX3_BmDQLpjMio9Z9V9VVmCsmnEM2a4sySs_PtpU2UINK6Zqynrhnmpczl1L04I_tdj", "title", "msg");		
+//		FirebaseCloudMsg.getInstance().FCMsendMsg("dy4jVjhTx8M:APA91bFM3P6MaKf8_E5VKGeXDdt1Rd5sJjL45m0168FGTwURBtWGfKiF0pjFCH40ghAAAU-StPX3_BmDQLpjMio9Z9V9VVmCsmnEM2a4sySs_PtpU2UINK6Zqynrhnmpczl1L04I_tdj", "title", "msg");		
 		if (like_DAO == null) {
 			like_DAO = new Like_DAO_Interface();
 		}
