@@ -269,4 +269,43 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		}
 		return orderMainShortList;
 	}//ok
+	
+//	get data for order management fragment (main) 
+	@Override
+	public List<Order_Main> getOrdersForManage(){
+		String sql = "SELECT ORDER_ID, ACCOUNT_ID, TOTAL_PRICE, ORDER_DATE, ORDER_STATUS, MODIFY_DATE FROM Shunel.ORDER_MAIN;";
+		
+		List<Order_Main> orderManageList = new ArrayList<>();
+		Order_Main orderMainManage = null;
+		System.out.println("-----orderMainDao.getOrdersForManage-----");
+		
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+//			ps.setString(1, user_id);
+//			System.out.println(connection.isClosed());
+			System.out.println(ps.isClosed());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				int order_ID = rs.getInt("ORDER_ID");
+				String account_ID = rs.getString("ACCOUNT_ID");
+				int order_Main_Total_Price = rs.getInt("TOTAL_PRICE");
+				Timestamp order_Main_Order_Date = rs.getTimestamp("ORDER_DATE");
+				int order_Main_Order_Status = rs.getInt("ORDER_STATUS");
+				Timestamp order_Main_Modify_Date = rs.getTimestamp("MODIFY_DATE");
+				
+				orderMainManage = new Order_Main(order_ID, account_ID, order_Main_Total_Price, 
+						order_Main_Order_Date, order_Main_Order_Status, order_Main_Modify_Date);
+				orderManageList.add(orderMainManage);
+				System.out.print(rs);
+			}	
+			return orderManageList;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return orderManageList;
+	}
+	
+	
+	
 }
