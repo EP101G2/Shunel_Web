@@ -88,7 +88,6 @@ public class Prouct_Servlet extends HttpServlet {
 		}
 
 		if (order_Main == null) {
-//			order_Main = new Ord
 			order_Main = new Oder_Main_DAO_Interface();
 		}
 
@@ -105,7 +104,6 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		doGet(request, response);
 
 		request.setCharacterEncoding("UTF-8");
 		Gson gson = new Gson();
@@ -226,19 +224,6 @@ public class Prouct_Servlet extends HttpServlet {
 		}
 		
 
-//		case "getImage": {
-//			OutputStream os = response.getOutputStream();
-//			int id = jsonObject.get("id").getAsInt();
-//			int imageSize = jsonObject.get("imageSize").getAsInt();
-//			byte[] image = product_DAO.getImage(id);
-//			if (image != null) {
-//				image = ImageUtil.shrink(image, imageSize);
-//				response.setContentType("image/jpeg");
-//				response.setContentLength(image.length);
-//				os.write(image);
-//			}
-		// break;
-//		}
 
 		case "getImage": {
 			OutputStream os = response.getOutputStream();
@@ -338,22 +323,11 @@ public class Prouct_Servlet extends HttpServlet {
 
 		}
 
-//		case "Main_Recriver": {
-//			int count = 0;
-//			String orderJson = jsonObject.get("orderupdate").getAsString();
-//			System.out.println("orderJson = " + orderJson);
-//			Order_Main oM = gson.fromJson(orderJson, Order_Main.class);
-//			count = order_Main.update(oM);
-//			
-//			writeText(response, String.valueOf(count));
-//			break;
-//		}
 
 		case "addOrderMain": {
 			String order_ID = jsonObject.get("OrderID").getAsString();
 			String order_Details = jsonObject.get("OrderDetail").getAsString();
 			Order_Detail oDetails = null;
-//			System.out.println("========"+order_ID);
 			
 			Type collectionType = new TypeToken<List<Shopping_Cart>>() {
 			}.getType();
