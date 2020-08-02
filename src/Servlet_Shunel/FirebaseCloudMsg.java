@@ -50,7 +50,7 @@ public class FirebaseCloudMsg {
 
 	}
 	
-	public void FCMsendMsgMuti(List<String> registrationTokens,String title, String msg) throws FirebaseMessagingException {
+	public void FCMsendMsgMuti(List<String> registrationTokens,String title, String msg,int Flag ) throws FirebaseMessagingException {
 		
 		
 		
@@ -59,7 +59,7 @@ public class FirebaseCloudMsg {
 		MulticastMessage message = MulticastMessage.builder()
 			    .putData("title", title)
 			    .putData("msg", msg)
-			    
+			    .putData("flag", String.valueOf(Flag))
 			    .addAllTokens(registrationTokens)
 			    .build();
 		

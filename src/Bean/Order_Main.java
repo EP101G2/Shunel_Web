@@ -49,8 +49,19 @@ public class Order_Main implements Serializable {
 
 	public Order_Main(int ORDER_ID, int ORDER_STATUS) {
 		// TODO Auto-generated constructor stub
-		order_ID = ORDER_ID;
-		order_Status = ORDER_STATUS;
+		this.order_ID = ORDER_ID;
+		this.order_Status = ORDER_STATUS;
+	}
+
+	public Order_Main(int order_ID, String account_ID, int order_Main_Total_Price, Timestamp order_Main_Order_Date,
+			int order_Main_Order_Status, Timestamp order_Main_Modify_Date) {
+		// TODO Auto-generated constructor stub
+		this.order_ID = order_ID;
+		this.account_ID = account_ID;
+		this.order_Main_Total_Price = order_Main_Total_Price;
+		this.Order_Main_Order_Date = order_Main_Order_Date;
+		this.order_Status = order_Main_Order_Status;
+		this.Order_Main_Modify_Date = order_Main_Modify_Date;
 	}
 
 	public int getOrder_ID() {

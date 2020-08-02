@@ -16,4 +16,5 @@ public interface Order_Main_DAO {
 	Order_Main findById(String account_ID);
 	byte[] getImage(int id);
 	List<Order_Main> getShortOrderMains(String account_ID);
+	List<Order_Main> getOrdersForManage();
 }
