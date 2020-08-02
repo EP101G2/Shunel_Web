@@ -229,6 +229,7 @@ public class Chat_DAO_InterFace implements Chat_DAO {
 				chat.setMessage(rs.getString("CHAT_MSG"));
 				chat.setId(rs.getInt("ID"));
 				chat.setType(rs.getString("Type"));
+				chat.setDate(rs.getTimestamp("CHAT_DATE"));
 				list.add(chat);
 				/*
 				chat.setID(rs.getInt("ID"));
