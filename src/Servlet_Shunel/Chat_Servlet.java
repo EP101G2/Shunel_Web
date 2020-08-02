@@ -102,7 +102,7 @@ public class Chat_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(room_no));
 			break;
 		}
-		
+		/*查詢房間*/
 		case "findRoomID":{
 			int room_no;
 			int createID = 0;
@@ -120,17 +120,29 @@ public class Chat_Servlet extends HttpServlet {
 			break;
 		}
 		
-		
+		/*聊天訊息傳入DB*/
 		case "createChatID":{
 			int chat_ID = 0;
 			String messageString = jsonObject.get("msg").getAsString();
 			 int chatID = jsonObject.get("chatID").getAsInt();
 			String receiver = jsonObject.get("receiver").getAsString();
 			String sender = jsonObject.get("sender").getAsString();
-			System.out.println("1---------"+chatID);
-			chat_ID = cDao.insert(chatID,messageString,receiver,sender);
+			String msgtype = jsonObject.get("msgtype").getAsString();
+			
+			System.out.println(sender+"\t"+msgtype);
+			
+			chat_ID = cDao.insert(chatID,messageString,receiver,sender,msgtype);
 			
 			writeText(response, String.valueOf(chat_ID));
+			break;	
+		}
+		/*聊天記錄*/
+		case "getAll":{
+			int chat_ID = jsonObject.get("chat_ID").getAsInt();
+			
+			List<ChatMessage> messages = cDao.getAll(chat_ID);
+			System.out.println("--------------------------------"+messages.toString());
+			writeText(response, gson.toJson(messages));
 			break;
 		}
 		

@@ -18,7 +18,7 @@ public interface Chat_DAO {
 	int insert(Chat_Room cr);
 
 	
-	int insert(int chatRoom,String msg,String receiver,String sender);
+	int insert(int chatRoom,String msg,String receiver,String sender,String Type);
 	
 	int selectId();
 
@@ -30,5 +30,5 @@ public interface Chat_DAO {
 	
 	List<Chat_Room> selectChatRoomList(String chef_no, String user_no);
 	
-	List<Chat_Record> getAll(int chatRoom);
+	List<ChatMessage> getAll(int chatRoom);
 }
