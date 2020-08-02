@@ -305,6 +305,59 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return count;
 	}
 
+	@Override
+	public int sendSaleN(String notice_title, String notice_content) {
+		int count = 0;
+		String sql = "INSERT INTO Shunel.NOTICE ( NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CATEGORY_ID) VALUES ( ? , ? , ? );";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, notice_title);
+			ps.setString(2, notice_content);
+			ps.setInt(3, 0);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 
+	@Override
+	public int sendSystemN(String notice_title, String notice_content) {
+		int count = 0;
+		String sql = "INSERT INTO Shunel.NOTICE ( NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CATEGORY_ID) VALUES ( ? , ? , ? );";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, notice_title);
+			ps.setString(2, notice_content);
+			ps.setInt(3, 2);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public List<String> getToken() {
+		String sql = "SELECT TOKEN FROM Shunel.USER_ACCOUNT where TOKEN != ?;";
+		List<String> tokenList = new ArrayList<String>();
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, "");
+			System.out.println(ps.toString());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				String str = "";
+				
+				str = rs.getString("TOKEN");
+				tokenList.add(str);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return tokenList;
+	}
 
 };
