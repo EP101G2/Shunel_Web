@@ -337,7 +337,7 @@ public class Product_DAO_Interface implements Product_DAO {
 	@Override
 	public List<Product> getTOP5Product() {
 		// TODO Auto-generated method stub
-		String sql = "select  PRODUCT.PRODUCT_ID, PRODUCT_NAME, PRODUCT.COLOR , PRODUCT.PRICE, PRODUCT.DITAL , PRODUCT.CATEGORY_ID , PRODUCT.PRODUCT_STATUS , sum(AMOUNT) as total_qty  from ORDER_DETAIL  join PRODUCT on  ORDER_DETAIL.PRODUCT_ID = PRODUCT.PRODUCT_ID  group by PRODUCT_ID    ORDER BY total_qty DESC  		limit 5  "; 
+		String sql = "select  PRODUCT.PRODUCT_ID, PRODUCT_NAME, PRODUCT.COLOR , PRODUCT.PRICE, PRODUCT.DITAL , PRODUCT.CATEGORY_ID , PRODUCT.PRODUCT_STATUS , sum(AMOUNT) as total_qty  from ORDER_DETAIL  join PRODUCT on  ORDER_DETAIL.PRODUCT_ID = PRODUCT.PRODUCT_ID and PRODUCT_STATUS = 1  group by PRODUCT_ID    ORDER BY total_qty DESC  		limit 5  "; 
 		List<Product> prouctList = new ArrayList<Product>();
 		System.out.println("333");
 		try (Connection connection = dataSource.getConnection();

@@ -48,7 +48,7 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 
 	@Override
 	public List<Promotion> getPromotionAll() {
-		String sql = "SELECT * from PROMOTION join PRODUCT on  PROMOTION.PRODUCT_ID = PRODUCT.PRODUCT_ID  where now() between DATE_START and DATE_END;";
+		String sql = "SELECT * from PROMOTION join PRODUCT on  PROMOTION.PRODUCT_ID = PRODUCT.PRODUCT_ID  where now() between DATE_START and DATE_END and PRODUCT_STATUS = 2;";
 		List<Promotion> promotionList = new ArrayList<Promotion>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);){
