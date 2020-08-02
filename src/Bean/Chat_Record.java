@@ -16,8 +16,6 @@ public class Chat_Record implements Serializable {
 	String CHAT_RECRIVER;
 	
 	
-	
-	
 	public Chat_Record() {
 		super();
 	}
