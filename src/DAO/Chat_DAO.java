@@ -18,7 +18,9 @@ public interface Chat_DAO {
 	int insert(Chat_Room cr);
 
 	
-	int insert(int chatRoom,String msg,String receiver,String sender,String Type);
+//	int insert(int chatRoom,String msg,String receiver,String sender,String Type);
+	
+	int insert(int chatRoom,String msg,String receiver,String sender,String Type,byte[] image);
 	
 	int selectId();
 

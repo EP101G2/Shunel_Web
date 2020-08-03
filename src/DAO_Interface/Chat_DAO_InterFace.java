@@ -22,7 +22,7 @@ public class Chat_DAO_InterFace implements Chat_DAO {
 	private DataSource dataSource;
 
 	private static final String GET_ALL = "SELECT * from CHAT_RECORD WHERE CHAT_NO = ?";
-	private static final String INSERT_STMT = "INSERT INTO CHAT_RECORD (CHAT_NO, CHAT_MSG, CHAT_SENDER, CHAT_RECRIVER, Type)"+" VALUES (?, ?, ?, ?,?);";
+	private static final String INSERT_STMT = "INSERT INTO CHAT_RECORD (CHAT_NO, CHAT_MSG, Type,  CHAT_SENDER, CHAT_RECRIVER,CHAT_IMAGE) VALUES (?, ?, ?, ?, ?, ?);";
 	private static final String SELECT_LAST_ID = "SELECT LAST_INSERT_ID()";
 	private static final String GET_IMAGE_STMT = "SELECT CHAT_IMAGE FROM CHAT_RECORD WHERE ID = ?;";
 	private static final String UPDATE_FLAG = "UPDATE CHAT_RECORD SET FLAG = 0 WHERE CHAT_NO = ? AND CHAT_RECEIVER = ?";
@@ -133,6 +133,8 @@ public class Chat_DAO_InterFace implements Chat_DAO {
 			while (rs.next()) {
 				image = rs.getBytes("CHAT_IMAGE");
 			}
+			
+			System.err.println("0000000000"+ps.toString());
 		} catch (SQLException se) {
 			se.printStackTrace(System.err);
 		}
@@ -252,42 +254,43 @@ public class Chat_DAO_InterFace implements Chat_DAO {
 	}
 
 	@Override
-	public int insert(int chatRoom, String msg, String receiver, String sender, String Type) {
+	public int insert(int chatRoom, String msg, String receiver, String sender, String Type ,byte[] image) {
 		// TODO Auto-generated method stub
 		System.out.println("---------\t---------");
 		int updateCount = 0;
-		long gid = 0;
+		int gid = 0;
+//INSERT INTO CHAT_RECORD (CHAT_NO, CHAT_MSG, Type,  CHAT_SENDER, CHAT_RECRIVER,CHAT_IMAGE) VALUES (?, ?, ?, ?, ?, ?);
 
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS)) {
-//			  INSERT INTO CHAT_RECORD (CHAT_NO, CHAT_MSG, FLAG, CHAT_SENDER, CHAT_RECRIVER) VALUES (?, ?, ?, ?, ?);
-//			INSERT INTO CHAT_RECORD (CHAT_NO, CHAT_MSG, CHAT_SENDER, CHAT_RECRIVER) VALUES (?, ?, ?, ?);
 			System.out.println("2------------------"+chatRoom);
 			ps.setInt(1, chatRoom);
 			ps.setString(2, msg);
-			ps.setString(3, sender);
-			ps.setString(4, receiver);
-			ps.setString(5, Type);
+			ps.setString(3, Type);
+			ps.setString(4, sender);
+			ps.setString(5, receiver);
 			
-			System.out.println("3--"+ps.toString());
-//			if (image != null) {
-//				ps.setBytes(4, image);
-//			} else {
-//				ps.setBytes(4, null);
-//			}
+//			System.out.println("3--"+ps.toString());
+			if (image != null) {
+				ps.setBytes(6, image);
+			} else {
+				ps.setBytes(6, null);
+			}
 
 			updateCount = ps.executeUpdate();
 
 			if (updateCount != 0) {
 				ResultSet generatedKeys = ps.getGeneratedKeys();
 				if (generatedKeys.next()) {
-					gid = generatedKeys.getLong(1);// here is your generated Id
+					gid = generatedKeys.getInt(1);// here is your generated Id
 				}
 			}
 		} catch (SQLException se) {
 			se.printStackTrace(System.err);
 		}
-		return updateCount;
+		return gid;
 	}
+
+	
 
 }
