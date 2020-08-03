@@ -48,20 +48,21 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 
 	@Override
 	public List<Promotion> getPromotionAll() {
-		String sql = "SELECT * FROM Shunel.PROMOTION;";
+		String sql = "SELECT * from PROMOTION join PRODUCT on  PROMOTION.PRODUCT_ID = PRODUCT.PRODUCT_ID  where now() between DATE_START and DATE_END and PRODUCT_STATUS = 2;";
 		List<Promotion> promotionList = new ArrayList<Promotion>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);){
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				System.out.println("--------");
-				int PROMOTION_ID = rs.getInt(1);
-				String PROMOTION_NAME  = rs.getString(2);
-				int PRODUCT_ID = rs.getInt(3);
-				int  PROMOTION_PRICE = rs.getInt(4);
-				Timestamp DATE_START = rs.getTimestamp(5);
-				Timestamp DATE_END = rs.getTimestamp(6);
-				Promotion promotion = new Promotion(PROMOTION_ID, PROMOTION_NAME, PRODUCT_ID, PROMOTION_PRICE, DATE_START, DATE_END);
+				int PROMOTION_ID = rs.getInt("PROMOTION_ID");
+				String PRODUCT_NAME  = rs.getString("PRODUCT_NAME");
+				int PRODUCT_ID = rs.getInt("PRODUCT_ID");
+				int  PROMOTION_PRICE = rs.getInt("PROMOTION_PRICE");
+				int Product_Price = rs.getInt("PRICE");
+				Timestamp DATE_START = rs.getTimestamp("DATE_START");
+				Timestamp DATE_END = rs.getTimestamp("DATE_END");
+				Promotion promotion = new Promotion(PROMOTION_ID, PRODUCT_NAME, PRODUCT_ID, PROMOTION_PRICE,Product_Price, DATE_START, DATE_END);
 				promotionList.add(promotion);				
 			}
 			return promotionList;
@@ -86,9 +87,10 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 				String PROMOTION_NAME  = rs.getString("PROMOTION_NAME");
 				int PROMOTION_ID = rs.getInt("PROMOTION_ID");
 				int  PROMOTION_PRICE = rs.getInt("PROMOTION_PRICE");
+				int Product_Price = rs.getInt("PRICE");
 				Timestamp DATE_START = rs.getTimestamp("DATE_START");
 				Timestamp DATE_END = rs.getTimestamp("DATE_END");
-				Promotion promotion = new Promotion(PROMOTION_ID, PROMOTION_NAME,PRODUCT_ID , PROMOTION_PRICE, DATE_START, DATE_END);
+				Promotion promotion = new Promotion(PROMOTION_ID, PROMOTION_NAME,PRODUCT_ID , PROMOTION_PRICE,Product_Price, DATE_START, DATE_END);
 				promotionList.add(promotion);				
 			}
 			return promotionList;

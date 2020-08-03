@@ -35,7 +35,6 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		// TODO Auto-generated method stub
 		int count = 0;
 		int id = 0;
-//		System.out.println("---------------------"+oM.getAccount_ID());
 		
 		String sql = "INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE) VALUES ( ?, ?, ?, ?, ?);";
 
@@ -151,9 +150,6 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 				Timestamp modify_Date = rs.getTimestamp("MODIFY_DATE");
 				
 				
-//				Order_Main oM = new Order_Main(order_ID);
-//				Order_Main oM = new Order_Main(order_ID, account_ID, total_Price, recriver, address, phone,
-//						status);
 				Order_Main oM = new Order_Main(order_ID, account_ID, total_Price, recriver, address, phone, order_Date,
 						status, modify_Date);
 				oMList.add(oM);
