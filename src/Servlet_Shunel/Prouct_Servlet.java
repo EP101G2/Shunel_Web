@@ -145,7 +145,17 @@ public class Prouct_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
-
+		
+		case "insertProduct":{
+			 String jsonin= jsonObject.get("product").getAsString();
+			 Product product = gson.fromJson(jsonin, Product.class);
+			 int count = product_DAO.insert(product, null, null, null);
+			 writeText(response, String.valueOf(count));
+			
+			
+			break;
+		}
+		
 		case "deleteLike": {
 			String account_id = jsonObject.get("account_id").getAsString();
 			int product_id = jsonObject.get("product_id").getAsInt();

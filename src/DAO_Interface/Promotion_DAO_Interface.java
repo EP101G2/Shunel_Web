@@ -24,6 +24,7 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 	
 	@Override
 	public int insert(Promotion promotion) {
+		
 		// TODO Auto-generated method stub
 		return 0;
 	}
