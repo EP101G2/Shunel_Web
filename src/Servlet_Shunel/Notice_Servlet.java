@@ -134,7 +134,7 @@ public class Notice_Servlet extends HttpServlet {
 			System.out.println("=====count=====" + countSaleN);
 			writeText(response, String.valueOf(countSaleN));
 			try {
-				FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getToken(), newSaleT, newSaleD, 1);
+				FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getToken(), newSaleT, newSaleD, 0);
 			} catch (FirebaseMessagingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -148,12 +148,24 @@ public class Notice_Servlet extends HttpServlet {
 			System.out.println("=====count=====" + countSystemN);
 			writeText(response, String.valueOf(countSystemN));
 			try {
-				FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getToken(), newSystemT, newSystemD, 3);
+				FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getToken(), newSystemT, newSystemD, 2);
 			} catch (FirebaseMessagingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
+			
+			case"sendOrderN":
+				String newChatT = jsonObject.get("title").getAsString();
+				String newChatD = jsonObject.get("msg").getAsString();
+				String order_ID = jsonObject.get("id").getAsString();
+				int countChatN = notice_DAO.sendSystemN(newChatT , newChatD);
+				
+				System.out.println("=====count=====" + countChatN);
+				writeText(response, String.valueOf(countChatN));
+				FirebaseCloudMsg.getInstance().FCMsendMsg(notice_DAO.getOneTokenFromOrderMain(order_ID), newChatT,newChatD, 1);		
+				break;
+				
 		}
 
 	}
