@@ -8,6 +8,9 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import DAO.Chat_DAO;
 
 import javax.websocket.Session;
 import javax.websocket.OnOpen;
@@ -18,8 +21,9 @@ import javax.websocket.CloseReason;
 
 @ServerEndpoint("/TwoChatServer/{userName}")
 public class TwoChatServer {
+	Chat_DAO cDao = null;
 	private static Map<String, Session> sessionsMap = new ConcurrentHashMap<>();
-	Gson gson = new Gson();
+	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
 	@OnOpen
 	public void onOpen(@PathParam("userName") String userName, Session userSession) throws IOException {
@@ -28,7 +32,9 @@ public class TwoChatServer {
 		/* Sends all the connected users to the new user */
 		Set<String> userNames = sessionsMap.keySet();
 		StateMessage stateMessage = new StateMessage("open", userName, userNames);
+
 		String stateMessageJson = gson.toJson(stateMessage);
+
 		Collection<Session> sessions = sessionsMap.values();
 		for (Session session : sessions) {
 			if (session.isOpen()) {
@@ -43,15 +49,24 @@ public class TwoChatServer {
 
 	@OnMessage
 	public void onMessage(Session userSession, String message) {
+		int count = 0;
 		ChatMessage chatMessage = gson.fromJson(message, ChatMessage.class);
+
 		String receiver = chatMessage.getReceiver();
+
 		Session receiverSession = sessionsMap.get(receiver);
+		
+		
 		if (receiverSession != null && receiverSession.isOpen()) {
 			receiverSession.getAsyncRemote().sendText(message);
+//			System.out.println("~~~~~~~~~~~~1~~~~~~~~~~~~~~~~~~~");
+//			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		} else {
 			sessionsMap.remove("receiver");
 		}
+	
 		System.out.println("Message received: " + message);
+
 	}
 
 	@OnError

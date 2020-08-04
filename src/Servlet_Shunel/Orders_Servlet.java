@@ -26,6 +26,7 @@ import DAO_Interface.Oder_Main_DAO_Interface;
 import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
 import DAO_Interface.Shopping_Card_DAO_Interdace;
+import DAO_Interface.Uesr_Account_DAO_Interface;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -33,6 +34,7 @@ import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
 
 import Bean.Order_Detail;
 import Bean.Order_Main;
+import Bean.User_Account;
 import DAO.Order_Detail_DAO;
 import DAO.Order_Main_DAO;
 import DAO.Product_DAO;
@@ -98,6 +100,11 @@ public class Orders_Servlet extends HttpServlet {
 		writeText(response, new Gson().toJson(order_Mains));
 		writeText(response, new Gson().toJson(order_Details));
 	}
+	
+////	to fix the duplicate case error: Using an enum, they will be properly initialized in the order in which they've been placed in the enum.
+//	public enum actionSelection{
+//		getOrderMain, getOrderDetail, getImage, changeOrderStatus, getOrderMainShort, getOrderDetailShort, getOrdersForManage, changeOrderStatus, 
+//	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -155,6 +162,7 @@ public class Orders_Servlet extends HttpServlet {
 			writeText(response, gson.toJson(orderDetail));
 			return;
 		}
+		
 //		select by activity
 		switch (action) {
 		case "getOrderMain": {
@@ -213,7 +221,18 @@ public class Orders_Servlet extends HttpServlet {
 			break;
 		}
 		
-//		select/show by status
+//		change on order status
+		case "updateStatus": { 
+			System.out.print("---changeOrdersStatus---");
+			String orderID = jsonObject.get("orderID").getAsString();
+			Order_Main orderMain = gson.fromJson(orderID, Order_Main.class);
+			order_Main_DAO = new Oder_Main_DAO_Interface();
+			int count = order_Main_DAO.updateStatus(orderMain);
+			writeText(response, String.valueOf(count));
+			break;
+		}
+		
+//		select/show by status: delete this if not needed!
 		case "status":{
 			int status = jsonObject.get("status").getAsInt();
 			if (status == 0) {

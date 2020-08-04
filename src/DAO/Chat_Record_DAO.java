@@ -4,6 +4,7 @@ import java.util.List;
 
 import Bean.Chat_Record;
 import Bean.Chat_Room;
+import Chat.ChatMessage;
 
 public interface Chat_Record_DAO {
 
@@ -11,7 +12,7 @@ public interface Chat_Record_DAO {
 
 	long insert(Chat_Record cRecord, byte[] image);
 
-	List<Chat_Record> getAll(int chatRoom);
+	List<ChatMessage> getAll(int chatRoom);
 
 	int selectId();
 

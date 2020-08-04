@@ -23,6 +23,7 @@ import Servlet_Shunel.ServiceLocator;
 
 public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 
+	private static final int orderMainID = 0;
 	DataSource dataSource;
 
 	public Oder_Main_DAO_Interface() {
@@ -34,7 +35,6 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		// TODO Auto-generated method stub
 		int count = 0;
 		int id = 0;
-//		System.out.println("---------------------"+oM.getAccount_ID());
 		
 		String sql = "INSERT INTO ORDER_MAIN (ACCOUNT_ID, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE) VALUES ( ?, ?, ?, ?, ?);";
 
@@ -91,6 +91,24 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 
 		return count;
 	}
+	
+	@Override
+	public int updateStatus(Order_Main orderMain) {
+		
+		System.out.println("---OrderMainDao: updateStatus---");
+		int count = 0;
+		String sql = "UPDATE ORDER_MAIN SET ORDER_STATUS = ? WHERE (ORDER_ID = ?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+
+			ps.setInt(1, orderMain.getOrder_Main_Order_Status());
+			ps.setInt(2, orderMain.getOrder_ID());
+			count = ps.executeUpdate();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return count;
+	}
 
 	@Override
 	public int delete(int oM_ID) {
@@ -132,9 +150,6 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 				Timestamp modify_Date = rs.getTimestamp("MODIFY_DATE");
 				
 				
-//				Order_Main oM = new Order_Main(order_ID);
-//				Order_Main oM = new Order_Main(order_ID, account_ID, total_Price, recriver, address, phone,
-//						status);
 				Order_Main oM = new Order_Main(order_ID, account_ID, total_Price, recriver, address, phone, order_Date,
 						status, modify_Date);
 				oMList.add(oM);
@@ -185,7 +200,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	@Override
 	public int getStatus(int Order_Id) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT STATUS FROM ORDER_MAIN WHERE (ORDER_ID = ?);";
+		String sql = "SELECT ORDER_STATUS FROM ORDER_MAIN WHERE (ORDER_ID = ?);";
 //		List<Order_Main> orderMainList = new ArrayList<Order_Main>();
 		int status = 0;
 		try (Connection connection = dataSource.getConnection();
