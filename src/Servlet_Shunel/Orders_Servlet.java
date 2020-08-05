@@ -19,6 +19,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import DAO.Notice_DAO;
 import DAO.Order_Detail_DAO;
 import DAO.Order_Main_DAO;
 import DAO_Interface.Oder_Main_DAO_Interface;
@@ -56,6 +57,7 @@ public class Orders_Servlet extends HttpServlet {
 	Order_Main_DAO order_Main_DAO = null;
 	Order_Detail_DAO order_Detail_DAO = null;
 	Product_DAO product_DAO = null;
+	Notice_DAO notice_DAO = null;
 
     /**
      * @see HttpServlet#HttpServlet()

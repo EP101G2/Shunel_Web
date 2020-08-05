@@ -75,9 +75,14 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
+		
+//		FirebaseCloudMsg.getInstance().FCMsendMsg("dy4jVjhTx8M:APA91bFM3P6MaKf8_E5VKGeXDdt1Rd5sJjL45m0168FGTwURBtWGfKiF0pjFCH40ghAAAU-StPX3_BmDQLpjMio9Z9V9VVmCsmnEM2a4sySs_PtpU2UINK6Zqynrhnmpczl1L04I_tdj", "title", "msg");		
+=======
 
 //		FirebaseCloudMsg.getInstance().FCMsendMsg("dy4jVjhTx8M:APA91bFM3P6MaKf8_E5VKGeXDdt1Rd5sJjL45m0168FGTwURBtWGfKiF0pjFCH40ghAAAU-StPX3_BmDQLpjMio9Z9V9VVmCsmnEM2a4sySs_PtpU2UINK6Zqynrhnmpczl1L04I_tdj", "title", "msg");		
 //		FirebaseCloudMsg.getInstance().FCMsendMsg("chA6q9_2Rkk:APA91bHL42P6eBvENabCMbwSIe0u_wF7HkkSQqJ9MNyY_BkFhSiv322eRgHVNSGSkLnX4eHLpSUZgM0hSqkm4mtRvElQ63VUR3FFee3QN_lt_UQ7sxiCYO8wIJEwnsDFI7IGbwlqN_Di", "title", "msg");		
+>>>>>>> 6404b8de76b800b482aad4eedb190c3e7209cbce
 
 		if (like_DAO == null) {
 			like_DAO = new Like_DAO_Interface();
@@ -359,12 +364,11 @@ public class Prouct_Servlet extends HttpServlet {
 			int notice =0;
 			orderid = this.order_Main.insert(order_Main);
 
-			String title = "您的訂單已成立";
-			String content ="您的訂單已成立，訂單編號為";
+//			String title = "您的訂單已成立";
+//			String content ="您的訂單已成立，訂單編號為";
 
 //			System.out.println("orderid======================="+orderid);
-
-			notice = notice_DAO.putGoodNotice(orderid);
+			notice = notice_DAO.putGoodsNotice(orderid);
 //			System.out.println("notice======================="+notice);
 			
 			for (JsonElement element : jsonArray) {

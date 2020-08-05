@@ -31,10 +31,12 @@ public class FirebaseCloudMsg {
 			FirebaseApp.initializeApp(options);
 		}
 	}
+	
+    //單推
+	public void FCMsendMsg(String token, String title, String msg,int Flag) {
 
-	public void FCMsendMsg(String token, String title, String msg) {
 
-		Message message = Message.builder().putData("title", title).putData("msg", msg).setToken(token).build();
+		Message message = Message.builder().putData("title", title).putData("msg", msg).putData("flag", String.valueOf(Flag)).setToken(token).build();
 
 		// Send a message to the device corresponding to the provided
 		// registration token.
@@ -50,11 +52,9 @@ public class FirebaseCloudMsg {
 
 	}
 	
+	//群推
 	public void FCMsendMsgMuti(List<String> registrationTokens,String title, String msg,int Flag ) throws FirebaseMessagingException {
-		
-		
-		
-	
+
 		
 		MulticastMessage message = MulticastMessage.builder()
 			    .putData("title", title)
