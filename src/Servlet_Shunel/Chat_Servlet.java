@@ -163,9 +163,9 @@ public class Chat_Servlet extends HttpServlet {
 				response.setContentType("image/jpeg");
 				response.setContentLength(getImage.length);
 				os.write(getImage);
-				break;
+				
 			}
-
+			break;
 		}
 
 		default:

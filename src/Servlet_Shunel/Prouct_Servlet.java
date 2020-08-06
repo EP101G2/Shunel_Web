@@ -77,7 +77,10 @@ public class Prouct_Servlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 //		FirebaseCloudMsg.getInstance().FCMsendMsg("dy4jVjhTx8M:APA91bFM3P6MaKf8_E5VKGeXDdt1Rd5sJjL45m0168FGTwURBtWGfKiF0pjFCH40ghAAAU-StPX3_BmDQLpjMio9Z9V9VVmCsmnEM2a4sySs_PtpU2UINK6Zqynrhnmpczl1L04I_tdj", "title", "msg");		
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4a279464193c00d5e94ac0a97867607c3e8b4c79
 //		FirebaseCloudMsg.getInstance().FCMsendMsg("dy4jVjhTx8M:APA91bFM3P6MaKf8_E5VKGeXDdt1Rd5sJjL45m0168FGTwURBtWGfKiF0pjFCH40ghAAAU-StPX3_BmDQLpjMio9Z9V9VVmCsmnEM2a4sySs_PtpU2UINK6Zqynrhnmpczl1L04I_tdj", "title", "msg");		
 //		FirebaseCloudMsg.getInstance().FCMsendMsg("chA6q9_2Rkk:APA91bHL42P6eBvENabCMbwSIe0u_wF7HkkSQqJ9MNyY_BkFhSiv322eRgHVNSGSkLnX4eHLpSUZgM0hSqkm4mtRvElQ63VUR3FFee3QN_lt_UQ7sxiCYO8wIJEwnsDFI7IGbwlqN_Di", "title", "msg");		
 

@@ -48,7 +48,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 			ps.setString(3, oM.getOrder_Main_Receiver());
 			ps.setString(4, oM.getOrder_Main_Address());
 			ps.setString(5, oM.getOrder_Main_Phone());
-			System.out.println("-----------------"+ps.toString());
+			System.out.println("---insertOrders---"+ps.toString());
 			
 //			ps.setInt(6, oM.getOrder_Main_Order_Status());
 			count = ps.executeUpdate();
@@ -64,7 +64,6 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-//		System.out.print("-------------------------------------------order_id :" + id);
 		return id;
 	}
 	
@@ -72,6 +71,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	public int update(Order_Main oM) {
 		// TODO Auto-generated method stub
 //		UPDacATE ORDER_MAIN SET RECRIVER = ?, ADDRESS = ?,PHONE = ? WHERE (ORDER_ID = ?);
+		System.out.print("---OrderMainDao: update---");
 		int count = 0;
 		String sql = "UPDATE ORDER_MAIN SET RECRIVER = ?, ADDRESS = ?,PHONE = ? WHERE (ORDER_ID = ?);";
 		try (Connection connection = dataSource.getConnection();
@@ -88,12 +88,11 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-
 		return count;
 	}
 	
 	@Override
-	public int updateStatus(Order_Main orderMain) {
+	public int updateStatus(int status) {
 		
 		System.out.println("---OrderMainDao: updateStatus---");
 		int count = 0;
@@ -101,8 +100,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 
-			ps.setInt(1, orderMain.getOrder_Main_Order_Status());
-			ps.setInt(2, orderMain.getOrder_ID());
+			ps.setInt(1, status);
 			count = ps.executeUpdate();
 		} catch (Exception e){
 			e.printStackTrace();
