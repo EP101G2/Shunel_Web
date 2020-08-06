@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import DAO.Chat_DAO;
+import DAO_Interface.Chat_DAO_InterFace;
 
 import javax.websocket.Session;
 import javax.websocket.OnOpen;
@@ -24,7 +25,7 @@ public class TwoChatServer {
 	Chat_DAO cDao = null;
 	private static Map<String, Session> sessionsMap = new ConcurrentHashMap<>();
 	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-
+		
 	@OnOpen
 	public void onOpen(@PathParam("userName") String userName, Session userSession) throws IOException {
 		/* save the new user in the map */
@@ -50,20 +51,41 @@ public class TwoChatServer {
 	@OnMessage
 	public void onMessage(Session userSession, String message) {
 		int count = 0;
+		int imageID;
+		byte[] image;
+		if (cDao == null) {
+			cDao = new Chat_DAO_InterFace();
+		}
+		
+		
 		ChatMessage chatMessage = gson.fromJson(message, ChatMessage.class);
 
 		String receiver = chatMessage.getReceiver();
 
 		Session receiverSession = sessionsMap.get(receiver);
 		
-		
-		if (receiverSession != null && receiverSession.isOpen()) {
-			receiverSession.getAsyncRemote().sendText(message);
-//			System.out.println("~~~~~~~~~~~~1~~~~~~~~~~~~~~~~~~~");
-//			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		} else {
-			sessionsMap.remove("receiver");
+		if (chatMessage.getType().equals("chat")) {
+			imageID = cDao.insert(chatMessage.getChatRoom(), chatMessage.getMessage(), chatMessage.getReceiver(), chatMessage.getSender(), chatMessage.getType(),null);
+			
+			if (receiverSession != null && receiverSession.isOpen()) {
+				receiverSession.getAsyncRemote().sendText(message);
+				sessionsMap.remove("receiver");
+				
+			}
+		}else {
+			image = Base64.getMimeDecoder().decode(chatMessage.getBase64());
+		imageID = cDao.insert(chatMessage.getChatRoom(), chatMessage.getMessage(), chatMessage.getReceiver(), chatMessage.getSender(), chatMessage.getType(), image);
+			if (imageID != 0) {
+				chatMessage.setBase64(String.valueOf(imageID));
+				if (receiverSession != null && receiverSession.isOpen()) {
+					receiverSession.getAsyncRemote().sendText(gson.toJson(chatMessage));
+					sessionsMap.remove("receiver");
+				}
+			}
 		}
+		
+		
+		
 	
 		System.out.println("Message received: " + message);
 

@@ -270,13 +270,13 @@ public class Chat_DAO_InterFace implements Chat_DAO {
 			ps.setString(4, sender);
 			ps.setString(5, receiver);
 			
-//			System.out.println("3--"+ps.toString());
+
 			if (image != null) {
 				ps.setBytes(6, image);
 			} else {
 				ps.setBytes(6, null);
 			}
-
+			System.out.println("3--"+ps.toString());
 			updateCount = ps.executeUpdate();
 
 			if (updateCount != 0) {
