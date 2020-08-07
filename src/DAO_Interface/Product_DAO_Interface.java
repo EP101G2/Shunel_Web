@@ -228,7 +228,7 @@ public class Product_DAO_Interface implements Product_DAO {
 			ps.setInt(6, prouct.getProduct_Status());
 			if (image != null) {
 				ps.setBytes(7, image);
-
+				System.out.println("ps指令"+ps);
 				if (image2 != null) {
 					ps.setBytes(8, image2);
 					if (image3 != null) {

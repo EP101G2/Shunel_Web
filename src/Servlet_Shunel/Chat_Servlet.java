@@ -4,27 +4,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Base64;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.Base64;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-import Bean.Chat_Record;
-import Bean.Chat_Room;
-import Bean.Message;
 import Chat.ChatMessage;
 import DAO.Chat_DAO;
 import DAO_Interface.Chat_DAO_InterFace;
+
+//import DAO_Interface.Chat_DAO_InterFace;
 
 /**
  * Servlet implementation class Chat_Servlet
@@ -33,7 +30,7 @@ import DAO_Interface.Chat_DAO_InterFace;
 public class Chat_Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "text/html; charset=utf-8";
-	Chat_DAO cDao = null;
+	Chat_DAO cDao= null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()

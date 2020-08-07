@@ -26,6 +26,7 @@ public interface Product_DAO {
 	byte[] getImage(int id);
 	
 	
+	
 }
 
 
