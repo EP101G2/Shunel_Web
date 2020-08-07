@@ -266,10 +266,10 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ps.setString(1, user_id);
 			System.out.println(connection.isClosed());
-			System.out.println(ps.isClosed());
+//			System.out.println(ps.isClosed());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				System.out.print("-----for get short OrderMains in Order Main Dao-----");
+//				System.out.print("-----for get short OrderMains in Order Main Dao-----");
 				int order_ID = rs.getInt("ORDER_ID");
 				int status = rs.getInt("ORDER_STATUS");
 				orderMainShort = new Order_Main(order_ID, status);
@@ -289,7 +289,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		String sql = "SELECT ORDER_ID, ACCOUNT_ID, TOTAL_PRICE, ORDER_DATE, ORDER_STATUS, MODIFY_DATE FROM Shunel.ORDER_MAIN;";
 		
 		List<Order_Main> orderManageList = new ArrayList<>();
-		Order_Main orderMainManage = null;
+//		Order_Main orderMainManage = null;
 		System.out.println("-----orderMainDao.getOrdersForManage-----");
 		
 		try (Connection connection = dataSource.getConnection();
@@ -306,7 +306,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 				int order_Main_Order_Status = rs.getInt("ORDER_STATUS");
 				Timestamp order_Main_Modify_Date = rs.getTimestamp("MODIFY_DATE");
 				
-				orderMainManage = new Order_Main(order_ID, account_ID, order_Main_Total_Price, 
+				Order_Main orderMainManage = new Order_Main(order_ID, account_ID, order_Main_Total_Price, 
 						order_Main_Order_Date, order_Main_Order_Status, order_Main_Modify_Date);
 				orderManageList.add(orderMainManage);
 				System.out.print(rs);
