@@ -8,6 +8,10 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import DAO.Chat_DAO;
+import DAO_Interface.Chat_DAO_InterFace;
 
 import javax.websocket.Session;
 import javax.websocket.OnOpen;
@@ -18,9 +22,10 @@ import javax.websocket.CloseReason;
 
 @ServerEndpoint("/TwoChatServer/{userName}")
 public class TwoChatServer {
+	Chat_DAO cDao = null;
 	private static Map<String, Session> sessionsMap = new ConcurrentHashMap<>();
-	Gson gson = new Gson();
-
+	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+		
 	@OnOpen
 	public void onOpen(@PathParam("userName") String userName, Session userSession) throws IOException {
 		/* save the new user in the map */
@@ -28,7 +33,9 @@ public class TwoChatServer {
 		/* Sends all the connected users to the new user */
 		Set<String> userNames = sessionsMap.keySet();
 		StateMessage stateMessage = new StateMessage("open", userName, userNames);
+
 		String stateMessageJson = gson.toJson(stateMessage);
+
 		Collection<Session> sessions = sessionsMap.values();
 		for (Session session : sessions) {
 			if (session.isOpen()) {
@@ -43,15 +50,45 @@ public class TwoChatServer {
 
 	@OnMessage
 	public void onMessage(Session userSession, String message) {
-		ChatMessage chatMessage = gson.fromJson(message, ChatMessage.class);
-		String receiver = chatMessage.getReceiver();
-		Session receiverSession = sessionsMap.get(receiver);
-		if (receiverSession != null && receiverSession.isOpen()) {
-			receiverSession.getAsyncRemote().sendText(message);
-		} else {
-			sessionsMap.remove("receiver");
+		int count = 0;
+		int imageID;
+		byte[] image;
+		if (cDao == null) {
+			cDao = new Chat_DAO_InterFace();
 		}
+		
+		
+		ChatMessage chatMessage = gson.fromJson(message, ChatMessage.class);
+
+		String receiver = chatMessage.getReceiver();
+
+		Session receiverSession = sessionsMap.get(receiver);
+		
+		if (chatMessage.getType().equals("chat")) {
+			imageID = cDao.insert(chatMessage.getChatRoom(), chatMessage.getMessage(), chatMessage.getReceiver(), chatMessage.getSender(), chatMessage.getType(),null);
+			
+			if (receiverSession != null && receiverSession.isOpen()) {
+				receiverSession.getAsyncRemote().sendText(message);
+				sessionsMap.remove("receiver");
+				
+			}
+		}else {
+			image = Base64.getMimeDecoder().decode(chatMessage.getBase64());
+		imageID = cDao.insert(chatMessage.getChatRoom(), chatMessage.getMessage(), chatMessage.getReceiver(), chatMessage.getSender(), chatMessage.getType(), image);
+			if (imageID != 0) {
+				chatMessage.setBase64(String.valueOf(imageID));
+				if (receiverSession != null && receiverSession.isOpen()) {
+					receiverSession.getAsyncRemote().sendText(gson.toJson(chatMessage));
+					sessionsMap.remove("receiver");
+				}
+			}
+		}
+		
+		
+		
+	
 		System.out.println("Message received: " + message);
+
 	}
 
 	@OnError

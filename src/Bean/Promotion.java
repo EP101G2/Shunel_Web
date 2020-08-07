@@ -6,23 +6,85 @@ import java.sql.Timestamp;
 public class Promotion implements Serializable {
 	
 	private int Promotion_ID;
-	private String Promotion_Name;
+	private String product_Name;
 	private int Product_ID;
 	private int Promotion_Price;
+	private int Product_Price;
 	private Timestamp Date_Start;
 	private Timestamp Date_End;
 	
 	
-	public Promotion(int promotion_ID, String promotion_Name, int product_ID, int promotion_Price,
-			Timestamp Date_Start, Timestamp Date_End) {
+	
+	
+	
+
+
+
+	
+	
+	
+	public Promotion(int promotion_ID, String product_Name, int product_ID, int promotion_Price, int product_Price,
+			Timestamp date_Start, Timestamp date_End) {
 		super();
 		Promotion_ID = promotion_ID;
-		Promotion_Name = promotion_Name;
+		this.product_Name = product_Name;
 		Product_ID = product_ID;
 		Promotion_Price = promotion_Price;
-		Date_Start = Date_Start;
-		Date_End = Date_End;
+		Product_Price = product_Price;
+		Date_Start = date_Start;
+		Date_End = date_End;
 	}
+
+
+
+
+
+	public String getProduct_Name() {
+		return product_Name;
+	}
+
+
+
+
+
+	public void setProduct_Name(String product_Name) {
+		this.product_Name = product_Name;
+	}
+
+
+
+
+
+	public int getProduct_ID() {
+		return Product_ID;
+	}
+
+
+
+
+
+	public void setProduct_ID(int product_ID) {
+		Product_ID = product_ID;
+	}
+
+
+
+
+
+	public int getProduct_Price() {
+		return Product_Price;
+	}
+
+
+
+
+
+	public void setProduct_Price(int product_Price) {
+		Product_Price = product_Price;
+	}
+
+
+
 
 
 	public int getPromotion_ID() {
@@ -36,12 +98,12 @@ public class Promotion implements Serializable {
 
 
 	public String getPromotion_Name() {
-		return Promotion_Name;
+		return product_Name;
 	}
 
 
 	public void setPromotion_Name(String promotion_Name) {
-		Promotion_Name = promotion_Name;
+		product_Name = promotion_Name;
 	}
 
 

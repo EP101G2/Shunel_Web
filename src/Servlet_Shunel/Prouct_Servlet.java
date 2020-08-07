@@ -75,7 +75,11 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+//		FirebaseCloudMsg.getInstance().FCMsendMsg("dy4jVjhTx8M:APA91bFM3P6MaKf8_E5VKGeXDdt1Rd5sJjL45m0168FGTwURBtWGfKiF0pjFCH40ghAAAU-StPX3_BmDQLpjMio9Z9V9VVmCsmnEM2a4sySs_PtpU2UINK6Zqynrhnmpczl1L04I_tdj", "title", "msg");		
+//		FirebaseCloudMsg.getInstance().FCMsendMsg("dy4jVjhTx8M:APA91bFM3P6MaKf8_E5VKGeXDdt1Rd5sJjL45m0168FGTwURBtWGfKiF0pjFCH40ghAAAU-StPX3_BmDQLpjMio9Z9V9VVmCsmnEM2a4sySs_PtpU2UINK6Zqynrhnmpczl1L04I_tdj", "title", "msg");		
 //		FirebaseCloudMsg.getInstance().FCMsendMsg("chA6q9_2Rkk:APA91bHL42P6eBvENabCMbwSIe0u_wF7HkkSQqJ9MNyY_BkFhSiv322eRgHVNSGSkLnX4eHLpSUZgM0hSqkm4mtRvElQ63VUR3FFee3QN_lt_UQ7sxiCYO8wIJEwnsDFI7IGbwlqN_Di", "title", "msg");		
+
 		if (like_DAO == null) {
 			like_DAO = new Like_DAO_Interface();
 		}
@@ -89,7 +93,6 @@ public class Prouct_Servlet extends HttpServlet {
 		}
 
 		if (order_Main == null) {
-//			order_Main = new Ord
 			order_Main = new Oder_Main_DAO_Interface();
 		}
 
@@ -106,7 +109,6 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		doGet(request, response);
 
 		request.setCharacterEncoding("UTF-8");
 		Gson gson = new Gson();
@@ -148,7 +150,17 @@ public class Prouct_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
-
+		
+		case "insertProduct":{
+			 String jsonin= jsonObject.get("product").getAsString();
+			 Product product = gson.fromJson(jsonin, Product.class);
+			 int count = product_DAO.insert(product, null, null, null);
+			 writeText(response, String.valueOf(count));
+			
+			
+			break;
+		}
+		
 		case "deleteLike": {
 			String account_id = jsonObject.get("account_id").getAsString();
 			int product_id = jsonObject.get("product_id").getAsInt();
@@ -227,19 +239,6 @@ public class Prouct_Servlet extends HttpServlet {
 		}
 		
 
-//		case "getImage": {
-//			OutputStream os = response.getOutputStream();
-//			int id = jsonObject.get("id").getAsInt();
-//			int imageSize = jsonObject.get("imageSize").getAsInt();
-//			byte[] image = product_DAO.getImage(id);
-//			if (image != null) {
-//				image = ImageUtil.shrink(image, imageSize);
-//				response.setContentType("image/jpeg");
-//				response.setContentLength(image.length);
-//				os.write(image);
-//			}
-		// break;
-//		}
 
 		case "getImage": {
 			OutputStream os = response.getOutputStream();
@@ -339,22 +338,11 @@ public class Prouct_Servlet extends HttpServlet {
 
 		}
 
-//		case "Main_Recriver": {
-//			int count = 0;
-//			String orderJson = jsonObject.get("orderupdate").getAsString();
-//			System.out.println("orderJson = " + orderJson);
-//			Order_Main oM = gson.fromJson(orderJson, Order_Main.class);
-//			count = order_Main.update(oM);
-//			
-//			writeText(response, String.valueOf(count));
-//			break;
-//		}
 
 		case "addOrderMain": {
 			String order_ID = jsonObject.get("OrderID").getAsString();
 			String order_Details = jsonObject.get("OrderDetail").getAsString();
 			Order_Detail oDetails = null;
-//			System.out.println("========"+order_ID);
 			
 			Type collectionType = new TypeToken<List<Shopping_Cart>>() {
 			}.getType();
@@ -372,12 +360,11 @@ public class Prouct_Servlet extends HttpServlet {
 			int notice =0;
 			orderid = this.order_Main.insert(order_Main);
 
-			String title = "您的訂單已成立";
-			String content ="您的訂單已成立，訂單編號為";
+//			String title = "您的訂單已成立";
+//			String content ="您的訂單已成立，訂單編號為";
 
 //			System.out.println("orderid======================="+orderid);
-
-			notice = notice_DAO.putGoodNotice(orderid);
+			notice = notice_DAO.putGoodsNotice(orderid);
 //			System.out.println("notice======================="+notice);
 			
 			for (JsonElement element : jsonArray) {

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -19,12 +20,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import DAO.Notice_DAO;
 import DAO.Order_Detail_DAO;
 import DAO.Order_Main_DAO;
 import DAO_Interface.Oder_Main_DAO_Interface;
 import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
 import DAO_Interface.Shopping_Card_DAO_Interdace;
+import DAO_Interface.Uesr_Account_DAO_Interface;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -32,9 +35,11 @@ import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
 
 import Bean.Order_Detail;
 import Bean.Order_Main;
+import Bean.User_Account;
 import DAO.Order_Detail_DAO;
 import DAO.Order_Main_DAO;
 import DAO.Product_DAO;
+import DAO.Uesr_Account_DAO;
 import DAO_Interface.Oder_Main_DAO_Interface;
 import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
@@ -54,6 +59,7 @@ public class Orders_Servlet extends HttpServlet {
 	Order_Main_DAO order_Main_DAO = null;
 	Order_Detail_DAO order_Detail_DAO = null;
 	Product_DAO product_DAO = null;
+	Notice_DAO notice_DAO = null;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -96,6 +102,11 @@ public class Orders_Servlet extends HttpServlet {
 		writeText(response, new Gson().toJson(order_Mains));
 		writeText(response, new Gson().toJson(order_Details));
 	}
+	
+////	to fix the duplicate case error: Using an enum, they will be properly initialized in the order in which they've been placed in the enum.
+//	public enum actionSelection{
+//		getOrderMain, getOrderDetail, getImage, changeOrderStatus, getOrderMainShort, getOrderDetailShort, getOrdersForManage, changeOrderStatus, 
+//	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -153,6 +164,7 @@ public class Orders_Servlet extends HttpServlet {
 			writeText(response, gson.toJson(orderDetail));
 			return;
 		}
+		
 //		select by activity
 		switch (action) {
 		case "getOrderMain": {
@@ -198,9 +210,42 @@ public class Orders_Servlet extends HttpServlet {
 		case "getOrderDetailShort": {
 			String order_ID = jsonObject.get("Order_ID").getAsString(); //check if "Order_ID" matches the "Order_ID" in client
 //			create method getShortOrderDetails(order_ID)in DAO, DAO Interface
+			
+//			List<Order_Main> orderShortDetailList = order_Main_DAO.getShortOrderDetails(order_ID);
+//			writeText(response, gson.toJson(orderShortDetailList));
 		}//need to be modify later!!
 		
-//		select/show by status
+//		get short order management list data
+		case "getOrdersForManage": {
+			List<Order_Main> orderManageList = order_Main_DAO.getOrdersForManage();
+			writeText(response, gson.toJson(orderManageList));
+			System.out.println("---getOrdersForManage---"+orderManageList);
+			break;
+		}
+		
+//		change on order status
+		case "updateStatus": { 
+			int status = jsonObject.get("status").getAsInt();
+			int count = order_Main_DAO.updateStatus(status);
+			System.out.print("---changeOrdersStatus---");
+			writeText(response, String.valueOf(count));
+			break;
+		}
+		
+//		update receiver data
+		case "update": {
+			System.out.print("---updateOrdersReceiverData---");
+			String receiver = jsonObject.get("Receiver").getAsString();
+			Order_Main orderMain = gson.fromJson(receiver, Order_Main.class); // 左邊放ＪＳＯＮ格是自串，右邊放定義他要轉成何種類別物件
+			Order_Main_DAO order_Main_DAO = new Oder_Main_DAO_Interface();; // 先實體ＤＡＯ才可已用
+			
+			int count = order_Main_DAO.update(orderMain);
+			
+			writeText(response, String.valueOf(count));
+			break;
+		}
+		
+//		select/show by status: delete this if not needed!
 		case "status":{
 			int status = jsonObject.get("status").getAsInt();
 			if (status == 0) {

@@ -6,16 +6,22 @@ import Bean.Chat_Record;
 import Bean.Chat_Room;
 import Bean.Order_Detail;
 import Bean.Order_Main;
+import Chat.ChatMessage;
 
 public interface Chat_DAO {
 
-	int createRoom(String chef_no, String user_no, String user_name, String chef_name);
+	int createRoom(String chef_no, String user_no);
 
-	long insert(Chat_Record cRecord, byte[] image);
+	int insert(ChatMessage chatMessage);
 
 	//不需
 	int insert(Chat_Room cr);
 
+	
+//	int insert(int chatRoom,String msg,String receiver,String sender,String Type);
+	
+	int insert(int chatRoom,String msg,String receiver,String sender,String Type,byte[] image);
+	
 	int selectId();
 
 	byte[] getImage(int id);
@@ -26,5 +32,5 @@ public interface Chat_DAO {
 	
 	List<Chat_Room> selectChatRoomList(String chef_no, String user_no);
 	
-	List<Chat_Record> getAll(int chatRoom);
+	List<ChatMessage> getAll(int chatRoom);
 }

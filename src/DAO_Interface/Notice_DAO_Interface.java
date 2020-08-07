@@ -27,13 +27,15 @@ public class Notice_DAO_Interface implements Notice_DAO {
 
 	@Override
 	public int insert(Notice notice) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	
+	
+	//修改促銷、系統訊息
 	@Override
 	public int update(Notice notice) {
-		// TODO Auto-generated method stub
+		int count = 0;
+		String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ?, NOTICE_TIME = ? WHERE (NOTICE_ID = ?);";
 		return 0;
 	}
 
@@ -244,8 +246,13 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return lastSaleN;
 	}
 
+	
+	
+	
+	//發送單一對象訂單成立訊息(order_main)
+	//亭葳
 	@Override
-	public int putGoodNotice(int order_id) {
+	public int putGoodsNotice(int order_id) {
 		int count = 0;
 
 		String sql = "INSERT INTO Shunel.NOTICE ( NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CATEGORY_ID, CATEGORY_MESSAGE_ID ) VALUES ( ? , ? , ?, ? );";
@@ -264,8 +271,14 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return count;
 	}
 
+	
+	
+	
+	
+	//發送單一對象出貨訊息(order_main)
+	//亭葳
 	@Override
-	public int getGoodNotice(int order_id) {
+	public int sendGoodsNotice(int order_id) {
 		int count = 0;
 		String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE ( NOTICE_CATEGORY_ID = 3  and  CATEGORY_MESSAGE_ID = ?);"
 				+ "select NOTICE_TITLE , NOTICE_CONTENT from NOTICE where NOTICE_CATEGORY_ID = 3 and GATEGORY_MESSAGE_ID = ? ;";
@@ -282,8 +295,14 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return count;
 	}
-
-	public int putProductNotice(int product_id, String product_name) {
+	
+	
+	
+	
+	//發送單一對象商品重新上架訊息(like)
+	//逸軒
+	@Override
+	public int sendProductNotice(int product_id, String product_name) {
 		int count = 0;
 		String sql = "INSERT INTO Shunel.NOTICE ( NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CATEGORY_ID, CATEGORY_MESSAGE_ID ) VALUES ( ? , ? , ?, ? );";
 		try (Connection connection = dataSource.getConnection();
@@ -299,12 +318,89 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return count;
 	}
+	
 
-	public int putChatNotice(int chat_id, String chat_Msg) {
+	//發送群體促銷訊息(Notice)
+	@Override
+	public int sendSaleN(String notice_title, String notice_content) {
 		int count = 0;
+		String sql = "INSERT INTO Shunel.NOTICE ( NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CATEGORY_ID) VALUES ( ? , ? , ? );";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, notice_title);
+			ps.setString(2, notice_content);
+			ps.setInt(3, 0);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return count;
 	}
 
+	
+	
+	//發送群體系統訊息(Notice)
+	@Override
+	public int sendSystemN(String notice_title, String notice_content) {
+		int count = 0;
+		String sql = "INSERT INTO Shunel.NOTICE ( NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CATEGORY_ID) VALUES ( ? , ? , ? );";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, notice_title);
+			ps.setString(2, notice_content);
+			ps.setInt(3, 2);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 
+	
+	
+	//取全部人的Token
+	@Override
+	public List<String> getToken() {
+		String sql = "SELECT  TOKEN FROM Shunel.USER_ACCOUNT where TOKEN != ?;";
+		List<String> tokenList = new ArrayList<String>();
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, "");
+			System.out.println(ps.toString());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				String str = "";
+				
+				str = rs.getString("TOKEN");
+				tokenList.add(str);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return tokenList;
+	}
+	
+	
+	//亭葳
+	//從訂單總表連到USER_ACCOUNT去取Token
+	@Override
+	public String getOneTokenFromOrderMain(String order_ID) {
+		String str = "";
+		String sql = "SELECT TOKEN FROM Shunel.USER_ACCOUNT ua join ORDER_MAIN om on ua.ACCOUNT_ID = om.ACCOUNT_ID where ORDER_ID = ?;";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, order_ID);
+			System.out.print(ps.toString());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {				
+			 str = rs.getString("TOKEN");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return str;	
+	}
 
 };

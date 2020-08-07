@@ -25,7 +25,7 @@ import DAO_Interface.Promotion_DAO_Interface;
 /**
  * Servlet implementation class Promotion_servlet
  */
-@WebServlet("/Promotion_servlet")
+@WebServlet("/Promotion_Servlet")
 public class Promotion_Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "text/html; charset=utf-8";
@@ -48,6 +48,9 @@ public class Promotion_Servlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		if (promotion_DAO == null) {
 			promotion_DAO = new Promotion_DAO_Interface();
+			
+			List<Promotion> promotions = promotion_DAO.getPromotionAll();
+			writeText(response, new Gson().toJson(promotions));
 		}
 	}
 

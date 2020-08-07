@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -62,6 +63,15 @@ public class Notice_Servlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+
+	/*
+	 * 
+	 * 要使用的人要注意的分類
+	 * pageFlag:0 = "促銷訊息"; 1= "提問通知"; 2= "系統訊息"; 3= "貨態追蹤"; 4= "上架通知";
+	 * 
+	 * 
+	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -80,8 +90,7 @@ public class Notice_Servlet extends HttpServlet {
 		}
 
 		String action = jsonObject.get("action").getAsString();
-	
-		
+
 		switch (action) {
 		case "getNoticeAll":
 			List<Notice> notices = notice_DAO.getNoticeAll();
@@ -101,24 +110,62 @@ public class Notice_Servlet extends HttpServlet {
 		case "getSystemAll":
 			List<Notice> systemNotices = notice_DAO.getSystemAll();
 			writeText(response, gson.toJson(systemNotices));
-			break;	
-			
+			break;
+
 		case "getLastSaleN":
 			Notice lastSaleN = notice_DAO.getLastSaleN();
 			writeText(response, gson.toJson(lastSaleN));
-			break;	
+			break;
 
 		case "getLastQAN":
 			Notice lastQAN = notice_DAO.getLastQAN();
 			writeText(response, gson.toJson(lastQAN));
-			break;	
+			break;
 
 		case "getLastSystemN":
 			Notice lastSystemN = notice_DAO.getLastSystemN();
 			writeText(response, gson.toJson(lastSystemN));
-			break;	
-	
-		
+			break;
+
+		case "sendSaleN":
+			String newSaleT = jsonObject.get("title").getAsString();
+			String newSaleD = jsonObject.get("msg").getAsString();
+			int countSaleN = notice_DAO.sendSaleN(newSaleT, newSaleD);
+			System.out.println("=====count=====" + countSaleN);
+			writeText(response, String.valueOf(countSaleN));
+			try {
+				FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getToken(), newSaleT, newSaleD, 0);
+			} catch (FirebaseMessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+
+		case "sendSystemN":
+			String newSystemT = jsonObject.get("title").getAsString();
+			String newSystemD = jsonObject.get("msg").getAsString();
+			int countSystemN = notice_DAO.sendSystemN(newSystemT, newSystemD);
+			System.out.println("=====count=====" + countSystemN);
+			writeText(response, String.valueOf(countSystemN));
+			try {
+				FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getToken(), newSystemT, newSystemD, 2);
+			} catch (FirebaseMessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+			
+			case"sendOrderN":
+				String newChatT = jsonObject.get("title").getAsString();
+				String newChatD = jsonObject.get("msg").getAsString();
+				String order_ID = jsonObject.get("id").getAsString();
+				int countChatN = notice_DAO.sendSystemN(newChatT , newChatD);
+				
+				System.out.println("=====count=====" + countChatN);
+				writeText(response, String.valueOf(countChatN));
+				FirebaseCloudMsg.getInstance().FCMsendMsg(notice_DAO.getOneTokenFromOrderMain(order_ID), newChatT,newChatD, 1);		
+				break;
+				
 		}
 
 	}

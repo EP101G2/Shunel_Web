@@ -201,7 +201,10 @@ public class Product_DAO_Interface implements Product_DAO {
 		int count = 0;
 		String sql = "INSERT INTO PRODUCT";
 
-		if (image != null && image2 == null && image3 == null) {
+		if (image == null && image2 == null && image3 == null) {        //沒有上傳任何一張照片
+			sql += "(PRODUCT_NAME,COLOR,PRICE,DITAL,CATEGORY_ID,PRODUCT_STATUS)";
+			sql += "VALUES(?,?,?,?,?,?);";
+		} else if (image != null && image2 == null && image3 == null) {
 			sql += "(PRODUCT_NAME,COLOR,PRICE,DITAL,CATEGORY_ID,PRODUCT_STATUS,PRODUCT_IMG1)";
 			sql += "VALUES(?,?,?,?,?,?,?);";
 		} else if (image != null && image2 != null && image3 == null) {
@@ -337,17 +340,15 @@ public class Product_DAO_Interface implements Product_DAO {
 	@Override
 	public List<Product> getTOP5Product() {
 		// TODO Auto-generated method stub
-		String sql = "select  PRODUCT.PRODUCT_ID, PRODUCT_NAME, PRODUCT.COLOR , PRODUCT.PRICE, PRODUCT.DITAL , PRODUCT.CATEGORY_ID , PRODUCT.PRODUCT_STATUS , sum(AMOUNT) as total_qty  from ORDER_DETAIL  join PRODUCT on  ORDER_DETAIL.PRODUCT_ID = PRODUCT.PRODUCT_ID  group by PRODUCT_ID    ORDER BY total_qty DESC  		limit 5  "; 
+		String sql = "select  PRODUCT.PRODUCT_ID, PRODUCT_NAME, PRODUCT.COLOR , PRODUCT.PRICE, PRODUCT.DITAL , PRODUCT.CATEGORY_ID , PRODUCT.PRODUCT_STATUS , sum(AMOUNT) as total_qty  from ORDER_DETAIL  join PRODUCT on  ORDER_DETAIL.PRODUCT_ID = PRODUCT.PRODUCT_ID and PRODUCT_STATUS = 1  group by PRODUCT_ID    ORDER BY total_qty DESC  		limit 5  ";
 		List<Product> prouctList = new ArrayList<Product>();
 		System.out.println("333");
 		try (Connection connection = dataSource.getConnection();
-			
+
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 
-	
 			System.out.println(connection.isClosed());
 			System.out.println(ps.isClosed());
-
 
 			ResultSet rs = ps.executeQuery();
 //			System.out.println("test"+rs);
@@ -366,7 +367,7 @@ public class Product_DAO_Interface implements Product_DAO {
 						prouct_Category_ID, prouct_Status);
 				prouctList.add(prouct);
 			}
-			
+
 			return prouctList;
 
 		} catch (Exception e) {
@@ -378,12 +379,4 @@ public class Product_DAO_Interface implements Product_DAO {
 		return prouctList;
 	}
 
-	
-
-
-
-	
-
-	
-	
 }

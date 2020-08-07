@@ -3,40 +3,52 @@
 
 
 <!--Jack -->
-
-<!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
+<Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="qazwsxedc" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
-	/> </Context>   -->
+	/> </Context> 
+	
+
+
+	
 
  
-
-
 
 
 
 <!--Edward -->
 
 
-<Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
+<!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="Careeverything" maxTotal="20" maxIdle="10" maxWaitMillis="5000" /> 
-	</Context>  
+<<<<<<< HEAD
+	</Context> -->  
+=======
+	</Context>   -->
+>>>>>>> 6404b8de76b800b482aad4eedb190c3e7209cbce
 
 
 
 
 <!-- Jimmy -->
-
-
- <!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true">
->>>>>>> 50d231e84c353383f9fee4fb6330c6e0fea3b155
+<!--  <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true">
+ <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true">
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" driverClassName="com.mysql.cj.jdbc.Driver"
 		url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei"
 		username="root" password="s03550201" maxTotal="20" maxIdle="10"
-		maxWaitMillis="5000" /> </Context>   -->
+		maxWaitMillis="5000" />
+</Context>   -->
+
+
+ <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true">
+
+	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" driverClassName="com.mysql.cj.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei"
+		username="root" password="s03550201" maxTotal="20" maxIdle="10"
+		maxWaitMillis="5000" /> </Context> 
 
 	 
 
@@ -51,18 +63,11 @@
 <!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
-	username="root" password="1qaz2wsx" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
-	/> </Context>  -->
-
-
-
-
-	
-	
-
-
-
+	username="root" password="1qaz2wsx" maxTotal="20" maxIdle="10" maxWaitMillis="5000"  -->
+<!-- 	/> </Context>  -->  
  
+
+
 
 
 <!-- 	/> </Context>   --> 

@@ -31,22 +31,6 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 		// TODO Auto-generated method stub
 		int count = 0;
 
-////		INSERT INTO SHOPPING_CART (ACCOUNT_ID, PRODUCT_ID,AMOUNT) VALUES (?,?,?);
-//
-//		String sql = "INSERT INTO SHOPPING_CART (ACCOUNT_ID, PRODUCT_ID,AMOUNT) VALUES (?,?,?);";
-////		String sql = "INSERT INTO SHOPPING_CART" + "(ACCOUNT_ID,PRODUCT_ID,AMOUNT,MODIFY_DATE) "
-////				+ "VALUES(?, ?, ?, ?);";
-//		try (Connection connection = dataSource.getConnection();
-//				PreparedStatement ps = connection.prepareStatement(sql);) {
-//			ps.setString(1, user_Account.getAccount_ID());
-//			ps.setInt(2, product.getProduct_ID());
-//			ps.setInt(3, shopping_cart.getShopping_Cart_Amount());
-//			ps.setTimestamp(4, product.getProduct_MODIFY_DATE());
-//			System.out.println("1111" + ps.toString());
-//			count = ps.executeUpdate();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
 		return count;
 
 	}
@@ -55,7 +39,6 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	public int insert(Shopping_Cart shopping_Cart) {
 		// TODO Auto-generated method stub
 		int count = 0;
-//		INSERT INTO SHOPPING_CART (ACCOUNT_ID, PRODUCT_ID, PRODUCT_NAME, AMOUNT, COLOR,PRICE) VALUES (?, ?, ?, ?, ?,?);
 
 		String sql = "INSERT INTO SHOPPING_CART (ACCOUNT_ID, PRODUCT_ID, PRODUCT_NAME, AMOUNT, COLOR,PRICE) VALUES (?, ?, ?, ?, ?,?);";
 		try (Connection connection = dataSource.getConnection();
@@ -77,17 +60,6 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 	@Override
 	public int delete(int accoumt_ID, int product_ID) {
 		// TODO Auto-generated method stub
-//		int count = 0;
-//		String sql="DELETE FROM SHOPPING_CART WHERE (ACCOUNT_ID = ?) and (PRODUCT_ID = ?);";
-//		
-//		try (Connection connection = dataSource.getConnection();
-//				PreparedStatement ps = connection.prepareStatement(sql);) {
-//			ps.setInt(1, accoumt_ID);
-//			ps.setInt(2, product_ID);
-//			count = ps.executeUpdate();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} 
 		return 0;
 	}
 
@@ -108,9 +80,6 @@ public abstract class Shopping_Card_DAO_Interdace implements Shopping_Card_DAO {
 				int amount = rs.getInt(4);
 				String color = rs.getString(5);
 				int price = rs.getInt(6);
-//				Timestamp time = rs.getTimestamp(7);
-//
-//				Shopping_Cart shopping_Cart = new Shopping_Cart(account_ID, product_ID, product_Name, amount, color,price, time);
 				Shopping_Cart shopping_Cart = new Shopping_Cart(account_ID, product_ID, product_Name, amount, color,
 						price);
 				shopping_Carts.add(shopping_Cart);
