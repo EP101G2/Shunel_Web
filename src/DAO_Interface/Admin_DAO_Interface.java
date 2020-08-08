@@ -59,7 +59,7 @@ public class Admin_DAO_Interface implements Admin_DAO {
 				+ " VALUES(?,?,?,?,?);";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-			ps.setInt(1, admin.getAdmin_ID());
+			ps.setInt(1, 0);
 			ps.setString(2, admin.getAdmin_Name());
 			ps.setString(3, admin.getAdmin_User_Name());
 			ps.setString(4, admin.getAdmin_User_Password());
