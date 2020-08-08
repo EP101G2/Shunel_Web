@@ -77,6 +77,8 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 
 	@Override
 	public List<Promotion> getPromotionForNotice() {
+		System.out.println("-----3-----");
+		
 		String sql = "SELECT * FROM Shunel.PROMOTION limit 6 ;";
 		List<Promotion> promotionList = new ArrayList<Promotion>();
 		try (Connection connection = dataSource.getConnection();
@@ -88,10 +90,10 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 				String PROMOTION_NAME  = rs.getString("PROMOTION_NAME");
 				int PROMOTION_ID = rs.getInt("PROMOTION_ID");
 				int  PROMOTION_PRICE = rs.getInt("PROMOTION_PRICE");
-				int Product_Price = rs.getInt("PRICE");
+//				int Product_Price = rs.getInt("PRICE");
 				Timestamp DATE_START = rs.getTimestamp("DATE_START");
 				Timestamp DATE_END = rs.getTimestamp("DATE_END");
-				Promotion promotion = new Promotion(PROMOTION_ID, PROMOTION_NAME,PRODUCT_ID , PROMOTION_PRICE,Product_Price, DATE_START, DATE_END);
+				Promotion promotion = new Promotion(PROMOTION_ID, PROMOTION_NAME,PRODUCT_ID , PROMOTION_PRICE, DATE_START, DATE_END);
 				promotionList.add(promotion);				
 			}
 			return promotionList;

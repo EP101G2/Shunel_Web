@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -22,6 +23,7 @@ import com.google.gson.JsonObject;
 import DAO.Notice_DAO;
 import DAO.Order_Detail_DAO;
 import DAO.Order_Main_DAO;
+import DAO_Interface.Notice_DAO_Interface;
 import DAO_Interface.Oder_Main_DAO_Interface;
 import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
@@ -32,12 +34,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
 
+import Bean.Notice;
 import Bean.Order_Detail;
 import Bean.Order_Main;
 import Bean.User_Account;
 import DAO.Order_Detail_DAO;
 import DAO.Order_Main_DAO;
 import DAO.Product_DAO;
+import DAO.Uesr_Account_DAO;
 import DAO_Interface.Oder_Main_DAO_Interface;
 import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
@@ -142,6 +146,9 @@ public class Orders_Servlet extends HttpServlet {
 		if (order_Detail_DAO==null) {
 			order_Detail_DAO = new Order_Detail_DAO_Interface();
 		}
+		if (notice_DAO ==null) {
+			notice_DAO = new Notice_DAO_Interface();
+		}
 //		if (productDaoImpliment == null) {
 //			productDaoImpliment = new Product_DAO_Interface();
 //		}
@@ -189,10 +196,24 @@ public class Orders_Servlet extends HttpServlet {
 			break;
 		}
 		//結帳後修改狀態0->1		
+		//發送結帳通過通知
 		case "changeOrderStatus":{
 			int count = 0;
-			int orderMainID = jsonObject.get("orderID").getAsInt();
-			count = order_Main_DAO.updataOrder(orderMainID);
+			int orderid = jsonObject.get("OrderID").getAsInt();
+			System.out.println(orderid);
+			int changePriceNotice;
+			String token;
+			Notice sendFirebase;
+			changePriceNotice = notice_DAO.sendGoodsPriceNotice(orderid);
+			token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderid));
+			sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(orderid));
+			System.out.println(sendFirebase+"====sF=====");
+			String title = sendFirebase.getNotice_Title();
+			String msg = sendFirebase.getNotice_Content();
+			System.out.println(title+"====T=====");
+			System.out.println(msg+"====MSG=====");
+			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 1);
+			count = order_Main_DAO.updataOrder(orderid);
 			writeText(response, String.valueOf(count));
 			break;
 		}
@@ -223,11 +244,26 @@ public class Orders_Servlet extends HttpServlet {
 		
 //		change on order status
 		case "updateStatus": { 
+			String status = jsonObject.get("status").getAsString();//turn Status into String!!(??
+			
+			Order_Main order_Main = gson.fromJson(status, Order_Main.class);
+			Order_Main_DAO order_Main_DAO = new Oder_Main_DAO_Interface();
+			
+			int count = order_Main_DAO.updateStatus(order_Main);
 			System.out.print("---changeOrdersStatus---");
-			String orderID = jsonObject.get("orderID").getAsString();
-			Order_Main orderMain = gson.fromJson(orderID, Order_Main.class);
-			order_Main_DAO = new Oder_Main_DAO_Interface();
-			int count = order_Main_DAO.updateStatus(orderMain);
+			writeText(response, String.valueOf(count));
+			break;
+		}
+		
+//		update receiver data
+		case "update": {
+			System.out.print("---updateOrdersReceiverData---");
+			String receiver = jsonObject.get("Receiver").getAsString();
+			Order_Main orderMain = gson.fromJson(receiver, Order_Main.class); // 左邊放ＪＳＯＮ格是自串，右邊放定義他要轉成何種類別物件
+			Order_Main_DAO order_Main_DAO = new Oder_Main_DAO_Interface();; // 先實體ＤＡＯ才可已用
+			
+			int count = order_Main_DAO.update(orderMain);
+			
 			writeText(response, String.valueOf(count));
 			break;
 		}

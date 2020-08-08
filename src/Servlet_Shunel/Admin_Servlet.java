@@ -96,6 +96,30 @@ public class Admin_Servlet extends HttpServlet {
 			System.out.println("output: " + jsonLoginResult);
 			break;
 		}
+		
+		
+		case "getAll": {
+
+			List<Admin> admins = admin_DAO.getAll();
+			 
+			writeText(response, gson.toJson(admins));
+           System.out.println("------------"+admins);
+			break;
+		}
+
+		case "Register": {
+			String admin = jsonObject.get("admin").getAsString();
+			Admin admin2 = gson.fromJson(admin, Admin.class); // 左邊放ＪＳＯＮ格是自串，右邊放定義他要轉成何種類別物件
+			Admin_DAO admin_DAO = new Admin_DAO_Interface(); // 先實體ＤＡＯ才可已用
+			System.out.println("44444444444444445");
+			int count = admin_DAO.insert(admin2);
+
+			writeText(response, String.valueOf(count));
+			break;
+
+		}
+		
+		
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
 		}
