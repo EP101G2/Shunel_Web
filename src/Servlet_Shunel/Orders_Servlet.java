@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -40,6 +41,7 @@ import Bean.User_Account;
 import DAO.Order_Detail_DAO;
 import DAO.Order_Main_DAO;
 import DAO.Product_DAO;
+import DAO.Uesr_Account_DAO;
 import DAO_Interface.Oder_Main_DAO_Interface;
 import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
@@ -242,11 +244,22 @@ public class Orders_Servlet extends HttpServlet {
 		
 //		change on order status
 		case "updateStatus": { 
+			int status = jsonObject.get("status").getAsInt();
+			int count = order_Main_DAO.updateStatus(status);
 			System.out.print("---changeOrdersStatus---");
-			String orderID = jsonObject.get("orderID").getAsString();
-			Order_Main orderMain = gson.fromJson(orderID, Order_Main.class);
-			order_Main_DAO = new Oder_Main_DAO_Interface();
-			int count = order_Main_DAO.updateStatus(orderMain);
+			writeText(response, String.valueOf(count));
+			break;
+		}
+		
+//		update receiver data
+		case "update": {
+			System.out.print("---updateOrdersReceiverData---");
+			String receiver = jsonObject.get("Receiver").getAsString();
+			Order_Main orderMain = gson.fromJson(receiver, Order_Main.class); // 左邊放ＪＳＯＮ格是自串，右邊放定義他要轉成何種類別物件
+			Order_Main_DAO order_Main_DAO = new Oder_Main_DAO_Interface();; // 先實體ＤＡＯ才可已用
+			
+			int count = order_Main_DAO.update(orderMain);
+			
 			writeText(response, String.valueOf(count));
 			break;
 		}
