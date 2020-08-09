@@ -3,6 +3,7 @@ package Servlet_Shunel;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Base64;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -72,12 +73,12 @@ public class Admin_Servlet extends HttpServlet {
 		
 		switch (action) {
 		case "getLogin": {
-			int admin_ID = jsonObject.get("id").getAsInt();
+			String adminUserName_ID = jsonObject.get("id").getAsString();
 			String admin_Password = jsonObject.get("password").getAsString();
 
 			JsonObject jsonLoginResult = new JsonObject();
 			Admin_DAO admin_DAO = new Admin_DAO_Interface();
-			Admin admin = admin_DAO.login(admin_ID);
+			Admin admin = admin_DAO.login(adminUserName_ID);
 			
 			if (admin == null) {
 				jsonLoginResult.addProperty("result", "fail");
@@ -86,7 +87,7 @@ public class Admin_Servlet extends HttpServlet {
 			} else {
 				if (admin.getAdmin_User_Password().equals(admin_Password)) {
 					jsonLoginResult.addProperty("result", "success");
-					jsonLoginResult.addProperty("user", gson.toJson(admin)); // 包了兩層
+					jsonLoginResult.addProperty("admin", gson.toJson(admin)); // 包了兩層
 				} else {
 					jsonLoginResult.addProperty("result", "fail");
 				}
@@ -117,6 +118,23 @@ public class Admin_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(count));
 			break;
 
+		}
+		case "Update": {
+			String adminstr = jsonObject.get("admin").getAsString();
+			Admin admin = gson.fromJson(adminstr, Admin.class); // 左邊放ＪＳＯＮ格是自串，右邊放定義他要轉成何種類別物件
+//			Admin_DAO admin_DAO = new Admin_DAO_Interface(); // 先實體ＤＡＯ才可已用
+			int count = admin_DAO.update(admin);
+
+			writeText(response, String.valueOf(count));
+			break;
+
+		}
+		
+		case "Delete":{
+			int id = jsonObject.get("adminId").getAsInt();
+			int count = admin_DAO.delete(id);
+			writeText(response, String.valueOf(count));
+			break;
 		}
 		
 		
