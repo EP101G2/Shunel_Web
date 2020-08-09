@@ -228,7 +228,7 @@ public class Product_DAO_Interface implements Product_DAO {
 			ps.setInt(6, prouct.getProduct_Status());
 			if (image != null) {
 				ps.setBytes(7, image);
-
+				System.out.println("ps指令"+ps);
 				if (image2 != null) {
 					ps.setBytes(8, image2);
 					if (image3 != null) {
@@ -252,9 +252,8 @@ public class Product_DAO_Interface implements Product_DAO {
 		// TODO Auto-generated method stub
 
 		int count = 0;
-		String sql = "UPDATE PRODUCT SET PRODUCT_NAME= ?,COLOR=?,PRICE=?,DITAL=?,CATEGORY_ID=?,PRODUCT_STATUS=?,MODIFY_DATE=?";
+		String sql = "UPDATE PRODUCT SET PRODUCT_NAME= ?,COLOR=?,PRICE=?,DITAL=?,CATEGORY_ID=?,PRODUCT_STATUS=?";  //6個問號
 		if (image != null) {
-//			
 			sql += ",PRODUCT_IMG1=?";
 			if (image2 != null) {
 				sql += ",PRODUCT_IMG2=?";
@@ -264,7 +263,7 @@ public class Product_DAO_Interface implements Product_DAO {
 			}
 
 		}
-		sql += "WHERE PRODUCT_ID=?";
+		sql += " WHERE PRODUCT_ID= ? ;";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ps.setString(1, prouct.getProduct_Name());
@@ -273,22 +272,24 @@ public class Product_DAO_Interface implements Product_DAO {
 			ps.setString(4, prouct.getProduct_Ditail());
 			ps.setInt(5, prouct.getProduct_Category_ID());
 			ps.setInt(6, prouct.getProduct_Status());
-			ps.setTimestamp(7, prouct.getProduct_MODIFY_DATE());
-
+			
+			
 			if (image != null) {
-				ps.setBytes(8, image);
-				ps.setInt(9, prouct.getProduct_ID());
+				ps.setBytes(7, image);
+				ps.setInt(8, prouct.getProduct_ID());
 				if (image2 != null) {
-					ps.setBytes(9, image2);
-					ps.setInt(10, prouct.getProduct_ID());
+					ps.setBytes(8, image2);
+					ps.setInt(9, prouct.getProduct_ID());
 					if (image3 != null) {
-						ps.setBytes(10, image3);
-						ps.setInt(11, prouct.getProduct_ID());
+						ps.setBytes(9, image3);
+						ps.setInt(10, prouct.getProduct_ID());
 					}
 				}
 
 			} else {
-				ps.setInt(8, prouct.getProduct_ID());
+				ps.setInt(7, prouct.getProduct_ID());
+				
+				System.out.println("sql========"+ps );
 			}
 			count = ps.executeUpdate();
 		} catch (Exception e) {

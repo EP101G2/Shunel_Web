@@ -1,5 +1,6 @@
 package Servlet_Shunel;
 
+import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -17,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.jasper.tagplugins.jstl.core.Out;
 
-import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -26,7 +26,6 @@ import com.google.gson.JsonObject;
 //import com.sun.tools.classfile.Opcode.Set;
 import com.google.gson.reflect.TypeToken;
 
-import Bean.Notice;
 import Bean.Order_Detail;
 import Bean.Order_Main;
 import Bean.Product;
@@ -60,7 +59,7 @@ public class Prouct_Servlet extends HttpServlet {
 	Shopping_Card_DAO shopping_Card_DAO = null;
 	Order_Main_DAO order_Main = null;
 	Like_DAO like_DAO = null;
-	Notice_DAO notice_DAO = null;
+	Notice_DAO notice_DAO  = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -77,6 +76,7 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 
 		if (like_DAO == null) {
 			like_DAO = new Like_DAO_Interface();
@@ -138,32 +138,49 @@ public class Prouct_Servlet extends HttpServlet {
 		if (order_Main == null) {
 			order_Main = new Oder_Main_DAO_Interface();
 		}
-
+		
 		if (notice_DAO == null) {
 			notice_DAO = new Notice_DAO_Interface();
 		}
+		
 
 		//
 		String action = jsonObject.get("action").getAsString();
-
+		
 		switch (action) {
-
-		case "insertProduct": {
-			String jsonin = jsonObject.get("product").getAsString();
-			Product product = gson.fromJson(jsonin, Product.class);
-			int count = product_DAO.insert(product, null, null, null);
-			writeText(response, String.valueOf(count));
-
+		
+	    case "updateProduct":
+		case "insertProduct":{
+			 String jsonin= jsonObject.get("product").getAsString();
+			 int flag = jsonObject.get("flag").getAsInt();
+			 Product product = gson.fromJson(jsonin, Product.class);
+			 byte[] image = null;
+				// 檢查是否有上傳圖片
+				if (jsonObject.get("imageBase64") != null) {
+					String imageBase64 = jsonObject.get("imageBase64").getAsString();
+					if (imageBase64 != null && !imageBase64.isEmpty()) {
+						image = Base64.getMimeDecoder().decode(imageBase64);
+					}
+				}
+			 if(action.equals("updateProduct")) {
+				 int count = product_DAO.update(product, image, null, null);
+				 writeText(response, String.valueOf(count));
+				 
+			 }else {
+				
+				
+			 int count = product_DAO.insert(product, image, null, null);
+			 writeText(response, String.valueOf(count));
+			
+			 }
 			break;
 		}
-
+		
 		case "deleteLike": {
 			String account_id = jsonObject.get("account_id").getAsString();
 			int product_id = jsonObject.get("product_id").getAsInt();
-			System.out.println("這是刪除追蹤product" + account_id + product_id);
 
 			int count = like_DAO.deleteLike(account_id, product_id);
-			System.out.println("=====count=====" + count);
 			writeText(response, String.valueOf(count));
 			break;
 		}
@@ -225,12 +242,16 @@ public class Prouct_Servlet extends HttpServlet {
 			writeText(response, gson.toJson(proucts));
 			break;
 		}
-
+		
+		
+		
 		case "getTOP5Product": {
 			List<Product> proucts = product_DAO.getTOP5Product();
 			writeText(response, gson.toJson(proucts));
 			break;
 		}
+		
+
 
 		case "getImage": {
 			OutputStream os = response.getOutputStream();
@@ -238,7 +259,7 @@ public class Prouct_Servlet extends HttpServlet {
 			int imageSize = jsonObject.get("imageSize").getAsInt();
 			byte[] image = product_DAO.getImage(id);
 			if (image != null) {
-
+ 
 				response.setContentType("image/jpeg");
 				response.setContentLength(image.length);
 				os.write(image);
@@ -324,21 +345,18 @@ public class Prouct_Servlet extends HttpServlet {
 		case "findById": {
 			int id = jsonObject.get("PRODUCT_Id").getAsInt();
 			Product product = product_DAO.findById(id);
-			writeText(response, new Gson().toJson(product));
-
+			writeText(response,new Gson().toJson(product));
+			
 			break;
 
 		}
 
+
 		case "addOrderMain": {
-			//
-			String user_Account = jsonObject.get("OrderID").getAsString();
+			String order_ID = jsonObject.get("OrderID").getAsString();
 			String order_Details = jsonObject.get("OrderDetail").getAsString();
 			Order_Detail oDetails = null;
-			// 訂單成立通知
-			String token;
-			Notice sendFirebase;
-
+			
 			Type collectionType = new TypeToken<List<Shopping_Cart>>() {
 			}.getType();
 			List<Shopping_Cart> myBookList = gson.fromJson(order_Details, collectionType);
@@ -346,34 +364,22 @@ public class Prouct_Servlet extends HttpServlet {
 				book.show();
 			}
 
-			Order_Main order_Main = gson.fromJson(user_Account, Order_Main.class);
+			Order_Main order_Main = gson.fromJson(order_ID, Order_Main.class);
 //			System.out.println(order_Main.getAccount_ID()+"123456789");
 			JsonArray jsonArray = gson.fromJson(order_Details, JsonArray.class);
-			
-			//塞訂單到通知，並取出
+
 			int orderid = 0;
 			int orderdetail = 0;
-			int notice = 0;
+			int notice =0;
 			orderid = this.order_Main.insert(order_Main);
-//			System.out.print(order_ID);
-//			orderNotice = notice_DAO.putGoodsNotice(Integer.parseInt(order_ID));
-			
+
 //			String title = "您的訂單已成立";
 //			String content ="您的訂單已成立，訂單編號為";
 
 //			System.out.println("orderid======================="+orderid);
 			notice = notice_DAO.putGoodsNotice(orderid);
-			token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderid));
-			sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(orderid));
-			System.out.println(sendFirebase+"====sF=====");
-			String title = sendFirebase.getNotice_Title();
-			String msg = sendFirebase.getNotice_Content();
-			System.out.println(title+"====T=====");
-			System.out.println(msg+"====MSG=====");
-			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 1);
-			
 //			System.out.println("notice======================="+notice);
-
+			
 			for (JsonElement element : jsonArray) {
 				JsonObject obj = element.getAsJsonObject();
 				int order_id = orderid;
