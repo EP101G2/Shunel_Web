@@ -17,5 +17,5 @@ public interface Order_Main_DAO {
 	byte[] getImage(int id);
 	List<Order_Main> getShortOrderMains(String account_ID);
 	List<Order_Main> getOrdersForManage();
-	int updateStatus(int status);
+	int updateStatus(int orderId, int status);
 }

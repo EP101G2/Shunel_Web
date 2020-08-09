@@ -81,7 +81,6 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 			ps.setString(2, oM.getOrder_Main_Address());
 			ps.setString(3, oM.getOrder_Main_Phone());
 			ps.setInt(4, oM.getOrder_ID());
-//			ps.setString(1, oM.getOrder_Main_Recriver());
 			count = ps.executeUpdate();
 
 		} catch (Exception e) {
@@ -92,15 +91,16 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	}
 	
 	@Override
-	public int updateStatus(int status) {
+	public int updateStatus(int orderId, int status) {
 		
 		System.out.println("---OrderMainDao: updateStatus---");
 		int count = 0;
-		String sql = "UPDATE ORDER_MAIN SET ORDER_STATUS = ? WHERE (ORDER_ID = ?);";
+		String sql = "UPDATE ORDER_MAIN SET ORDER_STATUS = ? WHERE ORDER_ID = ?;";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 
 			ps.setInt(1, status);
+			ps.setInt(2, orderId);
 			count = ps.executeUpdate();
 		} catch (Exception e){
 			e.printStackTrace();

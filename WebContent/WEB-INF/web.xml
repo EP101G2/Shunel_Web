@@ -16,6 +16,10 @@
 	  <context-param>
     <param-name>org.apache.tomcat.websocket.textBufferSize</param-name>
     <param-value>614400</param-value>
+    
+    
+    
+    
   </context-param>
 	
 	

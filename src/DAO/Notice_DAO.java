@@ -11,7 +11,7 @@ public interface Notice_DAO {
 	int putGoodsNotice(int order_id);
 	
 	//找到Notice表格中的 order_id，並對其發送個人通知
-	int sendGoodsNotice(int order_id);
+	int sendGoodsNotice(String order_id);
 	
 	int sendProductNotice(int product_id,String product_name);
 
@@ -42,6 +42,10 @@ public interface Notice_DAO {
 	int sendSystemN(String notice_title, String notice_content);
 	
 	String  getOneTokenFromOrderMain(String order_ID);
+
+	Notice TitleAndDetail(int CATEGORY_ID, String GATEGORY_MESSAGE_ID);
+
+	int sendGoodsPriceNotice(int order_id);
 
 
 	

@@ -1,5 +1,6 @@
 package Servlet_Shunel;
 
+import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -75,10 +76,6 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-//		FirebaseCloudMsg.getInstance().FCMsendMsg("dy4jVjhTx8M:APA91bFM3P6MaKf8_E5VKGeXDdt1Rd5sJjL45m0168FGTwURBtWGfKiF0pjFCH40ghAAAU-StPX3_BmDQLpjMio9Z9V9VVmCsmnEM2a4sySs_PtpU2UINK6Zqynrhnmpczl1L04I_tdj", "title", "msg");		
-//		FirebaseCloudMsg.getInstance().FCMsendMsg("dy4jVjhTx8M:APA91bFM3P6MaKf8_E5VKGeXDdt1Rd5sJjL45m0168FGTwURBtWGfKiF0pjFCH40ghAAAU-StPX3_BmDQLpjMio9Z9V9VVmCsmnEM2a4sySs_PtpU2UINK6Zqynrhnmpczl1L04I_tdj", "title", "msg");		
-//		FirebaseCloudMsg.getInstance().FCMsendMsg("chA6q9_2Rkk:APA91bHL42P6eBvENabCMbwSIe0u_wF7HkkSQqJ9MNyY_BkFhSiv322eRgHVNSGSkLnX4eHLpSUZgM0hSqkm4mtRvElQ63VUR3FFee3QN_lt_UQ7sxiCYO8wIJEwnsDFI7IGbwlqN_Di", "title", "msg");		
 
 		if (like_DAO == null) {
 			like_DAO = new Like_DAO_Interface();
@@ -148,26 +145,41 @@ public class Prouct_Servlet extends HttpServlet {
 
 		//
 		String action = jsonObject.get("action").getAsString();
-
+		
 		switch (action) {
 		
+	    case "updateProduct":
 		case "insertProduct":{
 			 String jsonin= jsonObject.get("product").getAsString();
+			 int flag = jsonObject.get("flag").getAsInt();
 			 Product product = gson.fromJson(jsonin, Product.class);
-			 int count = product_DAO.insert(product, null, null, null);
+			 byte[] image = null;
+				// 檢查是否有上傳圖片
+				if (jsonObject.get("imageBase64") != null) {
+					String imageBase64 = jsonObject.get("imageBase64").getAsString();
+					if (imageBase64 != null && !imageBase64.isEmpty()) {
+						image = Base64.getMimeDecoder().decode(imageBase64);
+					}
+				}
+			 if(action.equals("updateProduct")) {
+				 int count = product_DAO.update(product, image, null, null);
+				 writeText(response, String.valueOf(count));
+				 
+			 }else {
+				
+				
+			 int count = product_DAO.insert(product, image, null, null);
 			 writeText(response, String.valueOf(count));
 			
-			
+			 }
 			break;
 		}
 		
 		case "deleteLike": {
 			String account_id = jsonObject.get("account_id").getAsString();
 			int product_id = jsonObject.get("product_id").getAsInt();
-			System.out.println("這是刪除追蹤product" + account_id + product_id);
 
 			int count = like_DAO.deleteLike(account_id, product_id);
-			System.out.println("=====count=====" + count);
 			writeText(response, String.valueOf(count));
 			break;
 		}
