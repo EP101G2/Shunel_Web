@@ -253,7 +253,7 @@ public class Orders_Servlet extends HttpServlet {
 			
 			List<Order_Main> orderShortDetailList = order_Main_DAO.getShortOrderDetails(order_ID);
 			writeText(response, gson.toJson(orderShortDetailList));
-		} // need to be modify later!!
+		}  
 
 //		get short order management list data
 		case "getOrdersForManage": {
