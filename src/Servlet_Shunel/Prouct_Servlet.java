@@ -76,8 +76,11 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
+=======
 		
 
+>>>>>>> ee1728c6190713fec72c742ec759a3b96d5cfaa2
 		if (like_DAO == null) {
 			like_DAO = new Like_DAO_Interface();
 		}
