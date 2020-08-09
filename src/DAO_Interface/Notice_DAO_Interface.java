@@ -35,8 +35,18 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	@Override
 	public int update(Notice notice) {
 		int count = 0;
-		String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ?, NOTICE_TIME = ? WHERE (NOTICE_ID = ?);";
-		return 0;
+		String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE NOTICE_ID = ?;";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1,notice.getNotice_Title());
+			ps.setString(2,notice.getNotice_Content());
+			ps.setInt(3, notice.getNotice_ID());
+			System.out.println("ssss"+ps);
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 	
@@ -418,7 +428,6 @@ public class Notice_DAO_Interface implements Notice_DAO {
 				ps.setString(1, "商品已送出");
 				ps.setString(2, "訂單編號" + order_id + " 已出貨，再麻煩簽收，謝謝!");
 				ps.setString(3, order_id);
-				ps.setString(4, order_id);
 				System.out.print(ps.toString());
 				count = ps.executeUpdate();
 			} catch (SQLException e) {
