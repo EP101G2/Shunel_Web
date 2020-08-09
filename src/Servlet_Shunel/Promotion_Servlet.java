@@ -84,7 +84,11 @@ public class Promotion_Servlet extends HttpServlet {
 			writeText(response, gson.toJson(promotions));
 			break;
 		case "getPromotionForNotice":
-			List<Promotion> promotionsForNotice = promotion_DAO.getPromotionAll();
+			System.out.println("----1-----");
+			List<Promotion> promotionsForNotice = promotion_DAO.getPromotionForNotice();
+			System.out.println("\n"+promotionsForNotice.toString()+"\n");
+			
+			System.out.println("----2-----");
 			writeText(response, gson.toJson(promotionsForNotice));
 			break;
 		case "getImage":
