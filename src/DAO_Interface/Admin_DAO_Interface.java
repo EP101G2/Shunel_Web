@@ -17,6 +17,7 @@ import Servlet_Shunel.ServiceLocator;
 
 public class Admin_DAO_Interface implements Admin_DAO {
 	DataSource dataSource;
+	private String admin_UserName_ID;
 
 	public Admin_DAO_Interface() {
 		dataSource = ServiceLocator.getInstance().getDataSource();
@@ -24,12 +25,12 @@ public class Admin_DAO_Interface implements Admin_DAO {
 	}
 
 	@Override
-	public Admin login(int admin_ID) {
-		String sql = "SELECT * FROM ADMIN WHERE ADMIN_ID = ?;";
+	public Admin login(String adminUserName_ID) {
+		String sql = "SELECT * FROM ADMIN WHERE ADMIN_USERNAME = ?;";
 		Admin admin= null;
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {  //準備ＳＱＬ指令
-			ps.setInt(1, admin_ID);
+			ps.setString(1, adminUserName_ID);
 			/*
 			 * 當Statement關閉，ResultSet也會自動關閉， 可以不需要將ResultSet宣告置入try with
 			 * resources小括號內，參看ResultSet說明
@@ -37,11 +38,11 @@ public class Admin_DAO_Interface implements Admin_DAO {
 			ResultSet rs = ps.executeQuery();   //做查詢
 			if (rs.next()) {
 				String admin_Name=rs.getString("ADMIN_NAME");
-				String admin_Username = rs.getString("ADMIN_USERNAME");   //前面自己取，後面對應資料庫欄位名稱
+				int admin_id = rs.getInt("ADMIN_ID");   //前面自己取，後面對應資料庫欄位名稱
 				String admin_Password = rs.getString("ADMIN_PASSWORD");
 				String admin_Position = rs.getString("ADMIN_POSITION");
 				
-				admin = new Admin(admin_ID,admin_Name,admin_Username,admin_Password,admin_Position);
+				admin = new Admin(admin_id,admin_Name,adminUserName_ID,admin_Password,admin_Position);
 			}   //user_Account是我自己創建的物件（空容器），裡面塞我ＲＳ出來的東西（查的資料）
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -77,7 +78,7 @@ public class Admin_DAO_Interface implements Admin_DAO {
 		// TODO Auto-generated method stub
 		int count = 0;
 		String sql = "";
-		sql = "UPDATE ADMIN SET ADMIN_NAME = ?, ADMIN_USERNAME = ?, ADMIN_PASSWORD = ?, ADMIN_POSITION = ?";
+		sql = "UPDATE ADMIN SET ADMIN_NAME = ?, ADMIN_USERNAME = ?, ADMIN_PASSWORD = ?, ADMIN_POSITION = ? where ADMIN_ID= ? ";
 
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -85,7 +86,7 @@ public class Admin_DAO_Interface implements Admin_DAO {
 			ps.setString(2, admin.getAdmin_User_Name());
 			ps.setString(3, admin.getAdmin_User_Password());
 			ps.setString(4, admin.getAdmin_User_Position());
-
+			ps.setInt(5, admin.getAdmin_ID());
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
