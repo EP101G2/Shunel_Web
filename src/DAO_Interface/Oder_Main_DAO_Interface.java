@@ -91,7 +91,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	}
 	
 	@Override
-	public int updateStatus(Order_Main orderMain) {
+	public int updateStatus(int orderId, int status) {
 		
 		System.out.println("---OrderMainDao: updateStatus---");
 		int count = 0;
@@ -99,7 +99,8 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 
-			ps.setInt(1, orderMain.getOrder_Main_Order_Status());
+			ps.setInt(1, status);
+			ps.setInt(2, orderId);
 			count = ps.executeUpdate();
 		} catch (Exception e){
 			e.printStackTrace();
