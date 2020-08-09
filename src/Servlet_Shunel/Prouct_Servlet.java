@@ -146,17 +146,13 @@ public class Prouct_Servlet extends HttpServlet {
 
 		//
 		String action = jsonObject.get("action").getAsString();
-
+		
 		switch (action) {
 		
-	
-		
-		
-		
-		
-		
+	    case "updateProduct":
 		case "insertProduct":{
 			 String jsonin= jsonObject.get("product").getAsString();
+			 int flag = jsonObject.get("flag").getAsInt();
 			 Product product = gson.fromJson(jsonin, Product.class);
 			 byte[] image = null;
 				// 檢查是否有上傳圖片
@@ -166,21 +162,25 @@ public class Prouct_Servlet extends HttpServlet {
 						image = Base64.getMimeDecoder().decode(imageBase64);
 					}
 				}
-			 
+			 if(action.equals("updateProduct")) {
+				 int count = product_DAO.update(product, image, null, null);
+				 writeText(response, String.valueOf(count));
+				 
+			 }else {
+				
+				
 			 int count = product_DAO.insert(product, image, null, null);
 			 writeText(response, String.valueOf(count));
 			
-			
+			 }
 			break;
 		}
 		
 		case "deleteLike": {
 			String account_id = jsonObject.get("account_id").getAsString();
 			int product_id = jsonObject.get("product_id").getAsInt();
-			System.out.println("這是刪除追蹤product" + account_id + product_id);
 
 			int count = like_DAO.deleteLike(account_id, product_id);
-			System.out.println("=====count=====" + count);
 			writeText(response, String.valueOf(count));
 			break;
 		}
