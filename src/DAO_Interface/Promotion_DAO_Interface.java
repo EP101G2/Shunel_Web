@@ -68,7 +68,6 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 			}
 			return promotionList;
 				
-					
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -79,21 +78,21 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 	public List<Promotion> getPromotionForNotice() {
 		System.out.println("-----3-----");
 		
-		String sql = "SELECT * FROM Shunel.PROMOTION limit 6 ;";
+		String sql = "SELECT * from PROMOTION join PRODUCT on  PROMOTION.PRODUCT_ID = PRODUCT.PRODUCT_ID  where now() between DATE_START and DATE_END and PRODUCT_STATUS = 2 limit 6 ;";
 		List<Promotion> promotionList = new ArrayList<Promotion>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);){
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				System.out.println("--------");
+				int PROMOTION_ID = rs.getInt("PRODUCT_ID");
 				int PRODUCT_ID = rs.getInt("PRODUCT_ID");
-				String PROMOTION_NAME  = rs.getString("PROMOTION_NAME");
-				int PROMOTION_ID = rs.getInt("PROMOTION_ID");
+				String PRODUCT_NAME  = rs.getString("PRODUCT_NAME");
 				int  PROMOTION_PRICE = rs.getInt("PROMOTION_PRICE");
 //				int Product_Price = rs.getInt("PRICE");
 				Timestamp DATE_START = rs.getTimestamp("DATE_START");
 				Timestamp DATE_END = rs.getTimestamp("DATE_END");
-				Promotion promotion = new Promotion(PROMOTION_ID, PROMOTION_NAME,PRODUCT_ID , PROMOTION_PRICE, DATE_START, DATE_END);
+				Promotion promotion = new Promotion(PROMOTION_ID ,PRODUCT_NAME,PRODUCT_ID , PROMOTION_PRICE, DATE_START, DATE_END);
 				promotionList.add(promotion);				
 			}
 			return promotionList;
