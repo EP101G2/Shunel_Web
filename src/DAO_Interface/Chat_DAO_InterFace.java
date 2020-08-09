@@ -22,7 +22,7 @@ public class Chat_DAO_InterFace implements Chat_DAO {
 	private DataSource dataSource;
 
 	private static final String GET_ALL = "SELECT * from CHAT_RECORD WHERE CHAT_NO = ?";
-	private static final String INSERT_STMT = "INSERT INTO CHAT_RECORD (CHAT_NO, CHAT_MSG, Type,  CHAT_SENDER, CHAT_RECRIVER,CHAT_IMAGE) VALUES (?, ?, ?, ?, ?, ?);";
+	private static final String INSERT_STMT = "INSERT INTO CHAT_RECORD (CHAT_NO, CHAT_MSG, type,  CHAT_SENDER, CHAT_RECRIVER,CHAT_IMAGE) VALUES (?, ?, ?, ?, ?, ?);";
 	private static final String SELECT_LAST_ID = "SELECT LAST_INSERT_ID()";
 	private static final String GET_IMAGE_STMT = "SELECT CHAT_IMAGE FROM CHAT_RECORD WHERE ID = ?;";
 	private static final String UPDATE_FLAG = "UPDATE CHAT_RECORD SET FLAG = 0 WHERE CHAT_NO = ? AND CHAT_RECEIVER = ?";

@@ -244,8 +244,16 @@ public class Orders_Servlet extends HttpServlet {
 		
 //		change on order status
 		case "updateStatus": { 
+			int count = 0;
+//			get order id and new status
+			int orderId = jsonObject.get("orderId").getAsInt();
 			int status = jsonObject.get("status").getAsInt();
-			int count = order_Main_DAO.updateStatus(status);
+			
+			System.out.println(orderId+"->"+status);
+//			Order_Main order_Main = gson.fromJson(status, Order_Main.class);
+//			Order_Main_DAO order_Main_DAO = new Oder_Main_DAO_Interface();
+			
+			count = order_Main_DAO.updateStatus(orderId, status);
 			System.out.print("---changeOrdersStatus---");
 			writeText(response, String.valueOf(count));
 			break;
