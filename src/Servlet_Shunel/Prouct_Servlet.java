@@ -26,6 +26,7 @@ import com.google.gson.JsonObject;
 //import com.sun.tools.classfile.Opcode.Set;
 import com.google.gson.reflect.TypeToken;
 
+import Bean.Notice;
 import Bean.Order_Detail;
 import Bean.Order_Main;
 import Bean.Product;
@@ -76,11 +77,7 @@ public class Prouct_Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-<<<<<<< HEAD
-=======
-		
 
->>>>>>> ee1728c6190713fec72c742ec759a3b96d5cfaa2
 		if (like_DAO == null) {
 			like_DAO = new Like_DAO_Interface();
 		}
@@ -374,13 +371,20 @@ public class Prouct_Servlet extends HttpServlet {
 			int orderid = 0;
 			int orderdetail = 0;
 			int notice =0;
+			String token = "";
 			orderid = this.order_Main.insert(order_Main);
+			Notice sendFirebase;
 
 //			String title = "您的訂單已成立";
 //			String content ="您的訂單已成立，訂單編號為";
 
 //			System.out.println("orderid======================="+orderid);
 			notice = notice_DAO.putGoodsNotice(orderid);
+			token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderid));
+			sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(orderid));
+			String title = sendFirebase.getNotice_Title();
+			String msg = sendFirebase.getNotice_Content();
+			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 1);
 //			System.out.println("notice======================="+notice);
 			
 			for (JsonElement element : jsonArray) {

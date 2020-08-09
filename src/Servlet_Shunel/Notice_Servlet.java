@@ -66,8 +66,7 @@ public class Notice_Servlet extends HttpServlet {
 
 	/*
 	 * 
-	 * 要使用的人要注意的分類
-	 * pageFlag:0 = "促銷訊息"; 1= "提問通知"; 2= "系統訊息"; 3= "貨態追蹤"; 4= "上架通知";
+	 * 要使用的人要注意的分類 pageFlag:0 = "促銷訊息"; 1= "提問通知"; 2= "系統訊息"; 3= "貨態追蹤"; 4= "上架通知";
 	 * 
 	 * 
 	 */
@@ -95,6 +94,13 @@ public class Notice_Servlet extends HttpServlet {
 		case "getNoticeAll":
 			List<Notice> notices = notice_DAO.getNoticeAll();
 			writeText(response, gson.toJson(notices));
+			break;
+		case "update":
+			String result = jsonObject.get("notice").getAsString();
+			Notice notice = gson.fromJson(result,Notice.class);
+			System.out.println(notice+"");
+			int update = notice_DAO.update(notice);
+			writeText(response, String.valueOf(update));
 			break;
 
 		case "getSaleAll":
@@ -154,18 +160,19 @@ public class Notice_Servlet extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
-			
-			case"sendOrderN":
-				String newChatT = jsonObject.get("title").getAsString();
-				String newChatD = jsonObject.get("msg").getAsString();
-				String order_ID = jsonObject.get("id").getAsString();
-				int countChatN = notice_DAO.sendSystemN(newChatT , newChatD);
-				
-				System.out.println("=====count=====" + countChatN);
-				writeText(response, String.valueOf(countChatN));
-				FirebaseCloudMsg.getInstance().FCMsendMsg(notice_DAO.getOneTokenFromOrderMain(order_ID), newChatT,newChatD, 1);		
-				break;
-				
+
+		case "sendOrderN":
+			String newChatT = jsonObject.get("title").getAsString();
+			String newChatD = jsonObject.get("msg").getAsString();
+			String order_ID = jsonObject.get("id").getAsString();
+			int countChatN = notice_DAO.sendSystemN(newChatT, newChatD);
+
+			System.out.println("=====count=====" + countChatN);
+			writeText(response, String.valueOf(countChatN));
+			FirebaseCloudMsg.getInstance().FCMsendMsg(notice_DAO.getOneTokenFromOrderMain(order_ID), newChatT, newChatD,
+					1);
+			break;
+
 		}
 
 	}
