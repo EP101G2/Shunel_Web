@@ -355,7 +355,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 //	get data for order management fragment (main) 
 	@Override
 	public List<Order_Main> getOrdersForManage(){
-		String sql = "SELECT ORDER_ID, ACCOUNT_ID, TOTAL_PRICE, ORDER_DATE, ORDER_STATUS, MODIFY_DATE FROM Shunel.ORDER_MAIN;";
+		String sql = "SELECT ORDER_ID, ACCOUNT_ID, TOTAL_PRICE, ORDER_DATE, ORDER_STATUS, MODIFY_DATE, RECRIVER, ADDRESS, PHONE FROM Shunel.ORDER_MAIN;";
 		
 		List<Order_Main> orderManageList = new ArrayList<>();
 //		Order_Main orderMainManage = null;
@@ -374,8 +374,11 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 				Timestamp order_Main_Order_Date = rs.getTimestamp("ORDER_DATE");
 				int order_Main_Order_Status = rs.getInt("ORDER_STATUS");
 				Timestamp order_Main_Modify_Date = rs.getTimestamp("MODIFY_DATE");
+				String recNameString = rs.getString("RECRIVER");
+				String recAddressString = rs.getString("ADDRESS");
+				String recPhoneString = rs.getString("PHONE");
 				
-				Order_Main orderMainManage = new Order_Main(order_ID, account_ID, order_Main_Total_Price, 
+				Order_Main orderMainManage = new Order_Main(order_ID, account_ID, order_Main_Total_Price, recNameString, recAddressString, recPhoneString, 
 						order_Main_Order_Date, order_Main_Order_Status, order_Main_Modify_Date);
 				orderManageList.add(orderMainManage);
 				System.out.print(rs);
