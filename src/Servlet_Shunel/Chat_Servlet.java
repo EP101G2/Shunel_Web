@@ -91,7 +91,7 @@ public class Chat_Servlet extends HttpServlet {
 			System.out.println("room_no:" + room_no);
 			if (room_no == 0) {
 				room_no = cDao.createRoom(admin_ID, user_ID);
-				System.out.println("1 ID:" + createID);
+				System.out.println("ID:" + createID);
 			}
 
 			writeText(response, String.valueOf(room_no));
@@ -168,77 +168,6 @@ public class Chat_Servlet extends HttpServlet {
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + type);
 		}
-
-		/*-----------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-		/*
-		 * if(type.equals("getAll")) { SimpleDateFormat simple = new
-		 * SimpleDateFormat("HH:mm:ss"); List<ChatMessage> messages = new
-		 * ArrayList<ChatMessage>(); List<Chat_Record> chats = new ArrayList<>(); int
-		 * chatRoom = jsonObject.get("chatRoom").getAsInt();
-		 * 
-		 * 
-		 * chats = cDao.getAll(chatRoom);
-		 * 
-		 * if(chats.size()>0) { for(Chat_Record ch : chats) { ChatMessage msg = new
-		 * ChatMessage(); // msg.setType(ch.getImages() == null ?"chat" : "img");
-		 * msg.setMessage(msg.getType().equals("chat") ? ch.getCHAT_MSG():
-		 * String.valueOf(ch.getID())); msg.setSender(ch.getCHAT_SENDER());
-		 * msg.setReceiver(ch.getCHAT_RECRIVER()); // msg.s(ch.getFLAG() == 0 ? "已讀" :
-		 * "未讀"); String dateStr = simple.format(ch.getCHAT_DATE()); //
-		 * msg.set(dateStr); messages.add(msg); } line = gson.toJson(messages); }else {
-		 * line = String.valueOf(0); }
-		 * 
-		 * response.setContentType(CONTENT_TYPE); PrintWriter out =
-		 * response.getWriter(); out.println(line); }else if(type.equals("read")){
-		 * String name = jsonObject.get("friend").getAsString(); int chatRoom =
-		 * jsonObject.get("chatRoom").getAsInt(); cDao.update(name,chatRoom); }else
-		 * if(type.equals("getChatRoom")){ int room_no; String user_name = null
-		 * ,chef_name = null; String user_no = jsonObject.get("user_no").getAsString();
-		 * String chef_no = jsonObject.get("chef_no").getAsString();
-		 * 
-		 * if(jsonObject.has("user_name")) { user_name =
-		 * jsonObject.get("user_name").getAsString(); chef_name =
-		 * jsonObject.get("chef_name").getAsString(); }
-		 * 
-		 * room_no = cDao.selectChatRoom(chef_no, user_no);
-		 * 
-		 * if(room_no == 0) { room_no = cDao.createRoom(chef_no, user_no ,user_name
-		 * ,chef_name); }
-		 * 
-		 * response.setContentType(CONTENT_TYPE); PrintWriter out =
-		 * response.getWriter(); out.println(room_no);
-		 * 
-		 * }else if(type.equals("getChatRoomList")) { String user_no =
-		 * jsonObject.get("user_no").getAsString(); String chef_no =
-		 * jsonObject.get("chef_no").getAsString(); List<Chat_Room> rooms =
-		 * cDao.selectChatRoomList(chef_no, user_no);
-		 * 
-		 * line = gson.toJson(rooms); response.setContentType(CONTENT_TYPE); PrintWriter
-		 * out = response.getWriter(); out.println(line);
-		 * 
-		 * }else{ int id = jsonObject.get("id").getAsInt(); OutputStream os =
-		 * response.getOutputStream(); int imageSize =
-		 * jsonObject.get("imageSize").getAsInt(); byte[] imageToAndroid =
-		 * cDao.getImage(id); if (imageToAndroid != null) { imageToAndroid =
-		 * ImageUtil.shrink(imageToAndroid, imageSize);
-		 * response.setContentType("image/jpeg");
-		 * response.setContentLength(imageToAndroid.length); os.write(imageToAndroid); }
-		 * }
-		 * 
-		 */
-		/*-----------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-//		String action = jsonObject.get("action").getAsString();
-//
-//		switch (action) {
-//		case "createRoom": {
-//
-//			break;
-//		}
-//		default:
-//			throw new IllegalArgumentException("Unexpected value: " + action);
-//		}
 
 	}
 
