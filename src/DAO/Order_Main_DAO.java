@@ -18,4 +18,6 @@ public interface Order_Main_DAO {
 	List<Order_Main> getShortOrderMains(String account_ID);
 	List<Order_Main> getOrdersForManage();
 	int updateStatus(int orderId, int status);
+	Order_Main getOrderMain(int orderID);
+	List<Order_Main> getShortOrderDetails(int order_ID);
 }
