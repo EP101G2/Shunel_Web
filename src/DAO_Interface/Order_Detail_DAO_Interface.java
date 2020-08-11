@@ -155,4 +155,38 @@ public class Order_Detail_DAO_Interface implements Order_Detail_DAO {
 		System.out.println("OrderMainDAO"+orderDetailsList);
 		return orderDetailsList;
 	}
+
+	@Override
+	public List<Order_Detail> getProductForOrders(int Order_ID) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT PRODUCT_ID FROM Shunel.ORDER_DETAIL WHERE Shunel.ORDER_DETAIL.ORDER_ID = ?";
+		
+		List<Order_Detail> orderProductList = new ArrayList<>();
+		Order_Detail orderProduct = null;
+		System.out.println("--getProductForOrders--");
+//		int product_ID = 0;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			
+			ps.setInt(1, Order_ID);
+			
+//			System.out.println(ps.isClosed());
+			System.out.println("orderId: "+Order_ID);
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				int product_ID = rs.getInt("PRODUCT_ID");
+				System.out.println("productId: "+product_ID);
+				
+				orderProduct = new Order_Detail(product_ID);
+				orderProductList.add(orderProduct);
+				System.out.print("ID of Products in choosen order: "+orderProductList);
+			}
+			return orderProductList;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return orderProductList;
+	}
 }

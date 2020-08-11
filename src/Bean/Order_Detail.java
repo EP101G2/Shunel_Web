@@ -30,6 +30,11 @@ public class Order_Detail implements Serializable {
 //		this.order_Detail_Buy_Price = order_Detail_Buy_Price;
 //	}
 
+	public Order_Detail(int product_ID) {
+		// TODO Auto-generated constructor stub
+		this.Product_ID = product_ID;
+	}
+
 	public int getOrder_ID() {
 		return order_ID;
 	}

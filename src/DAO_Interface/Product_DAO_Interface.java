@@ -379,5 +379,41 @@ public class Product_DAO_Interface implements Product_DAO {
 
 		return prouctList;
 	}
+	
+//	get products by orders
+	public List<Product> getProductsByOrders(int product_id) {
+		String sql = "SELECT * FROM PRODUCT WHERE PRODUCT_ID = ?";
+		List<Product> productList = new ArrayList<Product>();
+		Product product = null;
+		System.out.println("--getProductsByOrders--");
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, product_id);
+//			System.out.println(connection.isClosed());
+//			System.out.println(ps.isClosed());
+			System.out.print("product_Id: "+product_id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.println("--getProductsByOrders--");
+				int id = rs.getInt("PRODUCT_ID");
+				String prouct_Name = rs.getString("PRODUCT_NAME");
+				String prouct_Color = rs.getString("COLOR");
+				int prouct_Price = rs.getInt("PRICE");
+				String prouct_Dital = rs.getString("DITAL");
+				int prouct_Category_ID = rs.getInt("CATEGORY_ID");
+				int prouct_Status = rs.getInt("PRODUCT_STATUS");
+
+				product = new Product(id, prouct_Name, prouct_Color, prouct_Price, 
+						prouct_Dital, prouct_Category_ID, prouct_Status);
+				productList.add(product);
+				System.out.print("productList by order: "+productList);
+			}
+			return productList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return productList;
+	}
 
 }
