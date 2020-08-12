@@ -3,15 +3,12 @@
 
 
 <!--Jack -->
-<Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
+<!-- <Context docBase="Shunel_Web" path="/Shunel_Web" reloadable="true"> 
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="qazwsxedc" maxTotal="20" maxIdle="10" maxWaitMillis="5000" 
-<<<<<<< HEAD
-	/> </Context> 
-=======
 	/> </Context>  -->
->>>>>>> d01cb0c05aff97d525596d67fdb23fc60fb4a38c
+
 	
 
 
@@ -23,12 +20,8 @@
 	<Resource name="jdbc/Shunel" auth="Container" type="javax.sql.DataSource" 
 	driverClassName="com.mysql.cj.jdbc.Driver" url="jdbc:mysql://localhost:3306/Shunel?useUnicode=yes&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Taipei" 
 	username="root" password="Careeverything" maxTotal="20" maxIdle="10" maxWaitMillis="5000" /> 
-<<<<<<< HEAD
 	</Context>  -->
  
-=======
-	</Context>   -->
->>>>>>> 0abec0be4e136155b3fdd53749d7d17aabff741c
 
 
 
@@ -52,15 +45,8 @@
 	username="root" password="1qaz2wsx" maxTotal="20" maxIdle="10" maxWaitMillis="5000" />
  </Context>    
 
-=======
-<<<<<<< HEAD
-</Context> 
- -->
-=======
-</Context>  -->
->>>>>>> 0abec0be4e136155b3fdd53749d7d17aabff741c
 
->>>>>>> d01cb0c05aff97d525596d67fdb23fc60fb4a38c
+
 
 <!-- Sam -->
 
