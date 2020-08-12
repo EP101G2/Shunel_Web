@@ -226,7 +226,7 @@ public class Orders_Servlet extends HttpServlet {
 			Notice sendFirebase;
 			changePriceNotice = notice_DAO.sendGoodsPriceNotice(orderid);
 			token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderid));
-			sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(orderid));
+			sendFirebase = notice_DAO.TitleAndDetail(1, String.valueOf(orderid));
 			System.out.println(sendFirebase + "====sF=====");
 			String title = sendFirebase.getNotice_Title();
 			String msg = sendFirebase.getNotice_Content();
