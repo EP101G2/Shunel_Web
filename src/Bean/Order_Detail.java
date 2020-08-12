@@ -46,10 +46,11 @@ public class Order_Detail implements Serializable {
 		this.Product_ID = product_ID;
 	}
 
-	public Order_Detail(String product_Name, int buy_Price) {
+	public Order_Detail(String product_Name, int buy_Price, int Product_ID) {
 		// TODO Auto-generated constructor stub
 		this.order_Detail_Buy_Price = buy_Price;
 		this.product_Name = product_Name;//setting of product name?
+		this.Product_ID = Product_ID;
 	}
 
 	public int getOrder_ID() {
