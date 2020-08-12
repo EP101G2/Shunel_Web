@@ -261,6 +261,15 @@ public class Orders_Servlet extends HttpServlet {
 			List<Order_Detail> orderedProductList = order_Detail_DAO.getProductForOrders(Order_ID);
 			writeText(response, gson.toJson(orderedProductList));
 			break;
+		}//banned!!
+		
+//		get ordered product by order id
+		case "getOrderedProducts": {
+			int Order_ID = jsonObject.get("order_Id").getAsInt();
+			System.out.println("get order id from client ->"+Order_ID);
+			List<Order_Detail> orderedProductList = order_Detail_DAO.getOrderedProducts(Order_ID);
+			writeText(response, gson.toJson(orderedProductList));
+			break;
 		}
 
 //		get short order management list data

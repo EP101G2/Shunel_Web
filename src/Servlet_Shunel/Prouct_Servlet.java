@@ -402,15 +402,6 @@ public class Prouct_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(orderid));
 			break;
 		}
-		
-//		get products by orders
-		case "getProductsByOrders":{
-			int product_id = jsonObject.get("product_Id").getAsInt();
-			System.out.print("getProductByOrders where product_Id: "+product_id);
-			List<Order_Detail> productList = order_Detail_DAO.getProductForOrders(product_id);
-			writeText(response, gson.toJson(productList));
-			break;
-		}
 
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);

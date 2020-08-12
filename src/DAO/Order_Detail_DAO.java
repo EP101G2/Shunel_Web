@@ -22,4 +22,8 @@ public interface Order_Detail_DAO {
 	
 	List<Order_Detail> getProductForOrders(int Order_ID);
 
+//	List<Product> getOrderedProducts(int Product_ID);
+	
+	List<Order_Detail> getOrderedProducts(int Order_ID);
+
 }

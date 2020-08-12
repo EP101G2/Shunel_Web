@@ -189,4 +189,36 @@ public class Order_Detail_DAO_Interface implements Order_Detail_DAO {
 		}
 		return orderProductList;
 	}
+
+	@Override
+	public List<Order_Detail> getOrderedProducts(int Order_ID) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT pd.PRODUCT_NAME, od.BUY_PRICE FROM ORDER_DETAIL od JOIN PRODUCT pd on od.PRODUCT_ID = pd.PRODUCT_ID WHERE od.ORDER_ID = ?;";
+		List<Order_Detail> orderedProductList = new ArrayList<>();
+		Order_Detail orderedProduct = null;
+		System.out.println("--getOrderedProducts--");
+		
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, Order_ID);
+//			System.out.println(ps.isClosed());
+			System.out.println("OrderId: "+Order_ID);
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				String product_Name = rs.getString("PRODUCT_NAME");
+				int buy_Price = rs.getInt("BUY_PRICE");
+
+//				problem: how to insert Product.product_name into List<Order_Detail>?
+				orderedProduct = new Order_Detail(product_Name, buy_Price);
+				orderedProductList.add(orderedProduct);
+				System.out.print("Products name and buy price in choosen order: "+orderedProductList);
+			}
+			return orderedProductList;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return orderedProductList;
+	}
 }

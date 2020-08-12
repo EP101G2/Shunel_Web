@@ -24,10 +24,6 @@ public interface Product_DAO {
 	List<Product> getCategoryProduct(int category_id);
 	List<Product> getLikeProduct(String user_id);
 	byte[] getImage(int id);
-	
-//	get product detail by orders
-	List<Product> getProductsByOrders(int product_id);
-	
 }
 
 
