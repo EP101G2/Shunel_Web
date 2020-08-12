@@ -19,5 +19,11 @@ public interface Order_Detail_DAO {
 	Order_Detail findById(int Order_ID);
 
 	List<Order_Detail> getAll();
+	
+	List<Order_Detail> getProductForOrders(int Order_ID);
+
+//	List<Product> getOrderedProducts(int Product_ID);
+	
+	List<Order_Detail> getOrderedProducts(int Order_ID);
 
 }

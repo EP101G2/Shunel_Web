@@ -10,10 +10,21 @@ public class Order_Detail implements Serializable {
 	private int Product_ID;
 	private int order_Detail_Buy_Price;
 	private String color;
+	private String product_Name;
+	
+	public Order_Detail(int order_ID, int order_Detail_Amount, int product_ID, int order_Detail_Buy_Price,
+			String color, String product_Name) {
+		super();
+		this.order_ID = order_ID;
+		this.order_Detail_Amount = order_Detail_Amount;
+		this.Product_ID = product_ID;
+		this.order_Detail_Buy_Price = order_Detail_Buy_Price;
+		this.color = color;
+		this.product_Name = product_Name;
+	}
 	
 	public Order_Detail(int order_ID, int order_Detail_Amount, int product_ID, int order_Detail_Buy_Price,
 			String color) {
-		super();
 		this.order_ID = order_ID;
 		this.order_Detail_Amount = order_Detail_Amount;
 		this.Product_ID = product_ID;
@@ -29,6 +40,17 @@ public class Order_Detail implements Serializable {
 //		this.Product_ID = Prount_ID;
 //		this.order_Detail_Buy_Price = order_Detail_Buy_Price;
 //	}
+
+	public Order_Detail(int product_ID) {
+		// TODO Auto-generated constructor stub
+		this.Product_ID = product_ID;
+	}
+
+	public Order_Detail(String product_Name, int buy_Price) {
+		// TODO Auto-generated constructor stub
+		this.order_Detail_Buy_Price = buy_Price;
+		this.product_Name = product_Name;//setting of product name?
+	}
 
 	public int getOrder_ID() {
 		return order_ID;

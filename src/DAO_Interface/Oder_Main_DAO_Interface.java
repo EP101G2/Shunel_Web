@@ -159,6 +159,41 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		System.out.println("OrderMainDAO"+oMList);
 		return oMList;
 	}
+	
+	@Override
+	public Order_Main getOrderMain(int orderID) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM ORDER_MAIN WHERE ORDER_ID = ?;";
+		Order_Main order_Main = null;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql)) {
+//			ps.setString(1, account_ID);
+			ps.setInt(1, orderID);
+			/*
+			 * 當Statement關閉，ResultSet也會自動關閉， 可以不需要將ResultSet宣告置入try with
+			 * resources小括號內，參看ResultSet說明
+			 */
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+//				int orderID = rs.getInt("ORDER_ID");
+				String account_ID = rs.getString("ACCOUNT_ID");
+				int order_Main_Total_Price = rs.getInt("TOTAL_PRICE");
+				String order_Main_Receiver = rs.getString("RECRIVER");
+				String order_Main_Address = rs.getString("ADDRESS");
+				String order_Main_Phone = rs.getString("PHONE");
+				Timestamp Order_Main_Order_Date = rs.getTimestamp("ORDER_DATE");
+				int order_Status = rs.getInt("ORDER_STATUS");
+				Timestamp Order_Main_Modify_Date = rs.getTimestamp("MODIFY_DATE");
+				order_Main = new Order_Main(orderID, account_ID, order_Main_Total_Price, order_Main_Receiver, order_Main_Address, order_Main_Phone, Order_Main_Order_Date,
+						order_Status, Order_Main_Modify_Date); 
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return order_Main;
+	}
 
 	@Override
 	public Order_Main findById(String account_ID) {
@@ -283,19 +318,49 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		return orderMainShortList;
 	}//ok
 	
+//	get short order details
+	public List<Order_Main> getShortOrderDetails(int order_ID){
+		String sql = "SELECT ORDER_STATUS, TOTAL_PRICE, RECRIVER, ADDRESS, PHONE FROM Shunel.ORDER_MAIN WHERE Shunel.ORDER_MAIN.ORDER_ID = ?;";
+		List<Order_Main> orderDetShortList = new ArrayList<>();
+		
+		Order_Main orderDetShort = null;
+		System.out.println("-----orderMainDao.getShortOrderDet-----");
+		
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, order_ID);
+			System.out.println(ps.isClosed());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.print("-----for get short OrderMains in Order Main Dao-----");
+				int status = rs.getInt("ORDER_STATUS");
+				int totalPrice = rs.getInt("TOTAL_PRICE");
+				String receiver = rs.getString("RECRIVER");
+				String address = rs.getString("ADDRESS");
+				String phone = rs.getString("PHONE");
+				
+				orderDetShort = new Order_Main(order_ID, status, totalPrice, receiver, address, phone);
+				orderDetShortList.add(orderDetShort);
+			}	
+			return orderDetShortList;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return orderDetShortList;
+	}
+	
 //	get data for order management fragment (main) 
 	@Override
 	public List<Order_Main> getOrdersForManage(){
-		String sql = "SELECT ORDER_ID, ACCOUNT_ID, TOTAL_PRICE, ORDER_DATE, ORDER_STATUS, MODIFY_DATE FROM Shunel.ORDER_MAIN;";
+		String sql = "SELECT ORDER_ID, ACCOUNT_ID, TOTAL_PRICE, ORDER_DATE, ORDER_STATUS, MODIFY_DATE, RECRIVER, ADDRESS, PHONE FROM Shunel.ORDER_MAIN;";
 		
 		List<Order_Main> orderManageList = new ArrayList<>();
-//		Order_Main orderMainManage = null;
 		System.out.println("-----orderMainDao.getOrdersForManage-----");
 		
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-//			ps.setString(1, user_id);
-//			System.out.println(connection.isClosed());
 			System.out.println(ps.isClosed());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -305,8 +370,11 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 				Timestamp order_Main_Order_Date = rs.getTimestamp("ORDER_DATE");
 				int order_Main_Order_Status = rs.getInt("ORDER_STATUS");
 				Timestamp order_Main_Modify_Date = rs.getTimestamp("MODIFY_DATE");
+				String recNameString = rs.getString("RECRIVER");
+				String recAddressString = rs.getString("ADDRESS");
+				String recPhoneString = rs.getString("PHONE");
 				
-				Order_Main orderMainManage = new Order_Main(order_ID, account_ID, order_Main_Total_Price, 
+				Order_Main orderMainManage = new Order_Main(order_ID, account_ID, order_Main_Total_Price, recNameString, recAddressString, recPhoneString, 
 						order_Main_Order_Date, order_Main_Order_Status, order_Main_Modify_Date);
 				orderManageList.add(orderMainManage);
 				System.out.print(rs);

@@ -24,9 +24,6 @@ public interface Product_DAO {
 	List<Product> getCategoryProduct(int category_id);
 	List<Product> getLikeProduct(String user_id);
 	byte[] getImage(int id);
-	
-	
-	
 }
 
 
