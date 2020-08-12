@@ -381,11 +381,11 @@ public class Prouct_Servlet extends HttpServlet {
 //			System.out.println("orderid======================="+orderid);
 			notice = notice_DAO.putGoodsNotice(orderid);
 			token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderid));
-			sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(orderid));
+			sendFirebase = notice_DAO.TitleAndDetail(1, String.valueOf(orderid));
 			String title = sendFirebase.getNotice_Title();
 			String msg = sendFirebase.getNotice_Content();
 			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 1);
-//			System.out.println("notice======================="+notice);
+			System.out.println("FireB======================="+sendFirebase);
 			
 			for (JsonElement element : jsonArray) {
 				JsonObject obj = element.getAsJsonObject();
