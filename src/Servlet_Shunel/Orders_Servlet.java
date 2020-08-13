@@ -254,14 +254,14 @@ public class Orders_Servlet extends HttpServlet {
 			List<Order_Main> orderShortDetailList = order_Main_DAO.getShortOrderDetails(order_ID);
 			writeText(response, gson.toJson(orderShortDetailList));
 		}  
-//		get product id by order id
-		case "getProductForOrders": {
-			int Order_ID = jsonObject.get("order_Id").getAsInt();
-			System.out.print("getProductForOrders where orderId: "+Order_ID);
-			List<Order_Detail> orderedProductList = order_Detail_DAO.getProductForOrders(Order_ID);
-			writeText(response, gson.toJson(orderedProductList));
-			break;
-		}//banned!!
+////		get product id by order id
+//		case "getProductForOrders": {
+//			int Order_ID = jsonObject.get("order_Id").getAsInt();
+//			System.out.print("getProductForOrders where orderId: "+Order_ID);
+//			List<Order_Detail> orderedProductList = order_Detail_DAO.getProductForOrders(Order_ID);
+//			writeText(response, gson.toJson(orderedProductList));
+//			break;
+//		}//banned!!
 		
 //		get ordered product by order id
 		case "getOrderedProducts": {
