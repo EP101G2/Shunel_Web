@@ -155,4 +155,71 @@ public class Order_Detail_DAO_Interface implements Order_Detail_DAO {
 		System.out.println("OrderMainDAO"+orderDetailsList);
 		return orderDetailsList;
 	}
+
+	@Override
+	public List<Order_Detail> getProductForOrders(int Order_ID) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT PRODUCT_ID FROM Shunel.ORDER_DETAIL WHERE Shunel.ORDER_DETAIL.ORDER_ID = ?";
+		
+		List<Order_Detail> orderProductList = new ArrayList<>();
+		Order_Detail orderProduct = null;
+		System.out.println("--getProductForOrders--");
+//		int product_ID = 0;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			
+			ps.setInt(1, Order_ID);
+			
+//			System.out.println(ps.isClosed());
+			System.out.println("orderId: "+Order_ID);
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				int product_ID = rs.getInt("PRODUCT_ID");
+				System.out.println("productId: "+product_ID);
+				
+				orderProduct = new Order_Detail(product_ID);
+				orderProductList.add(orderProduct);
+				System.out.print("ID of Products in choosen order: "+orderProductList);
+			}
+			return orderProductList;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return orderProductList;
+	}
+
+	@Override
+	public List<Order_Detail> getOrderedProducts(int Order_ID) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT pd.PRODUCT_NAME, od.BUY_PRICE, od.PRODUCT_ID FROM ORDER_DETAIL od JOIN PRODUCT pd on od.PRODUCT_ID = pd.PRODUCT_ID WHERE od.ORDER_ID = ?;";
+		List<Order_Detail> orderedProductList = new ArrayList<>();
+		Order_Detail orderedProduct = null;
+		System.out.println("--getOrderedProducts--");
+		
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, Order_ID);
+//			System.out.println(ps.isClosed());
+			System.out.println("OrderId: "+Order_ID);
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				String product_Name = rs.getString("PRODUCT_NAME");
+				int buy_Price = rs.getInt("BUY_PRICE");
+				int Product_ID = rs.getInt("PRODUCT_ID");
+
+//				problem: how to insert Product.product_name into List<Order_Detail>?
+				orderedProduct = new Order_Detail(product_Name, buy_Price, Product_ID);
+				orderedProductList.add(orderedProduct);
+				System.out.print("Products name and buy price in choosen order: "+orderedProductList);
+			}
+			return orderedProductList;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return orderedProductList;
+	}
 }

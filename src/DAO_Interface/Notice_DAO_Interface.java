@@ -156,7 +156,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	@Override
 
 	public List<Notice> getNoticeAll() {
-		String sql = "SELECT * FROM Shunel.NOTICE WHERE NOTICE_CATEGORY_ID = 3 or NOTICE_CATEGORY_ID = 4 order by notice_time desc; ";
+		String sql = "SELECT * FROM Shunel.NOTICE WHERE NOTICE_CATEGORY_ID = 3  order by notice_time desc; ";
 		List<Notice> noticeList = new ArrayList<Notice>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -335,6 +335,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 				String str = "";
 				str = rs.getString("TOKEN");
 				tokenList.add(str);
+				System.out.println(tokenList);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -355,6 +356,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 			ps.setInt(1, CATEGORY_ID);
 			ps.setString(2, GATEGORY_MESSAGE_ID);
 			ResultSet rs = ps.executeQuery();
+			System.out.println(ps.toString());
 			while (rs.next()) {
 				System.out.println("--------");
 				String NOTICE_TITLE = rs.getString(1);
@@ -385,7 +387,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 					PreparedStatement ps = connection.prepareStatement(sql);) {
 				ps.setString(1, "訂單已成立");
 				ps.setString(2, "您的訂單編號為  " + order_id + " ，將於付款後出貨");
-				ps.setInt(3, 3);
+				ps.setInt(3, 1);
 				ps.setInt(4, order_id);
 				System.out.print(ps.toString());
 				count = ps.executeUpdate();
@@ -401,7 +403,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		public int sendGoodsPriceNotice(int order_id) {
 			int count = 0;
 			System.out.print("test!");
-			String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE ( NOTICE_CATEGORY_ID = 3  and  CATEGORY_MESSAGE_ID = ?);";
+			String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE ( NOTICE_CATEGORY_ID = 1  and  CATEGORY_MESSAGE_ID = ?);";
 
 			try (Connection connection = dataSource.getConnection();
 					PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -422,7 +424,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		@Override
 		public int sendGoodsNotice(String order_id) {
 			int count = 0;
-			String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE ( NOTICE_CATEGORY_ID = 3  and  CATEGORY_MESSAGE_ID = ?);";
+			String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE ( NOTICE_CATEGORY_ID = 1  and  CATEGORY_MESSAGE_ID = ?);";
 			try (Connection connection = dataSource.getConnection();
 					PreparedStatement ps = connection.prepareStatement(sql);) {
 				ps.setString(1, "商品已送出");
@@ -435,6 +437,9 @@ public class Notice_DAO_Interface implements Notice_DAO {
 			}
 			return count;
 		}
+		
+//		@Override
+//		public int 
 	
 	//亭葳
 	//從訂單總表連到USER_ACCOUNT去取Token

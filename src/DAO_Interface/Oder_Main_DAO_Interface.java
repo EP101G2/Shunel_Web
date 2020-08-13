@@ -329,11 +329,10 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ps.setInt(1, order_ID);
-			System.out.println(connection.isClosed());
-//			System.out.println(ps.isClosed());
+			System.out.println(ps.isClosed());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-//				System.out.print("-----for get short OrderMains in Order Main Dao-----");
+				System.out.print("-----for get short OrderMains in Order Main Dao-----");
 				int status = rs.getInt("ORDER_STATUS");
 				int totalPrice = rs.getInt("TOTAL_PRICE");
 				String receiver = rs.getString("RECRIVER");
@@ -358,13 +357,10 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		String sql = "SELECT ORDER_ID, ACCOUNT_ID, TOTAL_PRICE, ORDER_DATE, ORDER_STATUS, MODIFY_DATE, RECRIVER, ADDRESS, PHONE FROM Shunel.ORDER_MAIN;";
 		
 		List<Order_Main> orderManageList = new ArrayList<>();
-//		Order_Main orderMainManage = null;
 		System.out.println("-----orderMainDao.getOrdersForManage-----");
 		
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-//			ps.setString(1, user_id);
-//			System.out.println(connection.isClosed());
 			System.out.println(ps.isClosed());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {

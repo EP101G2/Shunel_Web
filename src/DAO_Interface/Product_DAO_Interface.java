@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -199,6 +200,7 @@ public class Product_DAO_Interface implements Product_DAO {
 	@Override
 	public int insert(Product prouct, byte[] image, byte[] image2, byte[] image3) {
 		int count = 0;
+		int product_id = 0;  //product table的 PK
 		String sql = "INSERT INTO PRODUCT";
 
 		if (image == null && image2 == null && image3 == null) {        //沒有上傳任何一張照片
@@ -219,7 +221,7 @@ public class Product_DAO_Interface implements Product_DAO {
 		}
 
 		try (Connection connection = dataSource.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql);) {
+				PreparedStatement ps = connection.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);) {
 			ps.setString(1, prouct.getProduct_Name());
 			ps.setString(2, prouct.getProduct_Color());
 			ps.setInt(3, prouct.getProduct_Price());
@@ -239,11 +241,19 @@ public class Product_DAO_Interface implements Product_DAO {
 			} else {
 				count = ps.executeUpdate();
 			}
+			if(count != 0) {
+			    ResultSet resultSet = ps.getGeneratedKeys();
+			      if(resultSet.next()) {
+			    	 
+			    	  product_id =  resultSet.getInt(1);
+			    	  System.out.println("這是product ID"+product_id);
+			      }
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return count;
+		return product_id;
 
 	}
 

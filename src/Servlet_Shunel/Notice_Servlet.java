@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.reflect.TypeToken;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,7 +27,7 @@ import DAO_Interface.Notice_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
 import DAO_Interface.Promotion_DAO_Interface;
 import DAO_Interface.Shopping_Card_DAO_Interdace;
-
+import java.lang.reflect.Type;
 /**
  * Servlet implementation class Notice_Servlet
  */
@@ -89,10 +90,30 @@ public class Notice_Servlet extends HttpServlet {
 		}
 
 		String action = jsonObject.get("action").getAsString();
+		List<Notice> notices;
+		notices = null;
 
 		switch (action) {
+		case"delete":
+			String getDeleteString =  "";
+			getDeleteString  = jsonObject.get("delete").getAsString();
+			 Type listType = new TypeToken<List<Notice>>() {
+             }.getType();
+			 notices = gson.fromJson(getDeleteString , listType);
+			 int getDelete = 0;
+			 for(Notice notice:notices) {
+				  getDelete = notice_DAO.delete(notice.getNotice_ID());
+				  getDelete+=getDelete;
+			 }
+//			 if(getDelete !=  notices.size() ) {
+//				 
+//			 }
+			 writeText(response, String.valueOf(getDelete));
+			 
+			
+		break;
 		case "getNoticeAll":
-			List<Notice> notices = notice_DAO.getNoticeAll();
+			 notices = notice_DAO.getNoticeAll();
 			writeText(response, gson.toJson(notices));
 			break;
 		case "update":
@@ -141,10 +162,12 @@ public class Notice_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(countSaleN));
 			try {
 				FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getToken(), newSaleT, newSaleD, 0);
+				
 			} catch (FirebaseMessagingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		
 			break;
 
 		case "sendSystemN":

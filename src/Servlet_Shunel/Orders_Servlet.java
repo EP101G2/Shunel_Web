@@ -226,7 +226,7 @@ public class Orders_Servlet extends HttpServlet {
 			Notice sendFirebase;
 			changePriceNotice = notice_DAO.sendGoodsPriceNotice(orderid);
 			token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderid));
-			sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(orderid));
+			sendFirebase = notice_DAO.TitleAndDetail(1, String.valueOf(orderid));
 			System.out.println(sendFirebase + "====sF=====");
 			String title = sendFirebase.getNotice_Title();
 			String msg = sendFirebase.getNotice_Content();
@@ -247,13 +247,30 @@ public class Orders_Servlet extends HttpServlet {
 		}
 //		get short order detail list insert here
 		case "getOrderDetailShort": {
-			int order_ID = jsonObject.get("Order_ID").getAsInt(); // check if "Order_ID" matches the "Order_ID" in
-																		// client
+			int order_ID = jsonObject.get("Order_ID").getAsInt(); // check if "Order_ID" matches the "Order_ID" in client
+																		
 //			create method getShortOrderDetails(order_ID)in DAO, DAO Interface
 			
 			List<Order_Main> orderShortDetailList = order_Main_DAO.getShortOrderDetails(order_ID);
 			writeText(response, gson.toJson(orderShortDetailList));
 		}  
+////		get product id by order id
+//		case "getProductForOrders": {
+//			int Order_ID = jsonObject.get("order_Id").getAsInt();
+//			System.out.print("getProductForOrders where orderId: "+Order_ID);
+//			List<Order_Detail> orderedProductList = order_Detail_DAO.getProductForOrders(Order_ID);
+//			writeText(response, gson.toJson(orderedProductList));
+//			break;
+//		}//banned!!
+		
+//		get ordered product by order id
+		case "getOrderedProducts": {
+			int Order_ID = jsonObject.get("order_Id").getAsInt();
+			System.out.println("get order id from client ->"+Order_ID);
+			List<Order_Detail> orderedProductList = order_Detail_DAO.getOrderedProducts(Order_ID);
+			writeText(response, gson.toJson(orderedProductList));
+			break;
+		}
 
 //		get short order management list data
 		case "getOrdersForManage": {
@@ -261,7 +278,7 @@ public class Orders_Servlet extends HttpServlet {
 			writeText(response, gson.toJson(orderManageList));
 			System.out.println("---getOrdersForManage---" + orderManageList);
 			break;
-		}
+		}//ok
 
 //		change on order status
 		case "updateStatus": {

@@ -30,6 +30,7 @@ import Bean.Notice;
 import Bean.Order_Detail;
 import Bean.Order_Main;
 import Bean.Product;
+import Bean.Promotion;
 import Bean.Shopping_Cart;
 import Bean.User_Account;
 import DAO.Like_DAO;
@@ -37,12 +38,14 @@ import DAO.Notice_DAO;
 import DAO.Order_Detail_DAO;
 import DAO.Order_Main_DAO;
 import DAO.Product_DAO;
+import DAO.Promotion_DAO;
 import DAO.Shopping_Card_DAO;
 import DAO_Interface.Like_DAO_Interface;
 import DAO_Interface.Notice_DAO_Interface;
 import DAO_Interface.Oder_Main_DAO_Interface;
 import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
+import DAO_Interface.Promotion_DAO_Interface;
 import DAO_Interface.Shopping_Card_DAO_Interdace;
 
 //import idv.ron.server.spots.Spot;
@@ -61,6 +64,7 @@ public class Prouct_Servlet extends HttpServlet {
 	Order_Main_DAO order_Main = null;
 	Like_DAO like_DAO = null;
 	Notice_DAO notice_DAO  = null;
+	Promotion_DAO promotion_DAO = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -142,6 +146,11 @@ public class Prouct_Servlet extends HttpServlet {
 		if (notice_DAO == null) {
 			notice_DAO = new Notice_DAO_Interface();
 		}
+		if (promotion_DAO == null) {
+			promotion_DAO = new Promotion_DAO_Interface();
+		}
+		
+		
 		
 
 		//
@@ -151,6 +160,7 @@ public class Prouct_Servlet extends HttpServlet {
 		
 	    case "updateProduct":
 		case "insertProduct":{
+			 int product_ID = 0;
 			 String jsonin= jsonObject.get("product").getAsString();
 			 int flag = jsonObject.get("flag").getAsInt();
 			 Product product = gson.fromJson(jsonin, Product.class);
@@ -163,15 +173,21 @@ public class Prouct_Servlet extends HttpServlet {
 					}
 				}
 			 if(action.equals("updateProduct")) {
+				 product_ID = product.getProduct_ID();
 				 int count = product_DAO.update(product, image, null, null);
 				 writeText(response, String.valueOf(count));
 				 
 			 }else {
-				
-				
 			 int count = product_DAO.insert(product, image, null, null);
+			 if(count != 0) {
+				 product_ID = count;
+			 }
 			 writeText(response, String.valueOf(count));
 			
+			 }
+			 if(jsonObject.has("promotion")) {
+				 Promotion promotion = new Gson().fromJson(jsonObject.get("promotion").getAsString(), Promotion.class);
+				 promotion(promotion,product_ID);
 			 }
 			break;
 		}
@@ -381,11 +397,11 @@ public class Prouct_Servlet extends HttpServlet {
 //			System.out.println("orderid======================="+orderid);
 			notice = notice_DAO.putGoodsNotice(orderid);
 			token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderid));
-			sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(orderid));
+			sendFirebase = notice_DAO.TitleAndDetail(1, String.valueOf(orderid));
 			String title = sendFirebase.getNotice_Title();
 			String msg = sendFirebase.getNotice_Content();
 			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 1);
-//			System.out.println("notice======================="+notice);
+			System.out.println("FireB======================="+sendFirebase);
 			
 			for (JsonElement element : jsonArray) {
 				JsonObject obj = element.getAsJsonObject();
@@ -408,6 +424,19 @@ public class Prouct_Servlet extends HttpServlet {
 		}
 
 	}
+	
+	
+	
+	
+	private int promotion(Promotion promotion,int product_ID) {
+		int count = 0 ;
+		promotion.setProduct_ID(product_ID);
+		count = promotion_DAO.insert(promotion);
+		
+		
+		return count;
+	}
+	
 
 	private void writeText(HttpServletResponse response, String outText) throws IOException {
 		// TODO Auto-generated method stub
