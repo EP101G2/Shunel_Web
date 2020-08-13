@@ -47,6 +47,14 @@ public interface Notice_DAO {
 
 	int sendGoodsPriceNotice(int order_id);
 
+	List<String> getAllLike(int product_ID);
+
+	List<String> getOneToken(List<String> Account_ID);
+
+	int sendLikeNotice(String product_Name, int product_ID);
+
+	String getProduct_Name(int product_ID);
+
 
 	
 
