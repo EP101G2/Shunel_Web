@@ -238,22 +238,21 @@ public class Orders_Servlet extends HttpServlet {
 			break;
 		}
 
-//		get shortOrderList for orderListFragment
-		case "getOrderMainShort": {
+//		get OrderList for orderListFragment
+		case "getOrderMains": {
 			String account_ID = jsonObject.get("Account_ID").getAsString();
-			List<Order_Main> orderShortMainMainList = order_Main_DAO.getShortOrderMains(account_ID);
+			int status = jsonObject.get("status").getAsInt();
+			System.out.print("input accountId & status: "+account_ID+", "+status);
+			List<Order_Main> orderShortMainMainList = order_Main_DAO.getOrderMains(account_ID, status);
 			writeText(response, gson.toJson(orderShortMainMainList));
 			break;
 		}
-//		get short order detail list insert here
-		case "getOrderDetailShort": {
-			int order_ID = jsonObject.get("Order_ID").getAsInt(); // check if "Order_ID" matches the "Order_ID" in client
-																		
-//			create method getShortOrderDetails(order_ID)in DAO, DAO Interface
-			
-			List<Order_Main> orderShortDetailList = order_Main_DAO.getShortOrderDetails(order_ID);
-			writeText(response, gson.toJson(orderShortDetailList));
-		}  
+////		get short order detail list insert here(banned!!
+//		case "getOrderDetailShort": {
+//			int order_ID = jsonObject.get("Order_ID").getAsInt(); // check if "Order_ID" matches the "Order_ID" in client
+//			List<Order_Main> orderShortDetailList = order_Main_DAO.getShortOrderDetails(order_ID);
+//			writeText(response, gson.toJson(orderShortDetailList));
+//		}  
 ////		get product id by order id
 //		case "getProductForOrders": {
 //			int Order_ID = jsonObject.get("order_Id").getAsInt();
@@ -263,7 +262,7 @@ public class Orders_Servlet extends HttpServlet {
 //			break;
 //		}//banned!!
 		
-//		get ordered product by order id
+//		get ordered product by order id(back and front)
 		case "getOrderedProducts": {
 			int Order_ID = jsonObject.get("order_Id").getAsInt();
 			System.out.println("get order id from client ->"+Order_ID);
