@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+
 import Bean.Admin;
 import Bean.User_Account;
 import DAO.Admin_DAO;
@@ -35,7 +36,7 @@ public class Admin_DAO_Interface implements Admin_DAO {
 			 * 當Statement關閉，ResultSet也會自動關閉， 可以不需要將ResultSet宣告置入try with
 			 * resources小括號內，參看ResultSet說明
 			 */
-			ResultSet rs = ps.executeQuery();   //做查詢
+			ResultSet rs = ps.executeQuery(); //做查詢
 			if (rs.next()) {
 				String admin_Name=rs.getString("ADMIN_NAME");
 				int admin_id = rs.getInt("ADMIN_ID");   //前面自己取，後面對應資料庫欄位名稱
@@ -43,6 +44,7 @@ public class Admin_DAO_Interface implements Admin_DAO {
 				String admin_Position = rs.getString("ADMIN_POSITION");
 				
 				admin = new Admin(admin_id,admin_Name,adminUserName_ID,admin_Password,admin_Position);
+				System.out.println(admin);
 			}   //user_Account是我自己創建的物件（空容器），裡面塞我ＲＳ出來的東西（查的資料）
 		} catch (SQLException e) {
 			e.printStackTrace();
