@@ -288,34 +288,42 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 		return image;
 	}
 	
-//	get short orderlist
+//	get orderlist from orderMain for client
 	@Override
-	public List<Order_Main> getShortOrderMains(String user_id) {
-		String sql = "SELECT ORDER_ID, ORDER_STATUS FROM Shunel.ORDER_MAIN WHERE Shunel.ORDER_MAIN.ACCOUNT_ID = ?;";
+	public List<Order_Main> getOrderMains(String user_id, int status) {
+		String sql = "SELECT * FROM Shunel.ORDER_MAIN om WHERE om.ACCOUNT_ID = ? AND om.ORDER_STATUS = ?;";
 		
-		List<Order_Main> orderMainShortList = new ArrayList<>();
-		Order_Main orderMainShort = null;
+		List<Order_Main> orderMainList = new ArrayList<>();
+		Order_Main orderMain = null;
 		System.out.println("-----orderMainDao.getShortOrderMains-----");
 		
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ps.setString(1, user_id);
+			ps.setInt(2, status);
 			System.out.println(connection.isClosed());
 //			System.out.println(ps.isClosed());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-//				System.out.print("-----for get short OrderMains in Order Main Dao-----");
+//				System.out.print("---getting OrderMains by accountId & status in OrderMainDAO---");
 				int order_ID = rs.getInt("ORDER_ID");
-				int status = rs.getInt("ORDER_STATUS");
-				orderMainShort = new Order_Main(order_ID, status);
-				orderMainShortList.add(orderMainShort);
+				String account_ID = rs.getString("ACCOUNT_ID");
+				int total_Price = rs.getInt("TOTAL_PRICE");
+				String recriver = rs.getString("RECRIVER");
+				String address = rs.getString("ADDRESS");
+				String phone = rs.getString("PHONE");
+				Timestamp order_Date = rs.getTimestamp("ORDER_DATE");
+				Timestamp modify_Date = rs.getTimestamp("MODIFY_DATE");
+				
+				orderMain = new Order_Main(order_ID, account_ID, total_Price, recriver, address, phone, order_Date, status, modify_Date);
+				orderMainList.add(orderMain);
 			}	
-			return orderMainShortList;
+			return orderMainList;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return orderMainShortList;
+		return orderMainList;
 	}//ok
 	
 //	get short order details
