@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 import Bean.Order_Detail;
 import Bean.Order_Main;
-
+import Bean.orderStatistics;
 import DAO.Order_Main_DAO;
 //import DAO.Order_Main_Short;
 import Servlet_Shunel.ServiceLocator;
@@ -385,6 +385,46 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 			e.printStackTrace();
 		}
 		return orderManageList;
+	}
+
+	
+	
+	/*取得銷售統計數量-----------------------------------------------------------------------------------------------------------------------------------------*/
+	@Override
+	public List<orderStatistics> getStatistics(Timestamp date1, Timestamp date2) {
+		// TODO Auto-generated method stub
+		
+		String sql = "SELECT od.PRODUCT_ID ,pd.CATEGORY_ID,count(pd.CATEGORY_ID) AS countCATEGORY_ID,sum(od.BUY_PRICE) AS sumBUY_PRICE FROM  ORDER_DETAIL od";
+		sql+="JOIN PRODUCT pd on od.PRODUCT_ID = pd.PRODUCT_ID";
+		sql+="JOIN ORDER_MAIN om on od.ORDER_ID = om.ORDER_ID";
+		sql+="WHERE om.ORDER_DATE BETWEEN ? AND ?";
+		sql+="group by od.PRODUCT_ID,pd.CATEGORY_ID;";
+		
+		List<orderStatistics> oList = new ArrayList<orderStatistics>();
+		orderStatistics oStatistics =null;
+		
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);){
+			ps.setTimestamp(1, date1);
+			ps.setTimestamp(2, date2);
+			
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				int product_ID = rs.getInt("PRODUCT_ID");
+				int CATEGORY_ID = rs.getInt("CATEGORY_ID");
+				int countCATEGORY_ID = rs.getInt("CATEGORY_ID");
+				int sumBUY_PRICE = rs.getInt("sumBUY_PRICE");
+				oStatistics = new orderStatistics(product_ID, CATEGORY_ID, countCATEGORY_ID, sumBUY_PRICE);
+				oList.add(oStatistics);
+				
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return oList;
 	}
 	
 	
