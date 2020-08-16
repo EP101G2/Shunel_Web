@@ -353,6 +353,8 @@ public class Orders_Servlet extends HttpServlet {
 			break;
 		}
 		
+		
+		/*訂單數ㄌㄤ統計*/
 		case "getStatistics":{
 			Gson gsonTime = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			List<orderStatistics> oStatistics = null;

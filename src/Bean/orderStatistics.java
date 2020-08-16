@@ -8,6 +8,7 @@ public class orderStatistics implements Serializable {
 	private int CATEGORY_ID;
 	private int countCATEGORY_ID;
 	private int sumBUY_PRICE;
+	
 	public orderStatistics(int pRODUCT_ID, int cATEGORY_ID, int countCATEGORY_ID, int sumBUY_PRICE) {
 		super();
 		PRODUCT_ID = pRODUCT_ID;
@@ -15,6 +16,15 @@ public class orderStatistics implements Serializable {
 		this.countCATEGORY_ID = countCATEGORY_ID;
 		this.sumBUY_PRICE = sumBUY_PRICE;
 	}
+	
+	
+	public orderStatistics(int pRODUCT_ID, int cATEGORY_ID) {
+		super();
+		PRODUCT_ID = pRODUCT_ID;
+		CATEGORY_ID = cATEGORY_ID;
+	}
+
+
 	public int getPRODUCT_ID() {
 		return PRODUCT_ID;
 	}

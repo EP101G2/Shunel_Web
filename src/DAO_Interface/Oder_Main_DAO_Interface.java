@@ -1,6 +1,7 @@
 package DAO_Interface;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -402,11 +403,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	public List<orderStatistics> getStatistics(Timestamp date1, Timestamp date2) {
 		// TODO Auto-generated method stub
 		
-		String sql = "SELECT od.PRODUCT_ID ,pd.CATEGORY_ID,count(pd.CATEGORY_ID) AS countCATEGORY_ID,sum(od.BUY_PRICE) AS sumBUY_PRICE FROM  ORDER_DETAIL od";
-		sql+="JOIN PRODUCT pd on od.PRODUCT_ID = pd.PRODUCT_ID";
-		sql+="JOIN ORDER_MAIN om on od.ORDER_ID = om.ORDER_ID";
-		sql+="WHERE om.ORDER_DATE BETWEEN ? AND ?";
-		sql+="group by od.PRODUCT_ID,pd.CATEGORY_ID;";
+		String sql = "SELECT od.PRODUCT_ID ,pd.CATEGORY_ID,count(pd.CATEGORY_ID) AS countCATEGORY_ID,sum(od.BUY_PRICE) AS sumBUY_PRICE FROM  ORDER_DETAIL od JOIN PRODUCT pd on od.PRODUCT_ID = pd.PRODUCT_ID JOIN ORDER_MAIN om on od.ORDER_ID = om.ORDER_ID WHERE om.ORDER_DATE BETWEEN ? AND ? group by od.PRODUCT_ID,pd.CATEGORY_ID;";
 		
 		List<orderStatistics> oList = new ArrayList<orderStatistics>();
 		orderStatistics oStatistics =null;
@@ -422,7 +419,7 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 				int CATEGORY_ID = rs.getInt("CATEGORY_ID");
 				int countCATEGORY_ID = rs.getInt("CATEGORY_ID");
 				int sumBUY_PRICE = rs.getInt("sumBUY_PRICE");
-				oStatistics = new orderStatistics(product_ID, CATEGORY_ID, countCATEGORY_ID, sumBUY_PRICE);
+				oStatistics = new orderStatistics(product_ID, CATEGORY_ID,countCATEGORY_ID,CATEGORY_ID);
 				oList.add(oStatistics);
 				
 			}
