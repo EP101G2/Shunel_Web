@@ -79,15 +79,16 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				System.out.println("--------");
-				int PROMOTION_ID = rs.getInt("PROMOTION_ID");
-				String PRODUCT_NAME = rs.getString("PRODUCT_NAME");
-				int PRODUCT_ID = rs.getInt("PRODUCT_ID");
-				int PROMOTION_PRICE = rs.getInt("PROMOTION_PRICE");
-				int Product_Price = rs.getInt("PRICE");
-				Timestamp DATE_START = rs.getTimestamp("DATE_START");
-				Timestamp DATE_END = rs.getTimestamp("DATE_END");
-				Promotion promotion = new Promotion(PROMOTION_ID, PRODUCT_NAME, PRODUCT_ID, PROMOTION_PRICE,
-						Product_Price, DATE_START, DATE_END);
+				int promotion_ID = rs.getInt("PROMOTION_ID");
+				String product_Name = rs.getString("PRODUCT_NAME");
+				int product_ID = rs.getInt("PRODUCT_ID");
+				int promotion_Price = rs.getInt("PROMOTION_PRICE");
+				int product_Price = rs.getInt("PRICE");
+				Timestamp date_Start = rs.getTimestamp("DATE_START");
+				Timestamp date_End = rs.getTimestamp("DATE_END");
+				String color = rs.getString("COLOR");
+				String dital = rs.getString("DITAL");
+				Promotion promotion = new Promotion(promotion_ID, product_Name, product_ID, promotion_Price, product_Price, color, dital, date_Start, date_End);
 				promotionList.add(promotion);
 			}
 			return promotionList;
