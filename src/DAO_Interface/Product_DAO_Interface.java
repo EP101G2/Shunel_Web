@@ -200,10 +200,10 @@ public class Product_DAO_Interface implements Product_DAO {
 	@Override
 	public int insert(Product prouct, byte[] image, byte[] image2, byte[] image3) {
 		int count = 0;
-		int product_id = 0;  //product table的 PK
+		int product_id = 0; // product table的 PK
 		String sql = "INSERT INTO PRODUCT";
 
-		if (image == null && image2 == null && image3 == null) {        //沒有上傳任何一張照片
+		if (image == null && image2 == null && image3 == null) { // 沒有上傳任何一張照片
 			sql += "(PRODUCT_NAME,COLOR,PRICE,DITAL,CATEGORY_ID,PRODUCT_STATUS)";
 			sql += "VALUES(?,?,?,?,?,?);";
 		} else if (image != null && image2 == null && image3 == null) {
@@ -221,7 +221,7 @@ public class Product_DAO_Interface implements Product_DAO {
 		}
 
 		try (Connection connection = dataSource.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);) {
+				PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
 			ps.setString(1, prouct.getProduct_Name());
 			ps.setString(2, prouct.getProduct_Color());
 			ps.setInt(3, prouct.getProduct_Price());
@@ -230,7 +230,7 @@ public class Product_DAO_Interface implements Product_DAO {
 			ps.setInt(6, prouct.getProduct_Status());
 			if (image != null) {
 				ps.setBytes(7, image);
-				System.out.println("ps指令"+ps);
+				System.out.println("ps指令" + ps);
 				if (image2 != null) {
 					ps.setBytes(8, image2);
 					if (image3 != null) {
@@ -241,13 +241,13 @@ public class Product_DAO_Interface implements Product_DAO {
 			} else {
 				count = ps.executeUpdate();
 			}
-			if(count != 0) {
-			    ResultSet resultSet = ps.getGeneratedKeys();
-			      if(resultSet.next()) {
-			    	 
-			    	  product_id =  resultSet.getInt(1);
-			    	  System.out.println("這是product ID"+product_id);
-			      }
+			if (count != 0) {
+				ResultSet resultSet = ps.getGeneratedKeys();
+				if (resultSet.next()) {
+
+					product_id = resultSet.getInt(1);
+					System.out.println("這是product ID" + product_id);
+				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -262,7 +262,8 @@ public class Product_DAO_Interface implements Product_DAO {
 		// TODO Auto-generated method stub
 
 		int count = 0;
-		String sql = "UPDATE PRODUCT SET PRODUCT_NAME= ?,COLOR=?,PRICE=?,DITAL=?,CATEGORY_ID=?,PRODUCT_STATUS=?";  //6個問號
+		int status = 0;
+		String sql = "UPDATE PRODUCT SET PRODUCT_NAME= ?,COLOR=?,PRICE=?,DITAL=?,CATEGORY_ID=?,PRODUCT_STATUS=?"; // 6個問號
 		if (image != null) {
 			sql += ",PRODUCT_IMG1=?";
 			if (image2 != null) {
@@ -282,8 +283,23 @@ public class Product_DAO_Interface implements Product_DAO {
 			ps.setString(4, prouct.getProduct_Ditail());
 			ps.setInt(5, prouct.getProduct_Category_ID());
 			ps.setInt(6, prouct.getProduct_Status());
+			status = prouct.getProduct_Status();
 			
-			
+			switch (status) {
+			case 0:
+				status = 1;
+				break;
+			case 1:
+				status = 2;
+				break;
+
+			case 2:
+				status = 3;
+				break;
+
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + status);
+			}
 			if (image != null) {
 				ps.setBytes(7, image);
 				ps.setInt(8, prouct.getProduct_ID());
@@ -298,15 +314,15 @@ public class Product_DAO_Interface implements Product_DAO {
 
 			} else {
 				ps.setInt(7, prouct.getProduct_ID());
-				
-				System.out.println("sql========"+ps );
+
+				System.out.println("sql========" + ps);
 			}
 			count = ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return count;
+		return count == 1 ? status : count;// 先判斷是否正確回傳，若正確則回傳status，所以等於0還是回傳失敗
 	}
 
 	@Override

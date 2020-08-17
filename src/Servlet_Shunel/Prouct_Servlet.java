@@ -16,8 +16,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.User;
 import org.apache.jasper.tagplugins.jstl.core.Out;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -25,6 +27,7 @@ import com.google.gson.JsonObject;
 //import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 //import com.sun.tools.classfile.Opcode.Set;
 import com.google.gson.reflect.TypeToken;
+//import com.sun.tools.example.debug.expr.Token;
 
 import Bean.Notice;
 import Bean.Order_Detail;
@@ -47,6 +50,7 @@ import DAO_Interface.Order_Detail_DAO_Interface;
 import DAO_Interface.Product_DAO_Interface;
 import DAO_Interface.Promotion_DAO_Interface;
 import DAO_Interface.Shopping_Card_DAO_Interdace;
+import io.opencensus.stats.Aggregation.Count;
 
 //import idv.ron.server.spots.Spot;
 
@@ -63,7 +67,7 @@ public class Prouct_Servlet extends HttpServlet {
 	Shopping_Card_DAO shopping_Card_DAO = null;
 	Order_Main_DAO order_Main = null;
 	Like_DAO like_DAO = null;
-	Notice_DAO notice_DAO  = null;
+	Notice_DAO notice_DAO = null;
 	Promotion_DAO promotion_DAO = null;
 
 	/**
@@ -142,56 +146,71 @@ public class Prouct_Servlet extends HttpServlet {
 		if (order_Main == null) {
 			order_Main = new Oder_Main_DAO_Interface();
 		}
-		
+
 		if (notice_DAO == null) {
 			notice_DAO = new Notice_DAO_Interface();
 		}
 		if (promotion_DAO == null) {
 			promotion_DAO = new Promotion_DAO_Interface();
 		}
-		
-		
-		
 
 		//
 		String action = jsonObject.get("action").getAsString();
-		
+
 		switch (action) {
-		
-	    case "updateProduct":
-		case "insertProduct":{
-			 int product_ID = 0;
-			 String jsonin= jsonObject.get("product").getAsString();
-			 int flag = jsonObject.get("flag").getAsInt();
-			 Product product = gson.fromJson(jsonin, Product.class);
-			 byte[] image = null;
-				// 檢查是否有上傳圖片
-				if (jsonObject.get("imageBase64") != null) {
-					String imageBase64 = jsonObject.get("imageBase64").getAsString();
-					if (imageBase64 != null && !imageBase64.isEmpty()) {
-						image = Base64.getMimeDecoder().decode(imageBase64);
+
+		case "updateProduct":
+		case "insertProduct": {
+			int product_ID = 0;
+			String jsonin = jsonObject.get("product").getAsString();
+			int flag = jsonObject.get("flag").getAsInt();
+			Product product = gson.fromJson(jsonin, Product.class);
+			byte[] image = null;
+			// 檢查是否有上傳圖片
+			if (jsonObject.get("imageBase64") != null) {
+				String imageBase64 = jsonObject.get("imageBase64").getAsString();
+				if (imageBase64 != null && !imageBase64.isEmpty()) {
+					image = Base64.getMimeDecoder().decode(imageBase64);
+				}
+			}
+			if (action.equals("updateProduct")) {
+				product_ID = product.getProduct_ID();
+				int count = product_DAO.update(product, image, null, null);
+				/*-------------------------------------------------發送商品上架推播-----------------------------------------------------------------*/
+				if (count == 2) {
+					Notice sendFirebase;
+					String product_Name = notice_DAO.getProduct_Name(product_ID);
+					List<String> getAllLike = notice_DAO.getAllLike(product_ID);
+					int sendLikeNotice = notice_DAO.sendLikeNotice(product_Name, product_ID);
+					sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(product_ID));
+					String title = sendFirebase.getNotice_Title();
+					String msg = sendFirebase.getNotice_Content();
+					writeText(response, String.valueOf(sendLikeNotice));
+					try {
+						FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getOneToken(getAllLike), title, msg,3);
+					} catch (FirebaseMessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
-			 if(action.equals("updateProduct")) {
-				 product_ID = product.getProduct_ID();
-				 int count = product_DAO.update(product, image, null, null);
-				 writeText(response, String.valueOf(count));
-				 
-			 }else {
-			 int count = product_DAO.insert(product, image, null, null);
-			 if(count != 0) {
-				 product_ID = count;
-			 }
-			 writeText(response, String.valueOf(count));
-			
-			 }
-			 if(jsonObject.has("promotion")) {
-				 Promotion promotion = new Gson().fromJson(jsonObject.get("promotion").getAsString(), Promotion.class);
-				 promotion(promotion,product_ID);
-			 }
+				/*-------------------------------------------------發送商品上架推播-----------------------------------------------------------------*/
+				writeText(response, String.valueOf(count));
+
+			} else {
+				int count = product_DAO.insert(product, image, null, null);
+				if (count != 0) {
+					product_ID = count;
+				}
+				writeText(response, String.valueOf(count));
+
+			}
+			if (jsonObject.has("promotion")) {
+				Promotion promotion = new Gson().fromJson(jsonObject.get("promotion").getAsString(), Promotion.class);
+				promotion(promotion, product_ID);
+			}
 			break;
 		}
-		
+
 		case "deleteLike": {
 			String account_id = jsonObject.get("account_id").getAsString();
 			int product_id = jsonObject.get("product_id").getAsInt();
@@ -258,16 +277,12 @@ public class Prouct_Servlet extends HttpServlet {
 			writeText(response, gson.toJson(proucts));
 			break;
 		}
-		
-		
-		
+
 		case "getTOP5Product": {
 			List<Product> proucts = product_DAO.getTOP5Product();
 			writeText(response, gson.toJson(proucts));
 			break;
 		}
-		
-
 
 		case "getImage": {
 			OutputStream os = response.getOutputStream();
@@ -275,7 +290,7 @@ public class Prouct_Servlet extends HttpServlet {
 			int imageSize = jsonObject.get("imageSize").getAsInt();
 			byte[] image = product_DAO.getImage(id);
 			if (image != null) {
- 
+
 				response.setContentType("image/jpeg");
 				response.setContentLength(image.length);
 				os.write(image);
@@ -361,18 +376,17 @@ public class Prouct_Servlet extends HttpServlet {
 		case "findById": {
 			int id = jsonObject.get("PRODUCT_Id").getAsInt();
 			Product product = product_DAO.findById(id);
-			writeText(response,new Gson().toJson(product));
-			
+			writeText(response, new Gson().toJson(product));
+
 			break;
 
 		}
-
 
 		case "addOrderMain": {
 			String order_ID = jsonObject.get("OrderID").getAsString();
 			String order_Details = jsonObject.get("OrderDetail").getAsString();
 			Order_Detail oDetails = null;
-			
+
 			Type collectionType = new TypeToken<List<Shopping_Cart>>() {
 			}.getType();
 			List<Shopping_Cart> myBookList = gson.fromJson(order_Details, collectionType);
@@ -383,10 +397,10 @@ public class Prouct_Servlet extends HttpServlet {
 			Order_Main order_Main = gson.fromJson(order_ID, Order_Main.class);
 //			System.out.println(order_Main.getAccount_ID()+"123456789");
 			JsonArray jsonArray = gson.fromJson(order_Details, JsonArray.class);
-
+			/*-------------------------------------------------發送訂單推播-----------------------------------------------------------------*/
 			int orderid = 0;
 			int orderdetail = 0;
-			int notice =0;
+			int notice = 0;
 			String token = "";
 			orderid = this.order_Main.insert(order_Main);
 			Notice sendFirebase;
@@ -397,12 +411,12 @@ public class Prouct_Servlet extends HttpServlet {
 //			System.out.println("orderid======================="+orderid);
 			notice = notice_DAO.putGoodsNotice(orderid);
 			token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderid));
-			sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(orderid));
+			sendFirebase = notice_DAO.TitleAndDetail(1, String.valueOf(orderid));
 			String title = sendFirebase.getNotice_Title();
 			String msg = sendFirebase.getNotice_Content();
 			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 1);
-//			System.out.println("notice======================="+notice);
-			
+			System.out.println("FireB=======================" + sendFirebase);
+			/*-------------------------------------------------發送訂單推播-----------------------------------------------------------------*/
 			for (JsonElement element : jsonArray) {
 				JsonObject obj = element.getAsJsonObject();
 				int order_id = orderid;
@@ -424,19 +438,14 @@ public class Prouct_Servlet extends HttpServlet {
 		}
 
 	}
-	
-	
-	
-	
-	private int promotion(Promotion promotion,int product_ID) {
-		int count = 0 ;
+
+	private int promotion(Promotion promotion, int product_ID) {
+		int count = 0;
 		promotion.setProduct_ID(product_ID);
 		count = promotion_DAO.insert(promotion);
-		
-		
+
 		return count;
 	}
-	
 
 	private void writeText(HttpServletResponse response, String outText) throws IOException {
 		// TODO Auto-generated method stub
