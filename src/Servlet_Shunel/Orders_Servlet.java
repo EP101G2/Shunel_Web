@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -242,10 +243,15 @@ public class Orders_Servlet extends HttpServlet {
 
 //		get OrderList for orderListFragment
 		case "getOrderMains": {
+			List<Order_Main> allList = new ArrayList<Order_Main>();
 			String account_ID = jsonObject.get("Account_ID").getAsString();
 			int status = jsonObject.get("status").getAsInt();
+			int status1 = jsonObject.get("status1").getAsInt();
+			List<Order_Main> orderShortMainMainList;
 			System.out.print("input accountId & status: "+account_ID+", "+status);
-			List<Order_Main> orderShortMainMainList = order_Main_DAO.getOrderMains(account_ID, status);
+			 orderShortMainMainList = order_Main_DAO.getOrderMains(account_ID, status);
+			 List<Order_Main> orderShortMainMainList1 = order_Main_DAO.getOrderMains(account_ID, status1);
+			 orderShortMainMainList.addAll( orderShortMainMainList1);
 			writeText(response, gson.toJson(orderShortMainMainList));
 			break;
 		}
