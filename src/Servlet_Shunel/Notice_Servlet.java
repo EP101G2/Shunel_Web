@@ -28,6 +28,11 @@ import DAO_Interface.Product_DAO_Interface;
 import DAO_Interface.Promotion_DAO_Interface;
 import DAO_Interface.Shopping_Card_DAO_Interdace;
 import java.lang.reflect.Type;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Servlet implementation class Notice_Servlet
  */
@@ -94,32 +99,33 @@ public class Notice_Servlet extends HttpServlet {
 		notices = null;
 
 		switch (action) {
-		case"delete":
-			String getDeleteString =  "";
-			getDeleteString  = jsonObject.get("delete").getAsString();
-			 Type listType = new TypeToken<List<Notice>>() {
-             }.getType();
-			 notices = gson.fromJson(getDeleteString , listType);
-			 int getDelete = 0;
-			 for(Notice notice:notices) {
-				  getDelete = notice_DAO.delete(notice.getNotice_ID());
-				  getDelete+=getDelete;
-			 }
+		case "delete":
+			String getDeleteString = "";
+			getDeleteString = jsonObject.get("delete").getAsString();
+			Type listType = new TypeToken<List<Notice>>() {
+			}.getType();
+			notices = gson.fromJson(getDeleteString, listType);
+			int getDelete = 0;
+			for (Notice notice : notices) {
+				getDelete = notice_DAO.delete(notice.getNotice_ID());
+				getDelete += getDelete;
+			}
 //			 if(getDelete !=  notices.size() ) {
 //				 
 //			 }
-			 writeText(response, String.valueOf(getDelete));
-			 
-			
-		break;
+			writeText(response, String.valueOf(getDelete));
+
+			break;
 		case "getNoticeAll":
-			 notices = notice_DAO.getNoticeAll();
+			String getAccount_ID = "";
+			getAccount_ID = jsonObject.get("account_ID").getAsString();
+			notices = notice_DAO.getNoticeAll(getAccount_ID);
 			writeText(response, gson.toJson(notices));
 			break;
 		case "update":
 			String result = jsonObject.get("notice").getAsString();
-			Notice notice = gson.fromJson(result,Notice.class);
-			System.out.println(notice+"");
+			Notice notice = gson.fromJson(result, Notice.class);
+			System.out.println(notice + "");
 			int update = notice_DAO.update(notice);
 			writeText(response, String.valueOf(update));
 			break;
@@ -162,12 +168,12 @@ public class Notice_Servlet extends HttpServlet {
 			writeText(response, String.valueOf(countSaleN));
 			try {
 				FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getToken(), newSaleT, newSaleD, 0);
-				
+
 			} catch (FirebaseMessagingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
+
 			break;
 
 		case "sendSystemN":
@@ -195,7 +201,6 @@ public class Notice_Servlet extends HttpServlet {
 			FirebaseCloudMsg.getInstance().FCMsendMsg(notice_DAO.getOneTokenFromOrderMain(order_ID), newChatT, newChatD,
 					1);
 			break;
-
 		}
 
 	}

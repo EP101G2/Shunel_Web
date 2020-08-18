@@ -1,4 +1,5 @@
 package Servlet_Shunel;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.MulticastMessage;
+
 public class FirebaseCloudMsg {
 	private FirebaseOptions options;
 
@@ -31,12 +33,14 @@ public class FirebaseCloudMsg {
 			FirebaseApp.initializeApp(options);
 		}
 	}
-	
-    //單推
-	public void FCMsendMsg(String token, String title, String msg,int Flag) {
 
+	// 單推
+	public void FCMsendMsg(String token, String title, String msg, int Flag) {
 
-		Message message = Message.builder().putData("title", title).putData("msg", msg).putData("flag", String.valueOf(Flag)).setToken(token).build();
+		System.out.println(title);
+		System.out.println(msg);
+		Message message = Message.builder().putData("title", title).putData("msg", msg)
+				.putData("flag", String.valueOf(Flag)).setToken(token).build();
 
 		// Send a message to the device corresponding to the provided
 		// registration token.
@@ -51,25 +55,18 @@ public class FirebaseCloudMsg {
 		}
 
 	}
-	
-	//群推
-	public void FCMsendMsgMuti(List<String> registrationTokens,String title, String msg,int Flag ) throws FirebaseMessagingException {
 
-		
-		MulticastMessage message = MulticastMessage.builder()
-			    .putData("title", title)
-			    .putData("msg", msg)
-			    .putData("flag", String.valueOf(Flag))
-			    .addAllTokens(registrationTokens)
-			    .build();
-		
-		
-		
-			BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
-			// See the BatchResponse reference documentation
-			// for the contents of response.
-			System.out.println(response.getSuccessCount() + " messages were sent successfully");
+	// 群推
+	public void FCMsendMsgMuti(List<String> registrationTokens, String title, String msg, int Flag)
+			throws FirebaseMessagingException {
+
+		MulticastMessage message = MulticastMessage.builder().putData("title", title).putData("msg", msg)
+				.putData("flag", String.valueOf(Flag)).addAllTokens(registrationTokens).build();
+
+		BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
+		// See the BatchResponse reference documentation
+		// for the contents of response.
+		System.out.println(response.getSuccessCount() + " messages were sent successfully");
 	}
 
 }
-
