@@ -10,6 +10,8 @@ public class Promotion implements Serializable {
 	private int Product_ID;
 	private int Promotion_Price;
 	private int Product_Price;
+	private String color;
+	private String dital;
 	private Timestamp Date_Start;
 	private Timestamp Date_End;
 
@@ -44,6 +46,39 @@ public class Promotion implements Serializable {
 		Product_Price = product_Price;
 		Date_Start = date_Start;
 		Date_End = date_End;
+	}
+	
+	
+	
+
+	public Promotion(int promotion_ID, String product_Name, int product_ID, int promotion_Price, int product_Price,
+			String color, String dital, Timestamp date_Start, Timestamp date_End) {
+		super();
+		Promotion_ID = promotion_ID;
+		this.product_Name = product_Name;
+		Product_ID = product_ID;
+		Promotion_Price = promotion_Price;
+		Product_Price = product_Price;
+		this.color = color;
+		this.dital = dital;
+		Date_Start = date_Start;
+		Date_End = date_End;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getDital() {
+		return dital;
+	}
+
+	public void setDital(String dital) {
+		this.dital = dital;
 	}
 
 	public String getProduct_Name() {

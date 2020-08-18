@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.List;
 
@@ -38,6 +39,7 @@ import Bean.Notice;
 import Bean.Order_Detail;
 import Bean.Order_Main;
 import Bean.User_Account;
+import Bean.orderStatistics;
 import DAO.Order_Detail_DAO;
 import DAO.Order_Main_DAO;
 import DAO.Product_DAO;
@@ -238,22 +240,21 @@ public class Orders_Servlet extends HttpServlet {
 			break;
 		}
 
-//		get shortOrderList for orderListFragment
-		case "getOrderMainShort": {
+//		get OrderList for orderListFragment
+		case "getOrderMains": {
 			String account_ID = jsonObject.get("Account_ID").getAsString();
-			List<Order_Main> orderShortMainMainList = order_Main_DAO.getShortOrderMains(account_ID);
+			int status = jsonObject.get("status").getAsInt();
+			System.out.print("input accountId & status: "+account_ID+", "+status);
+			List<Order_Main> orderShortMainMainList = order_Main_DAO.getOrderMains(account_ID, status);
 			writeText(response, gson.toJson(orderShortMainMainList));
 			break;
 		}
-//		get short order detail list insert here
-		case "getOrderDetailShort": {
-			int order_ID = jsonObject.get("Order_ID").getAsInt(); // check if "Order_ID" matches the "Order_ID" in client
-																		
-//			create method getShortOrderDetails(order_ID)in DAO, DAO Interface
-			
-			List<Order_Main> orderShortDetailList = order_Main_DAO.getShortOrderDetails(order_ID);
-			writeText(response, gson.toJson(orderShortDetailList));
-		}  
+////		get short order detail list insert here(banned!!
+//		case "getOrderDetailShort": {
+//			int order_ID = jsonObject.get("Order_ID").getAsInt(); // check if "Order_ID" matches the "Order_ID" in client
+//			List<Order_Main> orderShortDetailList = order_Main_DAO.getShortOrderDetails(order_ID);
+//			writeText(response, gson.toJson(orderShortDetailList));
+//		}  
 ////		get product id by order id
 //		case "getProductForOrders": {
 //			int Order_ID = jsonObject.get("order_Id").getAsInt();
@@ -263,7 +264,7 @@ public class Orders_Servlet extends HttpServlet {
 //			break;
 //		}//banned!!
 		
-//		get ordered product by order id
+//		get ordered product by order id(back and front)
 		case "getOrderedProducts": {
 			int Order_ID = jsonObject.get("order_Id").getAsInt();
 			System.out.println("get order id from client ->"+Order_ID);
@@ -351,10 +352,46 @@ public class Orders_Servlet extends HttpServlet {
 			}
 			break;
 		}
+		
+		
+		/*訂單數ㄌㄤ統計*/
+		case "getStatistics":{
+			Gson gsonTime = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			List<orderStatistics> oStatistics = null;
+			
+			String date1 = jsonObject.get("date1").getAsString();
+			String date2 = jsonObject.get("date2").getAsString();
+			
+			Timestamp dateTime1=StrtoTimestamp(date1);
+			Timestamp dateTime2=StrtoTimestamp(date2);
+			
+			oStatistics = order_Main_DAO.getStatistics(dateTime1, dateTime2);
+			
+			writeText(response, gsonTime.toJson(oStatistics));
+			
+			break;
+			
+		}
+		
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
 		}
 	}
+
+	private Timestamp StrtoTimestamp(String date1) {
+	// TODO Auto-generated method stub
+		
+		Timestamp ts = new Timestamp(System.currentTimeMillis());
+		try {
+		ts = Timestamp.valueOf(date1);
+		System.out.println(ts);
+		} catch (Exception e) {
+		e.printStackTrace();
+		} 
+		
+		return ts;
+	
+}
 
 	private void writeText(HttpServletResponse response, String outText) throws IOException {
 		// TODO Auto-generated method stub
