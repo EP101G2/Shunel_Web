@@ -79,6 +79,14 @@ public class orderStatistics implements Serializable {
 	public void setORDER_DATE(Timestamp oRDER_DATE) {
 		ORDER_DATE = oRDER_DATE;
 	}
+
+	public String getPRODUCT_NAME() {
+		return PRODUCT_NAME;
+	}
+
+	public void setPRODUCT_NAME(String pRODUCT_NAME) {
+		PRODUCT_NAME = pRODUCT_NAME;
+	}
 	
 	
 	
