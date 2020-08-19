@@ -403,11 +403,20 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	public List<orderStatistics> getStatistics(Timestamp date1, Timestamp date2) {
 		// TODO Auto-generated method stub
 		
-		String sql = "SELECT od.PRODUCT_ID ,pd.CATEGORY_ID,count(pd.CATEGORY_ID) \n" + 
-				"AS countCATEGORY_ID,sum(od.BUY_PRICE) AS sumBUY_PRICE ,om.ORDER_DATE\n" + 
+//		String sql = "SELECT od.PRODUCT_ID ,pd.CATEGORY_ID,count(pd.CATEGORY_ID) \n" + 
+//				"AS countCATEGORY_ID,sum(od.BUY_PRICE) AS sumBUY_PRICE ,om.ORDER_DATE\n" + 
+//				"FROM  ORDER_DETAIL od JOIN PRODUCT pd on od.PRODUCT_ID = pd.PRODUCT_ID \n" + 
+//				"JOIN ORDER_MAIN om on od.ORDER_ID = om.ORDER_ID WHERE om.ORDER_DATE \n" + 
+//				"BETWEEN ? AND ? group by od.PRODUCT_ID,pd.CATEGORY_ID,om.ORDER_DATE;";
+		
+		String sql = "SELECT od.PRODUCT_ID,pd.PRODUCT_NAME ,pd.CATEGORY_ID,count(pd.CATEGORY_ID) \n" + 
+				"AS countCATEGORY_ID,sum(od.BUY_PRICE) AS sumBUY_PRICE \n" + 
 				"FROM  ORDER_DETAIL od JOIN PRODUCT pd on od.PRODUCT_ID = pd.PRODUCT_ID \n" + 
 				"JOIN ORDER_MAIN om on od.ORDER_ID = om.ORDER_ID WHERE om.ORDER_DATE \n" + 
-				"BETWEEN ? AND ? group by od.PRODUCT_ID,pd.CATEGORY_ID,om.ORDER_DATE;";
+				"BETWEEN ? AND ? group by od.PRODUCT_ID,pd.PRODUCT_NAME,pd.CATEGORY_ID;";
+				
+				
+		
 		
 		List<orderStatistics> oList = new ArrayList<orderStatistics>();
 		orderStatistics oStatistics =null;
@@ -423,8 +432,8 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 				int CATEGORY_ID = rs.getInt("CATEGORY_ID");
 				int countCATEGORY_ID = rs.getInt("CATEGORY_ID");
 				int sumBUY_PRICE = rs.getInt("sumBUY_PRICE");
-				Timestamp ORDER_DATE = rs.getTimestamp("ORDER_DATE");
-				oStatistics = new orderStatistics(product_ID, CATEGORY_ID, countCATEGORY_ID, sumBUY_PRICE, ORDER_DATE);
+				String pdPRODUCT_NAME=rs.getString("PRODUCT_NAME");
+				oStatistics = new orderStatistics(product_ID, pdPRODUCT_NAME,CATEGORY_ID, countCATEGORY_ID, sumBUY_PRICE);
 				oList.add(oStatistics);
 				
 			}
