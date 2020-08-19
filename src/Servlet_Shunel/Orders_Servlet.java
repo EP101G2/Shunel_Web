@@ -21,6 +21,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.rpc.Status;
 
 import DAO.Notice_DAO;
 import DAO.Order_Detail_DAO;
@@ -196,7 +197,7 @@ public class Orders_Servlet extends HttpServlet {
 					jsonGetOrderMain.addProperty("result", "fail");
 				}
 			}
-			writeText(response, gson.toJson(orderID));
+			writeText(response, gson.toJson(jsonGetOrderMain));
 			System.out.println("--getOrderMain-->"+jsonGetOrderMain);
 			break;
 		}
@@ -243,15 +244,27 @@ public class Orders_Servlet extends HttpServlet {
 
 //		get OrderList for orderListFragment
 		case "getOrderMains": {
-			List<Order_Main> allList = new ArrayList<Order_Main>();
-			String account_ID = jsonObject.get("Account_ID").getAsString();
+			 List<Order_Main> orderShortMainMainList1;
 			int status = jsonObject.get("status").getAsInt();
-			int status1 = jsonObject.get("status1").getAsInt();
+			int status1 = 0;
+			String account_ID = jsonObject.get("Account_ID").getAsString();
+			if (status ==0 && status1==0) {
+//				status = jsonObject.get("status").getAsInt();
+				status1 = jsonObject.get("status1").getAsInt();
+			}else {
+				status = jsonObject.get("status").getAsInt();
+			}
+			
 			List<Order_Main> orderShortMainMainList;
 			System.out.print("input accountId & status: "+account_ID+", "+status);
 			 orderShortMainMainList = order_Main_DAO.getOrderMains(account_ID, status);
-			 List<Order_Main> orderShortMainMainList1 = order_Main_DAO.getOrderMains(account_ID, status1);
-			 orderShortMainMainList.addAll( orderShortMainMainList1);
+			 if (status1 != 0 ) {
+				 orderShortMainMainList1 = order_Main_DAO.getOrderMains(account_ID, status1);
+				 orderShortMainMainList.addAll( orderShortMainMainList1);
+			}
+			 
+			 
+			 
 			writeText(response, gson.toJson(orderShortMainMainList));
 			break;
 		}
