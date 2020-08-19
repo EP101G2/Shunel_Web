@@ -106,16 +106,17 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	}
 
 	@Override
-	public int sendLikeNotice(String product_Name, int product_ID) {
+	public int sendLikeNotice(String product_Name, int product_ID, String account_ID) {
 		int count = 0;
-		String sql = "INSERT INTO Shunel.NOTICE ( NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CATEGORY_ID, CATEGORY_MESSAGE_ID ) VALUES ( ? , ? , ?, ? );";
+		String sql = "INSERT INTO Shunel.NOTICE ( NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CATEGORY_ID, CATEGORY_MESSAGE_ID, ACCOUNT_ID ) VALUES ( ? , ? , ? , ? , ? );";
 
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-			ps.setString(1, "您關注的商品已重新上架");
-			ps.setString(2, "您關注的" + product_Name + "現已重新上架，非常感謝您關注此商品，歡迎前往購買");
+			ps.setString(1, "您關注的" + product_Name + "現已重新上架");
+			ps.setString(2, product_Name + "重新上架了，非常感謝您關注此商品，歡迎前往購買，如對商品有任何疑問，也可在提問中與我們聯繫");
 			ps.setInt(3, 3);
 			ps.setInt(4, product_ID);
+			ps.setString(5, account_ID);
 			System.out.print(ps.toString());
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
@@ -145,8 +146,9 @@ public class Notice_DAO_Interface implements Notice_DAO {
 				Timestamp NOTICE_TIME = rs.getTimestamp(4);
 				int NOTICE_CATEGORY_ID = rs.getInt(5);
 				int CATEGORY_MESSAGE_ID = rs.getInt(6);
+				String ACCOUNT_ID = rs.getString(7);
 				Notice notice = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
-						CATEGORY_MESSAGE_ID);
+						CATEGORY_MESSAGE_ID, ACCOUNT_ID);
 				noticeList.add(notice);
 			}
 			return noticeList;
@@ -172,8 +174,9 @@ public class Notice_DAO_Interface implements Notice_DAO {
 				Timestamp NOTICE_TIME = rs.getTimestamp(4);
 				int NOTICE_CATEGORY_ID = rs.getInt(5);
 				int CATEGORY_MESSAGE_ID = rs.getInt(6);
+				String ACCOUNT_ID = rs.getString(7);
 				Notice notice = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
-						CATEGORY_MESSAGE_ID);
+						CATEGORY_MESSAGE_ID, ACCOUNT_ID);
 				noticeList.add(notice);
 			}
 			return noticeList;
@@ -199,8 +202,9 @@ public class Notice_DAO_Interface implements Notice_DAO {
 				Timestamp NOTICE_TIME = rs.getTimestamp(4);
 				int NOTICE_CATEGORY_ID = rs.getInt(5);
 				int CATEGORY_MESSAGE_ID = rs.getInt(6);
+				String ACCOUNT_ID = rs.getString(7);
 				Notice notice = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
-						CATEGORY_MESSAGE_ID);
+						CATEGORY_MESSAGE_ID, ACCOUNT_ID);
 				noticeList.add(notice);
 			}
 			return noticeList;
@@ -214,13 +218,18 @@ public class Notice_DAO_Interface implements Notice_DAO {
 
 	@Override
 
-	public List<Notice> getNoticeAll() {
-		String sql = "SELECT * FROM Shunel.NOTICE WHERE NOTICE_CATEGORY_ID = 3  order by notice_time desc; ";
+	public List<Notice> getNoticeAll(String Account_ID) {
+		String sql = "SELECT * FROM Shunel.NOTICE WHERE NOTICE_CATEGORY_ID = 3 and ACCOUNT_ID = ? order by notice_time desc; ";
+		String sql2 = "SELECT PRODUCT_STATUS , PRICE ,PROMOTION_PRICE from PRODUCT pd left join PROMOTION pm  on pd.PRODUCT_ID = pm.PRODUCT_ID where pd.PRODUCT_ID  = ?;";
+
 		List<Notice> noticeList = new ArrayList<Notice>();
 		try (Connection connection = dataSource.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql);) {
+				PreparedStatement ps = connection.prepareStatement(sql);
+				PreparedStatement ps2 = connection.prepareStatement(sql2);) {
+			ps.setString(1, Account_ID);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
+
 				System.out.println("--------");
 				int NOTICE_ID = rs.getInt(1);
 				String NOTICE_TITLE = rs.getString(2);
@@ -228,8 +237,23 @@ public class Notice_DAO_Interface implements Notice_DAO {
 				Timestamp NOTICE_TIME = rs.getTimestamp(4);
 				int NOTICE_CATEGORY_ID = rs.getInt(5);
 				int CATEGORY_MESSAGE_ID = rs.getInt(6);
+				String ACCOUNT_ID = rs.getString(7);
+
+				int product_status = 0;
+				int price = 0;
+				int promotion_price = 0;
+				ps2.setInt(1, CATEGORY_MESSAGE_ID);
+				ResultSet rs2 = ps2.executeQuery();
+				if (rs2.next()) {
+					product_status = rs2.getInt("PRODUCT_STATUS");
+					price = rs2.getInt("PRICE");
+					promotion_price = rs2.getInt("PROMOTION_PRICE");
+				}
+
 				Notice notice = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
-						CATEGORY_MESSAGE_ID);
+						CATEGORY_MESSAGE_ID, ACCOUNT_ID);
+				notice.setPRODUCT_STATUS(product_status);
+				notice.setPrice(product_status == 1 ? price : promotion_price);
 				noticeList.add(notice);
 			}
 			return noticeList;
@@ -256,8 +280,9 @@ public class Notice_DAO_Interface implements Notice_DAO {
 				Timestamp NOTICE_TIME = rs.getTimestamp(4);
 				int NOTICE_CATEGORY_ID = rs.getInt(5);
 				int CATEGORY_MESSAGE_ID = rs.getInt(6);
+				String ACCOUNT_ID = rs.getString(7);
 				lastSystemN = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
-						CATEGORY_MESSAGE_ID);
+						CATEGORY_MESSAGE_ID, ACCOUNT_ID);
 			}
 			return lastSystemN;
 		} catch (SQLException e) {
@@ -281,8 +306,9 @@ public class Notice_DAO_Interface implements Notice_DAO {
 				Timestamp NOTICE_TIME = rs.getTimestamp(4);
 				int NOTICE_CATEGORY_ID = rs.getInt(5);
 				int CATEGORY_MESSAGE_ID = rs.getInt(6);
+				String ACCOUNT_ID = rs.getString(7);
 				lastQAN = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
-						CATEGORY_MESSAGE_ID);
+						CATEGORY_MESSAGE_ID, ACCOUNT_ID);
 			}
 			return lastQAN;
 		} catch (SQLException e) {
@@ -306,8 +332,9 @@ public class Notice_DAO_Interface implements Notice_DAO {
 				Timestamp NOTICE_TIME = rs.getTimestamp(4);
 				int NOTICE_CATEGORY_ID = rs.getInt(5);
 				int CATEGORY_MESSAGE_ID = rs.getInt(6);
+				String ACCOUNT_ID = rs.getString(7);
 				lastSaleN = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
-						CATEGORY_MESSAGE_ID);
+						CATEGORY_MESSAGE_ID, ACCOUNT_ID);
 			}
 			return lastSaleN;
 		} catch (SQLException e) {
@@ -502,6 +529,46 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return str;
 	}
+
+	@Override
+	public String getAccountToken(String Account_ID) {
+		String str = "";
+		String sql = "SELECT TOKEN FROM Shunel.USER_ACCOUNT where ACCOUNT_ID = ? ;";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, Account_ID);
+			System.out.print(ps.toString());
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				str = rs.getString("TOKEN");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+
+//	@Override
+//	public Product findByNoticeMessageId(int prouct_id) {
+//		String sql = " SELECT PRODUCT_NAME, COLOR, DITAL FROM Shunel.PRODUCT WHERE PRODUCT_ID = ?;";
+//		Product product = null;
+//		try (Connection connection = dataSource.getConnection();
+//				PreparedStatement ps = connection.prepareStatement(sql);) {
+//			ps.setInt(1, prouct_id);
+//			ResultSet rs = ps.executeQuery();
+//			while (rs.next()) {
+//				System.out.println("--------");
+//				String PRODUCT_NAME = rs.getString("PRODUCT_NAME");
+//				String COLOR = rs.getString("COLOR");
+//				String DITAL = rs.getString("DITAL");
+//				product = new Product(PRODUCT_NAME, COLOR, DITAL);
+//			}
+//			return product;
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return product;
+//	}
 
 	@Override
 	public List<String> getOneToken(List<String> Account_ID) {

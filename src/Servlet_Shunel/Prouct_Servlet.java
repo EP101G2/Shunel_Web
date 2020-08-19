@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import javax.security.auth.login.AccountException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -183,17 +184,20 @@ public class Prouct_Servlet extends HttpServlet {
 					Notice sendFirebase;
 					String product_Name = notice_DAO.getProduct_Name(product_ID);
 					List<String> getAllLike = notice_DAO.getAllLike(product_ID);
-					int sendLikeNotice = notice_DAO.sendLikeNotice(product_Name, product_ID);
-					sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(product_ID));
-					String title = sendFirebase.getNotice_Title();
-					String msg = sendFirebase.getNotice_Content();
-					writeText(response, String.valueOf(sendLikeNotice));
-					try {
-						FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getOneToken(getAllLike), title, msg,3);
-					} catch (FirebaseMessagingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				
+					 int sendLikeNotice = 0;
+					 for(String Account_ID : getAllLike) {
+						 sendLikeNotice = notice_DAO.sendLikeNotice(product_Name, product_ID, Account_ID);
+						 if (sendLikeNotice == 1){
+								sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(product_ID));
+								String title = sendFirebase.getNotice_Title();
+								String msg = sendFirebase.getNotice_Content();							
+								FirebaseCloudMsg.getInstance().FCMsendMsg(notice_DAO.getAccountToken(Account_ID), title, msg,3);
+						 }
+						 
+						 
+					 }
+					 writeText(response, String.valueOf(sendLikeNotice));
 				}
 				/*-------------------------------------------------發送商品上架推播-----------------------------------------------------------------*/
 				writeText(response, String.valueOf(count));

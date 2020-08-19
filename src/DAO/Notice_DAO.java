@@ -3,6 +3,7 @@ package DAO;
 import java.util.List;
 
 import Bean.Notice;
+import Bean.Product;
 
 public interface Notice_DAO {
 	int insert(Notice notice);
@@ -20,8 +21,6 @@ public interface Notice_DAO {
 	int delete(int notice_ID);
 
 	Notice findById(int notice_ID);
-
-	List<Notice> getNoticeAll();
 
 	List<Notice> getSystemAll();
 
@@ -51,9 +50,16 @@ public interface Notice_DAO {
 
 	List<String> getOneToken(List<String> Account_ID);
 
-	int sendLikeNotice(String product_Name, int product_ID);
 
 	String getProduct_Name(int product_ID);
+
+	int sendLikeNotice(String product_Name, int product_ID, String account_ID);
+
+	String getAccountToken(String Account_ID);
+
+	List<Notice> getNoticeAll(String Account_ID);
+
+//	Product findByNoticeMessageId(int prouct_id);
 
 
 	
