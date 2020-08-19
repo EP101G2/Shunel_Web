@@ -118,7 +118,6 @@ public class Prouct_Servlet extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 		Gson gson = new Gson();
-
 		BufferedReader br = request.getReader();
 		StringBuilder jsonIn = new StringBuilder();
 		String line = "";
@@ -158,6 +157,9 @@ public class Prouct_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
+		
+		
+		
 
 		case "updateProduct":
 		case "insertProduct": {
