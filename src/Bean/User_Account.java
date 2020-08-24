@@ -171,5 +171,20 @@ public class User_Account implements Serializable {
 	public void setTOKEN(String tOKEN) {
 		TOKEN = tOKEN;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		String teString ="";
+		System.out.println("Account_User_Name="+Account_User_Name);
+		System.out.println("Account_ID="+Account_ID);
+		System.out.println("Account_Phone="+Account_User_Name);
+		System.out.println("Account_Password="+Account_Password);
+		System.out.println("Account_Address="+Account_Address);
+		
+		return teString;
+		
+		
+	}
 
 }
