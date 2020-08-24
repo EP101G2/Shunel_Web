@@ -66,8 +66,24 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 
 	@Override
 	public Promotion findById(int Promotion_ID) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM Shunel.PROMOTION where PRODUCT_ID = ?;";
+		
+		Promotion promotion = null;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, Promotion_ID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				int promotion_Price = rs.getInt("PROMOTION_PRICE");
+				Timestamp date_Start = rs.getTimestamp("DATE_START");
+				Timestamp date_End = rs.getTimestamp("DATE_END");
+				
+				 promotion = new Promotion(promotion_Price, date_Start, date_End);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return promotion;
 	}
 
 	@Override
@@ -78,7 +94,6 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				System.out.println("--------");
 				int promotion_ID = rs.getInt("PROMOTION_ID");
 				String product_Name = rs.getString("PRODUCT_NAME");
 				int product_ID = rs.getInt("PRODUCT_ID");
@@ -101,7 +116,6 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 
 	@Override
 	public List<Promotion> getPromotionForNotice() {
-		System.out.println("-----3-----");
 
 		String sql = "SELECT * from PROMOTION join PRODUCT on  PROMOTION.PRODUCT_ID = PRODUCT.PRODUCT_ID  where now() between DATE_START and DATE_END and PRODUCT_STATUS = 2 limit 6 ;";
 		List<Promotion> promotionList = new ArrayList<Promotion>();
@@ -109,7 +123,6 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				System.out.println("--------");
 				int PROMOTION_ID = rs.getInt("PRODUCT_ID");
 				int PRODUCT_ID = rs.getInt("PRODUCT_ID");
 				String PRODUCT_NAME = rs.getString("PRODUCT_NAME");
