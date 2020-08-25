@@ -68,5 +68,18 @@ public class FirebaseCloudMsg {
 		// for the contents of response.
 		System.out.println(response.getSuccessCount() + " messages were sent successfully");
 	}
+	
+	// 群推
+		public void FCMsendMsgMuti(List<String> registrationTokens, String title, String msg)
+				throws FirebaseMessagingException {
+
+			MulticastMessage message = MulticastMessage.builder().putData("title", title).putData("msg", msg)
+				.addAllTokens(registrationTokens).build();
+
+			BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
+			// See the BatchResponse reference documentation
+			// for the contents of response.
+			System.out.println(response.getSuccessCount() + " messages were sent successfully");
+		}
 
 }
