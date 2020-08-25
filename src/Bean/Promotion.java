@@ -15,6 +15,20 @@ public class Promotion implements Serializable {
 	private Timestamp Date_Start;
 	private Timestamp Date_End;
 
+	
+	
+	
+	public Promotion() {
+		super();
+	}
+
+	public Promotion(int promotion_Price, Timestamp date_Start, Timestamp date_End) {
+		super();
+		Promotion_Price = promotion_Price;
+		Date_Start = date_Start;
+		Date_End = date_End;
+	}
+
 	// 促銷消息使用，不包含原先價格
 	public Promotion(int promotion_ID, String product_Name, int product_ID, int promotion_Price, Timestamp date_Start,
 			Timestamp date_End) {

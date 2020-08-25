@@ -79,18 +79,24 @@ public class Promotion_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
+		case "getpromotionPriceAndDate":
+			int producd_id = jsonObject.get("ID").getAsInt();
+			Gson gson1 = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			Promotion promotion = promotion_DAO.findById(producd_id);
+			writeText(response, gson1.toJson(promotion));
+			break;
+		
+		
 		case "getPromotionAll":
 			List<Promotion> promotions = promotion_DAO.getPromotionAll();
 			writeText(response, gson.toJson(promotions));
 			break;
 			
 		case "getPromotionForNotice":
-			System.out.println("----1-----");
 			List<Promotion> promotionsForNotice = promotion_DAO.getPromotionForNotice();
 			System.out.println("\n"+promotionsForNotice.toString()+"\n");
 //			QuartzManager.addJob(jobName, jobClass, StartTime, product_id);
 			
-			System.out.println("----2-----");
 			writeText(response, gson.toJson(promotionsForNotice));
 			break;
 			

@@ -28,6 +28,8 @@ public class TwoChatServer {
 		
 	@OnOpen
 	public void onOpen(@PathParam("userName") String userName, Session userSession) throws IOException {
+		
+		System.out.println("================="+userName);
 		/* save the new user in the map */
 		sessionsMap.put(userName, userSession);
 		/* Sends all the connected users to the new user */
