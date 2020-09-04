@@ -385,9 +385,11 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return count;
 	}
-
+	
+	
+	//針對單一商品推
 	@Override
-	public int sendSaleNAndProduct(String notice_title, String notice_content, String product_ID) {
+	public int sendSaleNAndProduct(String notice_title, String notice_content, int product_ID) {
 		int count = 0;
 		String sql = "INSERT INTO Shunel.NOTICE ( NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CATEGORY_ID,CATEGORY_MESSAGE_ID) VALUES ( ? , ? , ? , ?);";
 		try (Connection connection = dataSource.getConnection();
@@ -395,7 +397,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 			ps.setString(1, notice_title);
 			ps.setString(2, notice_content);
 			ps.setInt(3, 0);
-			ps.setString(4, product_ID);
+			ps.setInt(4, product_ID);
 			System.out.print(ps.toString());
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
@@ -425,11 +427,11 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	// 取全部人的Token
 	@Override
 	public List<String> getToken() {
-		String sql = "SELECT  TOKEN FROM Shunel.USER_ACCOUNT where TOKEN != ?;";
+		String sql = "SELECT  TOKEN FROM Shunel.USER_ACCOUNT where 1=1 ;";
 		List<String> tokenList = new ArrayList<String>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-			ps.setString(1, "");
+			
 			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -569,6 +571,8 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return str;
 	}
+	
+	
 
 //	@Override
 //	public Product findByNoticeMessageId(int prouct_id) {

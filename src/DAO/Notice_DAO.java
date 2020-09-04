@@ -61,7 +61,10 @@ public interface Notice_DAO {
 
 	List<Notice> getGoodsAll(String Account_ID);
 
-	int sendSaleNAndProduct(String notice_title, String notice_content, String product_ID);
+	int sendSaleNAndProduct(String notice_title, String notice_content, int product_ID);
+
+//	int sendScheduleToFront(String notice_Title, String notice_Detail, int notice_category, int category_Message_ID);
+
 
 //	Product findByNoticeMessageId(int prouct_id);
 

@@ -124,7 +124,6 @@ public class Notice_Servlet extends HttpServlet {
 		case "update":
 			String result = jsonObject.get("notice").getAsString();
 			Notice notice = gson.fromJson(result, Notice.class);
-			System.out.println(notice + "");
 			int update = notice_DAO.update(notice);
 			writeText(response, String.valueOf(update));
 			break;
@@ -182,8 +181,8 @@ public class Notice_Servlet extends HttpServlet {
 				}
 
 			} else {
-				String product_ID = jsonObject.get("product_ID").getAsString();
-				countSaleN = notice_DAO.sendSaleNAndProduct(newSaleT, newSaleD, product_ID);
+				//針對單一商品推
+				countSaleN = notice_DAO.sendSaleNAndProduct(newSaleT, newSaleD, productType);
 			}
 			writeText(response, String.valueOf(countSaleN));
 			break;

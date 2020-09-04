@@ -14,4 +14,6 @@ public interface Notice_Schedule_DAO {
 
 	int delete(int notice_Schedule_ID);
 
+	int changeScheduleFlag(int notice_Schedule_ID);
+
 }

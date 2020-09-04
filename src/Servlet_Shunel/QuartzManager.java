@@ -32,7 +32,7 @@ public class QuartzManager {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addJob(String jobName, Class jobClass, Timestamp StartTime, int product_id, String Title,
-			String Content) {
+			String Content,int Schedule_ID) {
 		try {
 			// ***?
 			Scheduler sched = schedulerFactory.getScheduler();
@@ -40,7 +40,7 @@ public class QuartzManager {
 			JobDetail jobDetail = JobBuilder.newJob(jobClass)
 					// ***GROUP_NAME?
 					.withIdentity(jobName, JOB_GROUP_NAME).usingJobData("product_id", product_id)
-					.usingJobData("title", Title).usingJobData("content", Content).build();
+					.usingJobData("title", Title).usingJobData("content", Content).usingJobData("schedule",Schedule_ID).build();
 
 			// 排程觸發的時間在這裡設定
 			Trigger trigger = TriggerBuilder.newTrigger()
@@ -68,7 +68,7 @@ public class QuartzManager {
 	 * @param product_id 訂單號
 	 */
 	@SuppressWarnings("rawtypes")
-	public static void modifyJobTime(String jobName, Timestamp time, int product_id, String Title, String Content) {
+	public static void modifyJobTime(String jobName, Timestamp time, int product_id, String Title, String Content,int Schedule_ID) {
 		try {
 			TriggerKey triggerKey = TriggerKey.triggerKey(jobName, TRIGGER_GROUP_NAME);
 			Scheduler sched = schedulerFactory.getScheduler();
@@ -82,7 +82,7 @@ public class QuartzManager {
 				JobDetail jobDetail = sched.getJobDetail(jobKey);
 				Class objJobClass = jobDetail.getJobClass();
 				removeJob(jobName);
-				addJob(jobName, objJobClass, time, product_id, Title, Content);
+				addJob(jobName, objJobClass, time, product_id, Title, Content,Schedule_ID);
 			}
 		} catch (SchedulerException e) {
 			e.printStackTrace();

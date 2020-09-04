@@ -64,25 +64,26 @@ public class Notice_Schedule_DAO_Interface implements Notice_Schedule_DAO {
 	public int insert(Notice_Schedule notice_Schedule) {
 		int count = 0;
 		int Notice_schedule_ID = 0;
-		String sql = "INSERT INTO NOTICE_SCHEDULE (NOTICE_SCHEDULE_T, NOTICE_SCHEDULE_D, NOTICE_SCHEDUL_STARTTIME, NOTICE_SCHEDUL_ENDTIME, SCHEDULE_FLAG, PRODUCT_ID) VALUES (?, ?, ?, ?,?, ?);";
+		String sql = "INSERT INTO NOTICE_SCHEDULE (NOTICE_SCHEDULE_T, NOTICE_SCHEDULE_D, NOTICE_SCHEDUL_STARTTIME, NOTICE_SCHEDUL_ENDTIME, SCHEDULE_FLAG, PRODUCT_ID) VALUES (?, ?, ?, ? , ? , ?);";
 		try (Connection connection = dataSource.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);) {
+				PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
 			ps.setString(1, notice_Schedule.getNOTICE_SCHEDULE_T());
 			ps.setString(2, notice_Schedule.getNOTICE_SCHEDULE_D());
 			ps.setTimestamp(3, notice_Schedule.getNOTICE_SCHEDUL_STARTTIME());
 			ps.setTimestamp(4, notice_Schedule.getNOTICE_SCHEDUL_ENDTIME());
-			ps.setInt(5, notice_Schedule.getSCHEDULE_FLAG());
+			ps.setInt(5, 0);
 			ps.setInt(6, notice_Schedule.getPRODUCT_ID());
 			System.out.print(ps.toString());
 			count = ps.executeUpdate();
-			
+
 			if (count != 0) {
+				// 生成馬上get ID
 				ResultSet rs = ps.getGeneratedKeys();
-				if(rs.next()) {
+				if (rs.next()) {
 					Notice_schedule_ID = rs.getInt(1);
 				}
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -91,14 +92,55 @@ public class Notice_Schedule_DAO_Interface implements Notice_Schedule_DAO {
 
 	@Override
 	public int update(Notice_Schedule notice_Schedule) {
-		// TODO Auto-generated method stub
-		return 0;
+		int count = 0;
+		System.out.println("走1");
+		String sql = "UPDATE NOTICE_SCHEDULE SET NOTICE_SCHEDULE_T  = ?, NOTICE_SCHEDULE_D = ? ,NOTICE_SCHEDUL_STARTTIME = ?,NOTICE_SCHEDUL_ENDTIME = ?,SCHEDULE_FLAG = ?,PRODUCT_ID = ? WHERE NOTICE_SCHEDULE_ID= ?;";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, notice_Schedule.getNOTICE_SCHEDULE_T());
+			ps.setString(2, notice_Schedule.getNOTICE_SCHEDULE_D());
+			ps.setTimestamp(3, notice_Schedule.getNOTICE_SCHEDUL_STARTTIME());
+			ps.setTimestamp(4, notice_Schedule.getNOTICE_SCHEDUL_ENDTIME());
+			ps.setInt(5, 0);
+			ps.setInt(6, notice_Schedule.getPRODUCT_ID());
+			ps.setInt(7, notice_Schedule.getNOTICE_SCHEDULE_ID());
+			System.out.println("ssss" + ps);
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 	@Override
 	public int delete(int notice_Schedule_ID) {
-		// TODO Auto-generated method stub
-		return 0;
+		int count = 0;
+		String sql = "DELETE FROM  NOTICE_SCHEDULE WHERE NOTICE_SCHEDULE_ID = ?;";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, notice_Schedule_ID);
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public int changeScheduleFlag(int notice_Schedule_ID) {
+		int count = 0;
+		String sql = "UPDATE NOTICE_SCHEDULE SET SCHEDULE_FLAG = 1 WHERE NOTICE_SCHEDULE_ID = ?;";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, 1);
+			ps.setInt(2, notice_Schedule_ID);
+			System.out.println("ssss" + ps);
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+
 	}
 
 }
