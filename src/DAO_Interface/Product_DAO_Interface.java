@@ -36,7 +36,7 @@ public class Product_DAO_Interface implements Product_DAO {
 
 	@Override
 	public Product findById(int prouct_id) {
-		String sql = " SELECT PRODUCT_NAME, COLOR, DITAL FROM Shunel.PRODUCT WHERE PRODUCT_ID = ?;";
+		String sql = " SELECT * FROM Shunel.PRODUCT WHERE PRODUCT_ID = ?;";
 		Product product = null;
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {

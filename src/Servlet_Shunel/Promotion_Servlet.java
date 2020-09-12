@@ -48,7 +48,7 @@ public class Promotion_Servlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		if (promotion_DAO == null) {
 			promotion_DAO = new Promotion_DAO_Interface();
-			
+
 			List<Promotion> promotions = promotion_DAO.getPromotionAll();
 			writeText(response, new Gson().toJson(promotions));
 		}
@@ -85,20 +85,20 @@ public class Promotion_Servlet extends HttpServlet {
 			Promotion promotion = promotion_DAO.findById(producd_id);
 			writeText(response, gson1.toJson(promotion));
 			break;
-		
-		
+
 		case "getPromotionAll":
 			List<Promotion> promotions = promotion_DAO.getPromotionAll();
 			writeText(response, gson.toJson(promotions));
 			break;
-			
-		case "getPromotionForNotice":
-			List<Promotion> promotionsForNotice = promotion_DAO.getPromotionForNotice();
-			System.out.println("\n"+promotionsForNotice.toString()+"\n");
-			
-			writeText(response, gson.toJson(promotionsForNotice));
+
+		case "getPromotionPrice":
+			int product_ID = jsonObject.get("product_ID").getAsInt();
+			int promotionPrice = promotion_DAO.getPromotionPrice(product_ID);
+			System.out.println("\n" + promotionPrice + "\n");
+//			QuartzManager.addJob(jobName, jobClass, StartTime, product_id);
+			writeText(response, gson.toJson(promotionPrice));
 			break;
-			
+
 		case "getImage":
 			OutputStream os = response.getOutputStream();
 			int id = jsonObject.get("id").getAsInt();

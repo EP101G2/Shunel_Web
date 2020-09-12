@@ -231,12 +231,12 @@ public class Orders_Servlet extends HttpServlet {
 			changePriceNotice = notice_DAO.sendGoodsPriceNotice(orderid);
 			token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderid));
 			sendFirebase = notice_DAO.TitleAndDetail(1, String.valueOf(orderid));
-			System.out.println(sendFirebase + "====sF=====");
-			String title = sendFirebase.getNotice_Title();
-			String msg = sendFirebase.getNotice_Content();
-			System.out.println(title + "====T=====");
-			System.out.println(msg + "====MSG=====");
-			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 1);
+//			System.out.println(sendFirebase + "====sF=====");
+//			String title = sendFirebase.getNotice_Title();
+//			String msg = sendFirebase.getNotice_Content();
+//			System.out.println(title + "====T=====");
+//			System.out.println(msg + "====MSG=====");
+//			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 1);
 			count = order_Main_DAO.updataOrder(orderid);
 			writeText(response, String.valueOf(count));
 			break;
@@ -311,7 +311,7 @@ public class Orders_Servlet extends HttpServlet {
 			case 2:
 				int changeOrderNStatus = notice_DAO.sendGoodsNotice(String.valueOf(orderId));
 				String token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderId));
-				Notice sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(orderId));
+				Notice sendFirebase = notice_DAO.TitleAndDetail(1, String.valueOf(orderId));
 				System.out.println(sendFirebase + "====sF=====");
 				String title = sendFirebase.getNotice_Title();
 				String msg = sendFirebase.getNotice_Content();
