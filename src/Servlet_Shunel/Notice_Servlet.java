@@ -178,6 +178,8 @@ public class Notice_Servlet extends HttpServlet {
 				} catch (FirebaseMessagingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					
+					
 				}
 
 			} else {
