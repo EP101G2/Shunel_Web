@@ -244,7 +244,6 @@ public class Product_DAO_Interface implements Product_DAO {
 			if (count != 0) {
 				ResultSet resultSet = ps.getGeneratedKeys();
 				if (resultSet.next()) {
-
 					product_id = resultSet.getInt(1);
 					System.out.println("這是product ID" + product_id);
 				}
