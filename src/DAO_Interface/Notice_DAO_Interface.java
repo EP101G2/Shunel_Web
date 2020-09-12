@@ -438,7 +438,6 @@ public class Notice_DAO_Interface implements Notice_DAO {
 				String str = "";
 				str = rs.getString("TOKEN");
 				tokenList.add(str);
-				System.out.println(tokenList);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
