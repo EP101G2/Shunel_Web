@@ -160,6 +160,16 @@ public class Prouct_Servlet extends HttpServlet {
 		switch (action) {
 		
 		
+		//新增地址
+		case "Address":{
+			String address = jsonObject.get("Address").getAsString();
+			int count = product_DAO.insertAddress(address);
+			System.out.println("address count"+count);
+			writeText(response, String.valueOf(count));
+			break;
+		}
+		
+		
 		
 
 		case "updateProduct":

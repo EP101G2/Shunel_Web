@@ -11,7 +11,8 @@ import Bean.Shopping_Cart;
 
 
 public interface Product_DAO {
-
+	
+int insertAddress(String string);
 	int insert(Product product, byte[] image,byte[] image2,byte[] image3);
 	int update(Product product, byte[] image,byte[] image2,byte[] image3);
 	int delete(int id);

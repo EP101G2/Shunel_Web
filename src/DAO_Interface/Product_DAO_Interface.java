@@ -27,6 +27,30 @@ public class Product_DAO_Interface implements Product_DAO {
 
 	}
 
+	
+	@Override
+	public int insertAddress(String string) {
+		int count = 0;
+		String sql ="  INSERT INTO `Shunel`.`CATEGORY` (`CATEGORY_ID`,`CATEGORY_NAME`)  VALUES (6 ,?)" + 
+						"ON DUPLICATE KEY UPDATE `CATEGORY_NAME`= ? ; ";
+		
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString( 1 , string);
+			ps.setString( 2 , string);
+			System.out.println(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		// 如果 count < 0，回傳 0，不然回傳 1 
+		return count < 0 ? 0 : 1;
+		
+		
+	}
+	
+	
 	@Override
 	public int delete(int id) {
 		return id;
@@ -404,5 +428,7 @@ public class Product_DAO_Interface implements Product_DAO {
 
 		return prouctList;
 	}
+
+
 
 }
