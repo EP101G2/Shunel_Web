@@ -158,7 +158,11 @@ public class Prouct_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
-		
+		case "getAddress":{
+			
+			writeText(response, product_DAO.getAddress());
+			break;
+		}
 		
 		//新增地址
 		case "Address":{

@@ -27,30 +27,46 @@ public class Product_DAO_Interface implements Product_DAO {
 
 	}
 
-	
+	@Override
+	public String getAddress() {
+		String address = "";
+		String sql = "SELECT * FROM Shunel.CATEGORY where CATEGORY_ID = 6; ";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			System.out.println(connection.isClosed());
+			System.out.println(ps.isClosed());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				address = rs.getString("CATEGORY_NAME");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return address;
+	}
+
 	@Override
 	public int insertAddress(String string) {
 		int count = 0;
-		String sql ="  INSERT INTO `Shunel`.`CATEGORY` (`CATEGORY_ID`,`CATEGORY_NAME`)  VALUES (6 ,?)" + 
-						"ON DUPLICATE KEY UPDATE `CATEGORY_NAME`= ? ; ";
-		
+		String sql = "  INSERT INTO `Shunel`.`CATEGORY` (`CATEGORY_ID`,`CATEGORY_NAME`)  VALUES (6 ,?)"
+				+ "ON DUPLICATE KEY UPDATE `CATEGORY_NAME`= ? ; ";
+
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-			ps.setString( 1 , string);
-			ps.setString( 2 , string);
+			ps.setString(1, string);
+			ps.setString(2, string);
 			System.out.println(ps.toString());
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		// 如果 count < 0，回傳 0，不然回傳 1 
+		// 如果 count < 0，回傳 0，不然回傳 1
 		return count < 0 ? 0 : 1;
-		
-		
+
 	}
-	
-	
+
 	@Override
 	public int delete(int id) {
 		return id;
@@ -307,7 +323,7 @@ public class Product_DAO_Interface implements Product_DAO {
 			ps.setInt(5, prouct.getProduct_Category_ID());
 			ps.setInt(6, prouct.getProduct_Status());
 			status = prouct.getProduct_Status();
-			
+
 			switch (status) {
 			case 0:
 				status = 1;
@@ -428,7 +444,5 @@ public class Product_DAO_Interface implements Product_DAO {
 
 		return prouctList;
 	}
-
-
 
 }
