@@ -313,10 +313,11 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 				String recriver = rs.getString("RECRIVER");
 				String address = rs.getString("ADDRESS");
 				String phone = rs.getString("PHONE");
+				int ORDER_STATUS = rs.getInt("ORDER_STATUS"); 
 				Timestamp order_Date = rs.getTimestamp("ORDER_DATE");
 				Timestamp modify_Date = rs.getTimestamp("MODIFY_DATE");
 				
-				orderMain = new Order_Main(order_ID, account_ID, total_Price, recriver, address, phone, order_Date, status, modify_Date);
+				orderMain = new Order_Main(order_ID, account_ID, total_Price, recriver, address, phone, order_Date, ORDER_STATUS, modify_Date);
 				orderMainList.add(orderMain);
 			}	
 			return orderMainList;

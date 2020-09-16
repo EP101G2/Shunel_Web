@@ -16,6 +16,9 @@ public class Order_Main implements Serializable {
 	private Timestamp Order_Main_Order_Date;
 	private int order_Status;
 	private Timestamp Order_Main_Modify_Date;
+	
+	
+
 
 
 	
