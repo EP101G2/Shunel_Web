@@ -248,11 +248,9 @@ public class Orders_Servlet extends HttpServlet {
 			int status = jsonObject.get("status").getAsInt();
 			int status1 = 0;
 			String account_ID = jsonObject.get("Account_ID").getAsString();
-			if (status == 0 && status1 == 0) {
+			if (status == 0 ) {
 //				status = jsonObject.get("status").getAsInt();
 				status1 = jsonObject.get("status1").getAsInt();
-			} else {
-				status = jsonObject.get("status").getAsInt();
 			}
 
 			List<Order_Main> orderShortMainMainList;
@@ -262,7 +260,7 @@ public class Orders_Servlet extends HttpServlet {
 				orderShortMainMainList1 = order_Main_DAO.getOrderMains(account_ID, status1);
 				orderShortMainMainList.addAll(orderShortMainMainList1);
 			}
-
+			System.out.println("orderShortMainMainList"+gson.toJson(orderShortMainMainList));
 			writeText(response, gson.toJson(orderShortMainMainList));
 			break;
 		}
@@ -307,6 +305,12 @@ public class Orders_Servlet extends HttpServlet {
 			count = order_Main_DAO.updateStatus(orderId, status);
 
 			switch (status) {
+			case 0:
+				int putGoodsAgainNotice = notice_DAO.putGoodsAgainNotice(String.valueOf(orderId));
+				break;
+			case 1:
+				int sendGoodsPriceNotice = notice_DAO.sendGoodsPriceNotice(orderId);
+				break;
 			case 2:
 				int sendGoodsNotice = notice_DAO.sendGoodsNotice(String.valueOf(orderId));
 				break;

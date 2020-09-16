@@ -489,6 +489,28 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return count;
 	}
+	
+	
+	@Override
+	public int putGoodsAgainNotice(String order_id) {
+		int count = 0;
+		System.out.print("test!");
+		String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE ( NOTICE_CATEGORY_ID = 1  and  CATEGORY_MESSAGE_ID = ?);";
+
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, "訂單已成立");
+			ps.setString(2, "您的訂單編號為  " + order_id + " ，將於付款後出貨");
+			ps.setString(3, order_id);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
 
 	// 發送付款通過訊息
 	// 亭葳

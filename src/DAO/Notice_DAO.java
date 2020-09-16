@@ -69,6 +69,8 @@ public interface Notice_DAO {
 
 	int goodsFinishNotice(String order_id);
 
+	int putGoodsAgainNotice(String order_id);
+
 //	int sendScheduleToFront(String notice_Title, String notice_Detail, int notice_category, int category_Message_ID);
 
 
