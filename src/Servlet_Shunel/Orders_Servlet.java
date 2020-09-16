@@ -248,12 +248,10 @@ public class Orders_Servlet extends HttpServlet {
 			int status = jsonObject.get("status").getAsInt();
 			int status1 = 0;
 			String account_ID = jsonObject.get("Account_ID").getAsString();
-			if (status == 0 && status1 == 0) {
+			if (status == 0 ) {
 //				status = jsonObject.get("status").getAsInt();
 				status1 = jsonObject.get("status1").getAsInt();
-			} else {
-				status = jsonObject.get("status").getAsInt();
-			}
+			} 
 
 			List<Order_Main> orderShortMainMainList;
 			System.out.print("input accountId & status: " + account_ID + ", " + status);
