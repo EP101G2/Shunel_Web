@@ -35,17 +35,18 @@ public class FirebaseCloudMsg {
 	}
 
 	// 單推
-	public void FCMsendMsg(String token, String title, String msg, int Flag) {
+	public void FCMsendMsg(String token, String title, String msg,int product_ID , int Flag) {
 
 		System.out.println(title);
 		System.out.println(msg);
 		Message message = Message.builder().putData("title", title).putData("msg", msg)
-				.putData("flag", String.valueOf(Flag)).setToken(token).build();
+				.putData("product_ID", String.valueOf(product_ID)).putData("flag", String.valueOf(Flag)).setToken(token).build();
 
 		// Send a message to the device corresponding to the provided
 		// registration token.
 		try {
 			String FcmResponse = FirebaseMessaging.getInstance().send(message);
+			
 
 			// Response is a message ID string.
 			System.out.println("Successfully sent message: " + FcmResponse);
@@ -56,21 +57,21 @@ public class FirebaseCloudMsg {
 
 	}
 
-	// 群推
-	public void FCMsendMsgMuti(List<String> registrationTokens, String title, String msg, int Flag)
-			throws FirebaseMessagingException {
-
-		MulticastMessage message = MulticastMessage.builder().putData("title", title).putData("msg", msg)
-				.putData("flag", String.valueOf(Flag)).addAllTokens(registrationTokens).build();
-
-		BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
-		// See the BatchResponse reference documentation
-		// for the contents of response.
-		System.out.println(response.getSuccessCount() + " messages were sent successfully");
-	}
+//	// 群推
+//	public void FCMsendMsgMuti(List<String> registrationTokens, String title, String msg,int product_ID, int Flag)
+//			throws FirebaseMessagingException {
+//
+//		MulticastMessage message = MulticastMessage.builder().putData("title", title).putData("msg", msg)
+//				.putData("product_ID", String.valueOf(product_ID)).putData("flag", String.valueOf(Flag)).addAllTokens(registrationTokens).build();
+//
+//		BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
+//		// See the BatchResponse reference documentation
+//		// for the contents of response.
+//		System.out.println(response.getSuccessCount() + " messages were sent successfully");
+//	}
 	
 	// 群推
-		public void FCMsendMsgMuti(List<String> registrationTokens, String title, String msg){
+		public void FCMsendMsgMuti(List<String> registrationTokens, String title, String msg,int product_ID,int Flag){
 			
 			for(String string : registrationTokens) {
 				System.out.println(string);
@@ -79,7 +80,7 @@ public class FirebaseCloudMsg {
 			System.out.println(msg);
 
 			MulticastMessage message = MulticastMessage.builder().putData("title", title).putData("msg", msg)
-				.addAllTokens(registrationTokens).build();
+					.putData("product_ID", String.valueOf(product_ID)).putData("flag", String.valueOf(Flag)).addAllTokens(registrationTokens).build();
 
 			BatchResponse response = null;
 			try {

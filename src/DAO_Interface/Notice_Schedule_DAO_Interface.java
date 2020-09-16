@@ -129,7 +129,7 @@ public class Notice_Schedule_DAO_Interface implements Notice_Schedule_DAO {
 	@Override
 	public int changeScheduleFlag(int notice_Schedule_ID) {
 		int count = 0;
-		String sql = "UPDATE NOTICE_SCHEDULE SET SCHEDULE_FLAG = 1 WHERE NOTICE_SCHEDULE_ID = ?;";
+		String sql = "UPDATE NOTICE_SCHEDULE SET SCHEDULE_FLAG = ? WHERE NOTICE_SCHEDULE_ID = ?;";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ps.setInt(1, 1);

@@ -530,8 +530,66 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return count;
 	}
 
-//		@Override
-//		public int 
+	// 發送單一對象到貨訊息(order_main)
+	// 亭葳
+	@Override
+	public int goodsFinishNotice(String order_id) {
+		int count = 0;
+		String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE ( NOTICE_CATEGORY_ID = 1  and  CATEGORY_MESSAGE_ID = ?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, "商品已送達");
+			ps.setString(2, "訂單編號" + order_id + " 已送達您指定的地區，再麻煩前往領取，謝謝!");
+			ps.setString(3, order_id);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
+	
+	// 發送單一對象訂單取消訊息(order_main)
+	// 亭葳
+	@Override
+	public int goodsCancelNotice(String order_id) {
+		int count = 0;
+		String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE ( NOTICE_CATEGORY_ID = 1  and  CATEGORY_MESSAGE_ID = ?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, "訂單已取消");
+			ps.setString(2, "訂單編號" + order_id + "已取消，歡迎您再度光臨選購");
+			ps.setString(3, order_id);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
+	// 發送單一對象退貨訊息(order_main)
+	// 亭葳
+	@Override
+	public int goodsReturnNotice(String order_id) {
+		int count = 0;
+		String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE ( NOTICE_CATEGORY_ID = 1  and  CATEGORY_MESSAGE_ID = ?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, "商品已辦理退貨");
+			ps.setString(2, "訂單編號" + order_id + "已退貨成功，造成您的不便敬請見諒");
+			ps.setString(3, order_id);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
 
 	// 亭葳
 	// 從訂單總表連到USER_ACCOUNT去取Token

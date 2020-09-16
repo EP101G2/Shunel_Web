@@ -92,7 +92,7 @@ public class Promotion_Servlet extends HttpServlet {
 			break;
 
 		case "getPromotionPrice":
-			int product_ID = jsonObject.get("product_ID").getAsInt();
+			int product_ID = jsonObject.get("PRODUCT_Id").getAsInt();
 			int promotionPrice = promotion_DAO.getPromotionPrice(product_ID);
 			System.out.println("\n" + promotionPrice + "\n");
 //			QuartzManager.addJob(jobName, jobClass, StartTime, product_id);

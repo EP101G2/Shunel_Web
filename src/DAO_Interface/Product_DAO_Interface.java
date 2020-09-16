@@ -84,10 +84,12 @@ public class Product_DAO_Interface implements Product_DAO {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				System.out.println("--------");
+				int PRODUCT_ID = rs.getInt("PRODUCT_ID");
 				String PRODUCT_NAME = rs.getString("PRODUCT_NAME");
 				String COLOR = rs.getString("COLOR");
 				String DITAL = rs.getString("DITAL");
-				product = new Product(PRODUCT_NAME, COLOR, DITAL);
+				int prouct_Status = rs.getInt("PRODUCT_STATUS");
+				product = new Product(PRODUCT_ID,PRODUCT_NAME, COLOR, DITAL,prouct_Status);
 			}
 			return product;
 		} catch (SQLException e) {
