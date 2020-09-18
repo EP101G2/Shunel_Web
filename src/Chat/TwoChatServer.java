@@ -54,6 +54,7 @@ public class TwoChatServer {
 	public void onMessage(Session userSession, String message) {
 		int count = 0;
 		int imageID;
+		
 		byte[] image;
 		if (cDao == null) {
 			cDao = new Chat_DAO_InterFace();

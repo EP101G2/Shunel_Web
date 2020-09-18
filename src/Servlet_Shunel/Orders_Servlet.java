@@ -224,6 +224,8 @@ public class Orders_Servlet extends HttpServlet {
 		case "changeOrderStatus": {
 			int count = 0;
 			int orderid = jsonObject.get("OrderID").getAsInt();
+			String oM = jsonObject.get("oM").getAsString();
+			Order_Main oMain = new Gson().fromJson(oM, Order_Main.class);
 			System.out.println(orderid);
 			int changePriceNotice;
 			String token;
@@ -237,7 +239,7 @@ public class Orders_Servlet extends HttpServlet {
 //			System.out.println(title + "====T=====");
 //			System.out.println(msg + "====MSG=====");
 //			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 1);
-			count = order_Main_DAO.updataOrder(orderid);
+			count = order_Main_DAO.updataOrder(orderid,oMain);
 			writeText(response, String.valueOf(count));
 			break;
 		}

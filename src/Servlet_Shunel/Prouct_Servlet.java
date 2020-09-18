@@ -327,7 +327,7 @@ public class Prouct_Servlet extends HttpServlet {
 			System.out.println("ID_Json = " + ID_Json);
 
 			Shopping_Cart shopping_Cart = gson.fromJson(ID_Json, Shopping_Cart.class);
-			System.out.println("shopping_Cart" + shopping_Cart.getAccount_ID());
+//			System.out.println("shopping_Cart" + shopping_Cart.getAccount_ID());
 			int count = 0;
 			count = shopping_Card_DAO.insert(shopping_Cart);
 			writeText(response, String.valueOf(count));
