@@ -158,6 +158,20 @@ public class Prouct_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
+		case "getAddress":{
+			
+			writeText(response, product_DAO.getAddress());
+			break;
+		}
+		
+		//新增地址
+		case "Address":{
+			String address = jsonObject.get("Address").getAsString();
+			int count = product_DAO.insertAddress(address);
+			System.out.println("address count"+count);
+			writeText(response, String.valueOf(count));
+			break;
+		}
 		
 		
 		
@@ -192,7 +206,7 @@ public class Prouct_Servlet extends HttpServlet {
 								sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(product_ID));
 								String title = sendFirebase.getNotice_Title();
 								String msg = sendFirebase.getNotice_Content();							
-								FirebaseCloudMsg.getInstance().FCMsendMsg(notice_DAO.getAccountToken(Account_ID), title, msg,3);
+								FirebaseCloudMsg.getInstance().FCMsendMsg(notice_DAO.getAccountToken(Account_ID), title, msg,0,3);
 						 }
 						 
 						 
@@ -420,7 +434,7 @@ public class Prouct_Servlet extends HttpServlet {
 			sendFirebase = notice_DAO.TitleAndDetail(1, String.valueOf(orderid));
 			String title = sendFirebase.getNotice_Title();
 			String msg = sendFirebase.getNotice_Content();
-			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 1);
+			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg,0, 1);
 			System.out.println("FireB=======================" + sendFirebase);
 			/*-------------------------------------------------發送訂單推播-----------------------------------------------------------------*/
 			for (JsonElement element : jsonArray) {

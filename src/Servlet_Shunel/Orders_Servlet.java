@@ -185,20 +185,20 @@ public class Orders_Servlet extends HttpServlet {
 			JsonObject jsonGetOrderMain = new JsonObject();
 			Order_Main_DAO orderMainDao = new Oder_Main_DAO_Interface();
 			Order_Main orderMain = orderMainDao.getOrderMain(orderID);
-			
+
 			if (orderMain == null) {
 				jsonGetOrderMain.addProperty("result", "fail");
 				jsonGetOrderMain.addProperty("message", "查無此帳號");
-			}else {
+			} else {
 				if (orderMain.getOrder_ID() == orderID) {
 					jsonGetOrderMain.addProperty("result", "success");
 					jsonGetOrderMain.addProperty("orderMain", gson.toJson(orderMain));
-				}else {
+				} else {
 					jsonGetOrderMain.addProperty("result", "fail");
 				}
 			}
 			writeText(response, gson.toJson(jsonGetOrderMain));
-			System.out.println("--getOrderMain-->"+jsonGetOrderMain);
+			System.out.println("--getOrderMain-->" + jsonGetOrderMain);
 			break;
 		}
 		case "getOrderDetail": {
@@ -233,6 +233,7 @@ public class Orders_Servlet extends HttpServlet {
 			changePriceNotice = notice_DAO.sendGoodsPriceNotice(orderid);
 			token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderid));
 			sendFirebase = notice_DAO.TitleAndDetail(1, String.valueOf(orderid));
+
 //			System.out.println(sendFirebase + "====sF=====");
 //			String title = sendFirebase.getNotice_Title();
 //			String msg = sendFirebase.getNotice_Content();
@@ -240,33 +241,30 @@ public class Orders_Servlet extends HttpServlet {
 //			System.out.println(msg + "====MSG=====");
 //			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 1);
 			count = order_Main_DAO.updataOrder(orderid,oMain);
+
 			writeText(response, String.valueOf(count));
 			break;
 		}
 
 //		get OrderList for orderListFragment
 		case "getOrderMains": {
-			 List<Order_Main> orderShortMainMainList1;
+			List<Order_Main> orderShortMainMainList1;
 			int status = jsonObject.get("status").getAsInt();
 			int status1 = 0;
 			String account_ID = jsonObject.get("Account_ID").getAsString();
-			if (status ==0 && status1==0) {
+			if (status == 0 ) {
 //				status = jsonObject.get("status").getAsInt();
 				status1 = jsonObject.get("status1").getAsInt();
-			}else {
-				status = jsonObject.get("status").getAsInt();
-			}
-			
+			} 
+
 			List<Order_Main> orderShortMainMainList;
-			System.out.print("input accountId & status: "+account_ID+", "+status);
-			 orderShortMainMainList = order_Main_DAO.getOrderMains(account_ID, status);
-			 if (status1 != 0 ) {
-				 orderShortMainMainList1 = order_Main_DAO.getOrderMains(account_ID, status1);
-				 orderShortMainMainList.addAll( orderShortMainMainList1);
+			System.out.print("input accountId & status: " + account_ID + ", " + status);
+			orderShortMainMainList = order_Main_DAO.getOrderMains(account_ID, status);
+			if (status1 != 0) {
+				orderShortMainMainList1 = order_Main_DAO.getOrderMains(account_ID, status1);
+				orderShortMainMainList.addAll(orderShortMainMainList1);
 			}
-			 
-			 
-			 
+			System.out.println("orderShortMainMainList"+gson.toJson(orderShortMainMainList));
 			writeText(response, gson.toJson(orderShortMainMainList));
 			break;
 		}
@@ -284,11 +282,11 @@ public class Orders_Servlet extends HttpServlet {
 //			writeText(response, gson.toJson(orderedProductList));
 //			break;
 //		}//banned!!
-		
+
 //		get ordered product by order id(back and front)
 		case "getOrderedProducts": {
 			int Order_ID = jsonObject.get("order_Id").getAsInt();
-			System.out.println("get order id from client ->"+Order_ID);
+			System.out.println("get order id from client ->" + Order_ID);
 			List<Order_Detail> orderedProductList = order_Detail_DAO.getOrderedProducts(Order_ID);
 			writeText(response, gson.toJson(orderedProductList));
 			break;
@@ -300,7 +298,7 @@ public class Orders_Servlet extends HttpServlet {
 			writeText(response, gson.toJson(orderManageList));
 			System.out.println("---getOrdersForManage---" + orderManageList);
 			break;
-		}//ok
+		} // ok
 
 //		change on order status
 		case "updateStatus": {
@@ -309,18 +307,38 @@ public class Orders_Servlet extends HttpServlet {
 			int orderId = jsonObject.get("orderId").getAsInt();
 			int status = jsonObject.get("status").getAsInt();
 			count = order_Main_DAO.updateStatus(orderId, status);
+
 			switch (status) {
+			case 0:
+				int putGoodsAgainNotice = notice_DAO.putGoodsAgainNotice(String.valueOf(orderId));
+				break;
+			case 1:
+				int sendGoodsPriceNotice = notice_DAO.sendGoodsPriceNotice(orderId);
+				break;
 			case 2:
-				int changeOrderNStatus = notice_DAO.sendGoodsNotice(String.valueOf(orderId));
-				String token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderId));
-				Notice sendFirebase = notice_DAO.TitleAndDetail(3, String.valueOf(orderId));
-				System.out.println(sendFirebase + "====sF=====");
-				String title = sendFirebase.getNotice_Title();
-				String msg = sendFirebase.getNotice_Content();
-				System.out.println(title + "====T=====");
-				System.out.println(msg + "====MSG=====");
-				FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 1);
+				int sendGoodsNotice = notice_DAO.sendGoodsNotice(String.valueOf(orderId));
+				break;
+
+			case 3:
+				int goodsFinishNotice = notice_DAO.goodsFinishNotice(String.valueOf(orderId));
+				break;
+
+			case 4:
+				int goodsCancelNotice = notice_DAO.goodsCancelNotice(String.valueOf(orderId));
+				break;
+
+			case 5:
+				int goodsReturnNotice = notice_DAO.goodsReturnNotice(String.valueOf(orderId));
+				break;
 			}
+			String token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderId));
+			Notice sendFirebase = notice_DAO.TitleAndDetail(1, String.valueOf(orderId));
+			System.out.println(sendFirebase + "====sF=====");
+			String title = sendFirebase.getNotice_Title();
+			String msg = sendFirebase.getNotice_Content();
+			System.out.println(title + "====T=====");
+			System.out.println(msg + "====MSG=====");
+			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 0, 1);
 			System.out.println(orderId + "->" + status);
 //			Order_Main order_Main = gson.fromJson(status, Order_Main.class);
 //			Order_Main_DAO order_Main_DAO = new Oder_Main_DAO_Interface();
@@ -373,46 +391,45 @@ public class Orders_Servlet extends HttpServlet {
 			}
 			break;
 		}
-		
-		
-		/*訂單數ㄌㄤ統計*/
-		case "getStatistics":{
+
+		/* 訂單數ㄌㄤ統計 */
+		case "getStatistics": {
 			Gson gsonTime = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			List<orderStatistics> oStatistics = null;
-			
+
 			String date1 = jsonObject.get("date1").getAsString();
 			String date2 = jsonObject.get("date2").getAsString();
-			
-			Timestamp dateTime1=StrtoTimestamp(date1);
-			Timestamp dateTime2=StrtoTimestamp(date2);
-			
+
+			Timestamp dateTime1 = StrtoTimestamp(date1);
+			Timestamp dateTime2 = StrtoTimestamp(date2);
+
 			oStatistics = order_Main_DAO.getStatistics(dateTime1, dateTime2);
-			
+
 			writeText(response, gsonTime.toJson(oStatistics));
-			
+
 			break;
-			
+
 		}
-		
+
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
 		}
 	}
 
 	private Timestamp StrtoTimestamp(String date1) {
-	// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub
+
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		try {
-		ts = Timestamp.valueOf(date1);
-		System.out.println(ts);
+			ts = Timestamp.valueOf(date1);
+			System.out.println(ts);
 		} catch (Exception e) {
-		e.printStackTrace();
-		} 
-		
+			e.printStackTrace();
+		}
+
 		return ts;
-	
-}
+
+	}
 
 	private void writeText(HttpServletResponse response, String outText) throws IOException {
 		// TODO Auto-generated method stub

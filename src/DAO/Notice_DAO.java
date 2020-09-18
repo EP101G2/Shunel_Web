@@ -26,13 +26,11 @@ public interface Notice_DAO {
 
 	List<Notice> getSaleAll();
 
-	List<Notice> getQAAll();
 	
 	List<String> getToken();
 
 	Notice getLastSaleN();
 
-	Notice getLastQAN();
 
 	Notice getLastSystemN();
 
@@ -58,6 +56,23 @@ public interface Notice_DAO {
 	String getAccountToken(String Account_ID);
 
 	List<Notice> getNoticeAll(String Account_ID);
+
+	Notice getLastGoodN(String Account_ID);
+
+	List<Notice> getGoodsAll(String Account_ID);
+
+	int sendSaleNAndProduct(String notice_title, String notice_content, int product_ID);
+
+	int goodsReturnNotice(String order_id);
+
+	int goodsCancelNotice(String order_id);
+
+	int goodsFinishNotice(String order_id);
+
+	int putGoodsAgainNotice(String order_id);
+
+//	int sendScheduleToFront(String notice_Title, String notice_Detail, int notice_category, int category_Message_ID);
+
 
 //	Product findByNoticeMessageId(int prouct_id);
 

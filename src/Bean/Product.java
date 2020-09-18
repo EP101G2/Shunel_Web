@@ -46,10 +46,12 @@ public class Product implements Serializable {
 		this.product_Status = product_Status;
 	}
 
-	public Product(String PRODUCT_NAME, String COLOR, String DITAL) {
+	public Product(int PROUDCT_ID,String PRODUCT_NAME, String COLOR, String DITAL,int PRODUCT_STATUS ) {
+		product_ID = PROUDCT_ID;
 		product_Name = PRODUCT_NAME;
 		product_Color = COLOR;
 		product_Ditail = DITAL;
+		product_Status = PRODUCT_STATUS;
 	}
 
 	public Product(int product_ID) {

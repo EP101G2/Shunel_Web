@@ -27,13 +27,10 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 
 		int count = 0;
 
-		String sql = "INSERT INTO `Shunel`.`PROMOTION` (`PROMOTION_ID`,`PRODUCT_ID`, `PROMOTION_PRICE`, `DATE_START`, `DATE_END`) VALUES (? ,?, ?, ?, ?) " + 
-				"ON DUPLICATE KEY UPDATE  " + 
-				"`PRODUCT_ID` = values (PRODUCT_ID)," + 
-				"`PROMOTION_PRICE` = values (PROMOTION_PRICE)," + 
-				"`DATE_START` = values (DATE_START)," + 
-				" `DATE_END` = values (DATE_END)" + 
-				";";
+		String sql = "INSERT INTO `Shunel`.`PROMOTION` (`PROMOTION_ID`,`PRODUCT_ID`, `PROMOTION_PRICE`, `DATE_START`, `DATE_END`) VALUES (? ,?, ?, ?, ?) "
+				+ "ON DUPLICATE KEY UPDATE  " + "`PRODUCT_ID` = values (PRODUCT_ID),"
+				+ "`PROMOTION_PRICE` = values (PROMOTION_PRICE)," + "`DATE_START` = values (DATE_START),"
+				+ " `DATE_END` = values (DATE_END)" + ";";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ps.setInt(1, promotion.getPromotion_ID());
@@ -41,7 +38,7 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 			ps.setInt(3, promotion.getPromotion_Price());
 			ps.setTimestamp(4, promotion.getDate_Start());
 			ps.setTimestamp(5, promotion.getDate_End());
-			
+
 			System.out.println(ps.toString());
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
@@ -49,7 +46,6 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 		}
 		return count;
 
-		
 	}
 
 	@Override
@@ -67,7 +63,7 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 	@Override
 	public Promotion findById(int Promotion_ID) {
 		String sql = "SELECT * FROM Shunel.PROMOTION where PRODUCT_ID = ?;";
-		
+
 		Promotion promotion = null;
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -77,8 +73,8 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 				int promotion_Price = rs.getInt("PROMOTION_PRICE");
 				Timestamp date_Start = rs.getTimestamp("DATE_START");
 				Timestamp date_End = rs.getTimestamp("DATE_END");
-				
-				 promotion = new Promotion(promotion_Price, date_Start, date_End);
+
+				promotion = new Promotion(promotion_Price, date_Start, date_End);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,7 +99,8 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 				Timestamp date_End = rs.getTimestamp("DATE_END");
 				String color = rs.getString("COLOR");
 				String dital = rs.getString("DITAL");
-				Promotion promotion = new Promotion(promotion_ID, product_Name, product_ID, promotion_Price, product_Price, color, dital, date_Start, date_End);
+				Promotion promotion = new Promotion(promotion_ID, product_Name, product_ID, promotion_Price,
+						product_Price, color, dital, date_Start, date_End);
 				promotionList.add(promotion);
 			}
 			return promotionList;
@@ -115,31 +112,23 @@ public class Promotion_DAO_Interface implements Promotion_DAO {
 	}
 
 	@Override
-	public List<Promotion> getPromotionForNotice() {
+	public int getPromotionPrice(int product_ID) {
 
-		String sql = "SELECT * from PROMOTION join PRODUCT on  PROMOTION.PRODUCT_ID = PRODUCT.PRODUCT_ID  where now() between DATE_START and DATE_END and PRODUCT_STATUS = 2 limit 6 ;";
-		List<Promotion> promotionList = new ArrayList<Promotion>();
+		String sql = "SELECT PROMOTION_PRICE from PROMOTION join PRODUCT on  PROMOTION.PRODUCT_ID = PRODUCT.PRODUCT_ID  where  PRODUCT.PRODUCT_ID = ?  and now() between DATE_START and  DATE_END;";
+		Promotion promotion = new Promotion();
+		int PROMOTION_PRICE = 0;
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, product_ID);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				int PROMOTION_ID = rs.getInt("PRODUCT_ID");
-				int PRODUCT_ID = rs.getInt("PRODUCT_ID");
-				String PRODUCT_NAME = rs.getString("PRODUCT_NAME");
-				int PROMOTION_PRICE = rs.getInt("PROMOTION_PRICE");
-//				int Product_Price = rs.getInt("PRICE");
-				Timestamp DATE_START = rs.getTimestamp("DATE_START");
-				Timestamp DATE_END = rs.getTimestamp("DATE_END");
-				Promotion promotion = new Promotion(PROMOTION_ID, PRODUCT_NAME, PRODUCT_ID, PROMOTION_PRICE, DATE_START,
-						DATE_END);
-				promotionList.add(promotion);
+				PROMOTION_PRICE = rs.getInt(1);
 			}
-			return promotionList;
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return promotionList;
+		return PROMOTION_PRICE;
 	}
 
 	@Override

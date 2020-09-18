@@ -1,0 +1,94 @@
+package Bean;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+public class Notice_Schedule implements Serializable {
+
+	private int NOTICE_SCHEDULE_ID;
+
+	private String NOTICE_SCHEDULE_T;
+
+	private String NOTICE_SCHEDULE_D;
+
+	private Timestamp NOTICE_SCHEDUL_STARTTIME;
+
+	private Timestamp NOTICE_SCHEDUL_ENDTIME;
+
+	private int SCHEDULE_FLAG;
+
+	private int PRODUCT_ID;
+	
+	
+
+	public Notice_Schedule(int nOTICE_SCHEDULE_ID, String nOTICE_SCHEDULE_T, String nOTICE_SCHEDULE_D,
+			Timestamp nOTICE_SCHEDUL_STARTTIME, Timestamp nOTICE_SCHEDUL_ENDTIME, int sCHEDULE_FLAG, int pRODUCT_ID) {
+		super();
+		NOTICE_SCHEDULE_ID = nOTICE_SCHEDULE_ID;
+		NOTICE_SCHEDULE_T = nOTICE_SCHEDULE_T;
+		NOTICE_SCHEDULE_D = nOTICE_SCHEDULE_D;
+		NOTICE_SCHEDUL_STARTTIME = nOTICE_SCHEDUL_STARTTIME;
+		NOTICE_SCHEDUL_ENDTIME = nOTICE_SCHEDUL_ENDTIME;
+		SCHEDULE_FLAG = sCHEDULE_FLAG;
+		PRODUCT_ID = pRODUCT_ID;
+	}
+
+
+
+	public int getNOTICE_SCHEDULE_ID() {
+		return NOTICE_SCHEDULE_ID;
+	}
+
+	public void setNOTICE_SCHEDULE_ID(int nOTICE_SCHEDULE_ID) {
+		NOTICE_SCHEDULE_ID = nOTICE_SCHEDULE_ID;
+	}
+
+	public String getNOTICE_SCHEDULE_T() {
+		return NOTICE_SCHEDULE_T;
+	}
+
+	public void setNOTICE_SCHEDULE_T(String nOTICE_SCHEDULE_T) {
+		NOTICE_SCHEDULE_T = nOTICE_SCHEDULE_T;
+	}
+
+	public String getNOTICE_SCHEDULE_D() {
+		return NOTICE_SCHEDULE_D;
+	}
+
+	public void setNOTICE_SCHEDULE_D(String nOTICE_SCHEDULE_D) {
+		NOTICE_SCHEDULE_D = nOTICE_SCHEDULE_D;
+	}
+
+	public Timestamp getNOTICE_SCHEDUL_STARTTIME() {
+		return NOTICE_SCHEDUL_STARTTIME;
+	}
+
+	public void setNOTICE_SCHEDUL_STARTTIME(Timestamp nOTICE_SCHEDUL_STARTTIME) {
+		NOTICE_SCHEDUL_STARTTIME = nOTICE_SCHEDUL_STARTTIME;
+	}
+
+	public Timestamp getNOTICE_SCHEDUL_ENDTIME() {
+		return NOTICE_SCHEDUL_ENDTIME;
+	}
+
+	public void setNOTICE_SCHEDUL_ENDTIME(Timestamp nOTICE_SCHEDUL_ENDTIME) {
+		NOTICE_SCHEDUL_ENDTIME = nOTICE_SCHEDUL_ENDTIME;
+	}
+
+	public int getSCHEDULE_FLAG() {
+		return SCHEDULE_FLAG;
+	}
+
+	public void setSCHEDULE_FLAG(int sCHEDULE_FLAG) {
+		SCHEDULE_FLAG = sCHEDULE_FLAG;
+	}
+
+	public int getPRODUCT_ID() {
+		return PRODUCT_ID;
+	}
+
+	public void setPRODUCT_ID(int pRODUCT_ID) {
+		PRODUCT_ID = pRODUCT_ID;
+	}
+
+}

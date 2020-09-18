@@ -160,12 +160,14 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	}
 
 	@Override
-	public List<Notice> getQAAll() {
-		String sql = "select * from NOTICE WHERE NOTICE_CATEGORY_ID = 1 ORDER BY  NOTICE_TIME DESC;";
+	public List<Notice> getGoodsAll(String Account_ID) {
+		String sql = "select * from NOTICE WHERE NOTICE_CATEGORY_ID = 1 and ACCOUNT_ID = ? ORDER BY  NOTICE_TIME DESC;";
 		List<Notice> noticeList = new ArrayList<Notice>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, Account_ID);
 			ResultSet rs = ps.executeQuery();
+			System.out.print(ps.toString());
 			while (rs.next()) {
 				System.out.println("--------");
 				int NOTICE_ID = rs.getInt(1);
@@ -292,12 +294,14 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	}
 
 	@Override
-	public Notice getLastQAN() {
-		String sql = "SELECT * FROM Shunel.notice WHERE NOTICE_CATEGORY_ID = 1 order by notice_time desc limit 1 ; ";
-		Notice lastQAN = null;
+	public Notice getLastGoodN(String Account_ID) {
+		String sql = "SELECT * FROM Shunel.notice WHERE NOTICE_CATEGORY_ID = 1 and ACCOUNT_ID =  ? order by notice_time desc limit 1 ; ";
+		Notice lastGoodN = null;
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, Account_ID);
 			ResultSet rs = ps.executeQuery();
+			System.out.print(ps.toString());
 			while (rs.next()) {
 				System.out.println("--------");
 				int NOTICE_ID = rs.getInt(1);
@@ -307,14 +311,14 @@ public class Notice_DAO_Interface implements Notice_DAO {
 				int NOTICE_CATEGORY_ID = rs.getInt(5);
 				int CATEGORY_MESSAGE_ID = rs.getInt(6);
 				String ACCOUNT_ID = rs.getString(7);
-				lastQAN = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
+				lastGoodN = new Notice(NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_TIME, NOTICE_CATEGORY_ID,
 						CATEGORY_MESSAGE_ID, ACCOUNT_ID);
 			}
-			return lastQAN;
+			return lastGoodN;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return lastQAN;
+		return lastGoodN;
 	}
 
 	@Override
@@ -381,6 +385,26 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return count;
 	}
+	
+	
+	//針對單一商品推
+	@Override
+	public int sendSaleNAndProduct(String notice_title, String notice_content, int product_ID) {
+		int count = 0;
+		String sql = "INSERT INTO Shunel.NOTICE ( NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CATEGORY_ID,CATEGORY_MESSAGE_ID) VALUES ( ? , ? , ? , ?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, notice_title);
+			ps.setString(2, notice_content);
+			ps.setInt(3, 0);
+			ps.setInt(4, product_ID);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 
 	// 發送群體系統訊息(Notice)
 	@Override
@@ -403,18 +427,17 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	// 取全部人的Token
 	@Override
 	public List<String> getToken() {
-		String sql = "SELECT  TOKEN FROM Shunel.USER_ACCOUNT where TOKEN != ?;";
+		String sql = "SELECT  TOKEN FROM Shunel.USER_ACCOUNT where 1=1 ;";
 		List<String> tokenList = new ArrayList<String>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-			ps.setString(1, "");
+			
 			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				String str = "";
 				str = rs.getString("TOKEN");
 				tokenList.add(str);
-				System.out.println(tokenList);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -466,6 +489,28 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return count;
 	}
+	
+	
+	@Override
+	public int putGoodsAgainNotice(String order_id) {
+		int count = 0;
+		System.out.print("test!");
+		String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE ( NOTICE_CATEGORY_ID = 1  and  CATEGORY_MESSAGE_ID = ?);";
+
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, "訂單已成立");
+			ps.setString(2, "您的訂單編號為  " + order_id + " ，將於付款後出貨");
+			ps.setString(3, order_id);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
 
 	// 發送付款通過訊息
 	// 亭葳
@@ -507,8 +552,66 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return count;
 	}
 
-//		@Override
-//		public int 
+	// 發送單一對象到貨訊息(order_main)
+	// 亭葳
+	@Override
+	public int goodsFinishNotice(String order_id) {
+		int count = 0;
+		String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE ( NOTICE_CATEGORY_ID = 1  and  CATEGORY_MESSAGE_ID = ?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, "商品已送達");
+			ps.setString(2, "訂單編號" + order_id + " 已送達您指定的地區，再麻煩前往領取，謝謝!");
+			ps.setString(3, order_id);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
+	
+	// 發送單一對象訂單取消訊息(order_main)
+	// 亭葳
+	@Override
+	public int goodsCancelNotice(String order_id) {
+		int count = 0;
+		String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE ( NOTICE_CATEGORY_ID = 1  and  CATEGORY_MESSAGE_ID = ?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, "訂單已取消");
+			ps.setString(2, "訂單編號" + order_id + "已取消，歡迎您再度光臨選購");
+			ps.setString(3, order_id);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
+	// 發送單一對象退貨訊息(order_main)
+	// 亭葳
+	@Override
+	public int goodsReturnNotice(String order_id) {
+		int count = 0;
+		String sql = "UPDATE Shunel.NOTICE SET NOTICE_TITLE = ? , NOTICE_CONTENT = ? WHERE ( NOTICE_CATEGORY_ID = 1  and  CATEGORY_MESSAGE_ID = ?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, "商品已辦理退貨");
+			ps.setString(2, "訂單編號" + order_id + "已退貨成功，造成您的不便敬請見諒");
+			ps.setString(3, order_id);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
 
 	// 亭葳
 	// 從訂單總表連到USER_ACCOUNT去取Token
@@ -547,6 +650,8 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return str;
 	}
+	
+	
 
 //	@Override
 //	public Product findByNoticeMessageId(int prouct_id) {

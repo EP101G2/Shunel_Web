@@ -32,6 +32,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 /**
  * Servlet implementation class Notice_Servlet
@@ -59,10 +61,6 @@ public class Notice_Servlet extends HttpServlet {
 		if (notice_DAO == null) {
 			notice_DAO = new Notice_DAO_Interface();
 		}
-
-//		List<Notice> notices = notice_DAO.getNoticeAll();
-//		writeText(response, new Gson().toJson(notices));
-
 	}
 
 	/**
@@ -96,6 +94,7 @@ public class Notice_Servlet extends HttpServlet {
 
 		String action = jsonObject.get("action").getAsString();
 		List<Notice> notices;
+		String getAccount_ID;
 		notices = null;
 
 		switch (action) {
@@ -117,7 +116,7 @@ public class Notice_Servlet extends HttpServlet {
 
 			break;
 		case "getNoticeAll":
-			String getAccount_ID = "";
+			getAccount_ID = "";
 			getAccount_ID = jsonObject.get("account_ID").getAsString();
 			notices = notice_DAO.getNoticeAll(getAccount_ID);
 			writeText(response, gson.toJson(notices));
@@ -125,7 +124,6 @@ public class Notice_Servlet extends HttpServlet {
 		case "update":
 			String result = jsonObject.get("notice").getAsString();
 			Notice notice = gson.fromJson(result, Notice.class);
-			System.out.println(notice + "");
 			int update = notice_DAO.update(notice);
 			writeText(response, String.valueOf(update));
 			break;
@@ -135,9 +133,11 @@ public class Notice_Servlet extends HttpServlet {
 			writeText(response, gson.toJson(saleNotices));
 			break;
 
-		case "getQAAll":
-			List<Notice> qANotices = notice_DAO.getQAAll();
-			writeText(response, gson.toJson(qANotices));
+		case "getGoodAll":
+			getAccount_ID = "";
+			getAccount_ID = jsonObject.get("account_ID").getAsString();
+			List<Notice> goodNotices = notice_DAO.getGoodsAll(getAccount_ID);
+			writeText(response, gson.toJson(goodNotices));
 			break;
 
 		case "getSystemAll":
@@ -150,9 +150,11 @@ public class Notice_Servlet extends HttpServlet {
 			writeText(response, gson.toJson(lastSaleN));
 			break;
 
-		case "getLastQAN":
-			Notice lastQAN = notice_DAO.getLastQAN();
-			writeText(response, gson.toJson(lastQAN));
+		case "getLastGoodN":
+			getAccount_ID = "";
+			getAccount_ID = jsonObject.get("account_ID").getAsString();
+			Notice lastGoodN = notice_DAO.getLastGoodN(getAccount_ID);
+			writeText(response, gson.toJson(lastGoodN));
 			break;
 
 		case "getLastSystemN":
@@ -161,19 +163,23 @@ public class Notice_Servlet extends HttpServlet {
 			break;
 
 		case "sendSaleN":
+
+			int productType = jsonObject.get("productType").getAsInt();
 			String newSaleT = jsonObject.get("title").getAsString();
 			String newSaleD = jsonObject.get("msg").getAsString();
-			int countSaleN = notice_DAO.sendSaleN(newSaleT, newSaleD);
-			System.out.println("=====count=====" + countSaleN);
-			writeText(response, String.valueOf(countSaleN));
-			try {
-				FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getToken(), newSaleT, newSaleD, 0);
+			int countSaleN;
+			if (productType == 0) {
+				countSaleN = notice_DAO.sendSaleN(newSaleT, newSaleD);
+				System.out.println("=====count=====" + countSaleN);
 
-			} catch (FirebaseMessagingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} else {
+				//針對單一商品推
+				countSaleN = notice_DAO.sendSaleNAndProduct(newSaleT, newSaleD, productType);			
 			}
+			
+				FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getToken(), newSaleT, newSaleD,productType, 0);
 
+			writeText(response, String.valueOf(countSaleN));
 			break;
 
 		case "sendSystemN":
@@ -182,12 +188,11 @@ public class Notice_Servlet extends HttpServlet {
 			int countSystemN = notice_DAO.sendSystemN(newSystemT, newSystemD);
 			System.out.println("=====count=====" + countSystemN);
 			writeText(response, String.valueOf(countSystemN));
-			try {
-				FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getToken(), newSystemT, newSystemD, 2);
-			} catch (FirebaseMessagingException e) {
+			
+				FirebaseCloudMsg.getInstance().FCMsendMsgMuti(notice_DAO.getToken(), newSystemT, newSystemD,0, 2);
+			
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 			break;
 
 		case "sendOrderN":
@@ -199,7 +204,7 @@ public class Notice_Servlet extends HttpServlet {
 			System.out.println("=====count=====" + countChatN);
 			writeText(response, String.valueOf(countChatN));
 			FirebaseCloudMsg.getInstance().FCMsendMsg(notice_DAO.getOneTokenFromOrderMain(order_ID), newChatT, newChatD,
-					1);
+					0,1);
 			break;
 		}
 
