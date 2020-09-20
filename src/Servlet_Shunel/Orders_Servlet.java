@@ -248,25 +248,21 @@ public class Orders_Servlet extends HttpServlet {
 			int status = jsonObject.get("status").getAsInt();
 			int status1 = 0;
 			String account_ID = jsonObject.get("Account_ID").getAsString();
-			if (status == 0 ) {
+			if (status == 0) {
 //				status = jsonObject.get("status").getAsInt();
 				status1 = jsonObject.get("status1").getAsInt();
-<<<<<<< HEAD
-			} 
-=======
-			}
->>>>>>> b4e1286bdce865e6795632225a695f2ea6226b81
 
-			List<Order_Main> orderShortMainMainList;
-			System.out.print("input accountId & status: " + account_ID + ", " + status);
-			orderShortMainMainList = order_Main_DAO.getOrderMains(account_ID, status);
-			if (status1 != 0) {
-				orderShortMainMainList1 = order_Main_DAO.getOrderMains(account_ID, status1);
-				orderShortMainMainList.addAll(orderShortMainMainList1);
+				List<Order_Main> orderShortMainMainList;
+				System.out.print("input accountId & status: " + account_ID + ", " + status);
+				orderShortMainMainList = order_Main_DAO.getOrderMains(account_ID, status);
+				if (status1 != 0) {
+					orderShortMainMainList1 = order_Main_DAO.getOrderMains(account_ID, status1);
+					orderShortMainMainList.addAll(orderShortMainMainList1);
+				}
+				System.out.println("orderShortMainMainList" + gson.toJson(orderShortMainMainList));
+				writeText(response, gson.toJson(orderShortMainMainList));
+				break;
 			}
-			System.out.println("orderShortMainMainList"+gson.toJson(orderShortMainMainList));
-			writeText(response, gson.toJson(orderShortMainMainList));
-			break;
 		}
 ////		get short order detail list insert here(banned!!
 //		case "getOrderDetailShort": {
