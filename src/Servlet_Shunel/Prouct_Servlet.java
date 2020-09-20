@@ -451,7 +451,7 @@ public class Prouct_Servlet extends HttpServlet {
 			sendFirebase = notice_DAO.TitleAndDetail(1, String.valueOf(orderid));
 			String title = sendFirebase.getNotice_Title();
 			String msg = sendFirebase.getNotice_Content();
-			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg,0, 1);
+			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg , 0 , 1);
 			System.out.println("FireB=======================" + sendFirebase);
 			/*-------------------------------------------------發送訂單推播-----------------------------------------------------------------*/
 			for (JsonElement element : jsonArray) {

@@ -234,12 +234,12 @@ public class Orders_Servlet extends HttpServlet {
 			token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderid));
 			sendFirebase = notice_DAO.TitleAndDetail(1, String.valueOf(orderid));
 
-//			System.out.println(sendFirebase + "====sF=====");
-//			String title = sendFirebase.getNotice_Title();
-//			String msg = sendFirebase.getNotice_Content();
-//			System.out.println(title + "====T=====");
-//			System.out.println(msg + "====MSG=====");
-//			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 1);
+			System.out.println(sendFirebase + "====sF=====");
+			String title = sendFirebase.getNotice_Title();
+			String msg = sendFirebase.getNotice_Content();
+			System.out.println(title + "====T=====");
+			System.out.println(msg + "====MSG=====");
+			FirebaseCloudMsg.getInstance().FCMsendMsg(token, title, msg, 0,1);
 			count = order_Main_DAO.updataOrder(orderid,oMain);
 
 			writeText(response, String.valueOf(count));
@@ -253,10 +253,8 @@ public class Orders_Servlet extends HttpServlet {
 			int status1 = 0;
 			String account_ID = jsonObject.get("Account_ID").getAsString();
 			if (status == 0) {
-//				status = jsonObject.get("status").getAsInt();
 				status1 = jsonObject.get("status1").getAsInt();
 
-<<<<<<< HEAD
 				List<Order_Main> orderShortMainMainList;
 				System.out.print("input accountId & status: " + account_ID + ", " + status);
 				orderShortMainMainList = order_Main_DAO.getOrderMains(account_ID, status);
@@ -267,16 +265,7 @@ public class Orders_Servlet extends HttpServlet {
 				System.out.println("orderShortMainMainList" + gson.toJson(orderShortMainMainList));
 				writeText(response, gson.toJson(orderShortMainMainList));
 				break;
-=======
-			} 
 
-			List<Order_Main> orderShortMainMainList;
-			System.out.print("input accountId & status: " + account_ID + ", " + status);
-			orderShortMainMainList = order_Main_DAO.getOrderMains(account_ID, status);
-			if (status1 != 0) {
-				orderShortMainMainList1 = order_Main_DAO.getOrderMains(account_ID, status1);
-				orderShortMainMainList.addAll(orderShortMainMainList1);
->>>>>>> c7539b4b5d29dba4671b40e8ce698f8d10649ae6
 			}
 		}
 ////		get short order detail list insert here(banned!!
