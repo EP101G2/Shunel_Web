@@ -17,6 +17,7 @@ import Bean.Order_Main;
 import Bean.Product;
 import DAO.Product_DAO;
 import Servlet_Shunel.ServiceLocator;
+import io.opencensus.stats.Aggregation.Count;
 
 public class Product_DAO_Interface implements Product_DAO {
 
@@ -27,6 +28,28 @@ public class Product_DAO_Interface implements Product_DAO {
 
 	}
 
+	@Override
+	public int insertHistory(String Account_ID, int Product_ID) {
+		int count = 0;
+//		String sql = " INSERT INTO `Shunel`.`HISTORY` (`ACCOUNT_ID`,`PRODUCT_ID`)  VALUES (? ,?)"+
+//					 " ON DUPLICATE KEY UPDATE `ACCOUNT_ID` =   VALUES(ACCOUNT_ID) , `PRODUCT_ID` = VALUES(PRODUCT_ID) ;";
+//		
+		String sql = " INSERT INTO `Shunel`.`HISTORY` (`ACCOUNT_ID`,`PRODUCT_ID`)  VALUES (? ,?);";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, Account_ID);
+			ps.setInt(2, Product_ID);
+			System.out.println(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return count;
+	}
+	
+	
 	@Override
 	public String getAddress() {
 		String address = "";
@@ -97,6 +120,42 @@ public class Product_DAO_Interface implements Product_DAO {
 		}
 		return product;
 	}
+	@Override
+	public List<Product> getHisctory(String user_id) {
+		String sql = "Select * From Shunel.HISTORY join Shunel.PRODUCT on Shunel.HISTORY.PRODUCT_ID  = Shunel.PRODUCT.PRODUCT_ID Where Shunel.HISTORY.ACCOUNT_ID = ? order by Shunel.HISTORY.TIME desc" ;
+		
+		List<Product> prouctList = new ArrayList<Product>();
+		Product product = null;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, user_id);
+			System.out.println(connection.isClosed());
+			System.out.println(ps.isClosed());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.println("--------");
+				int id = rs.getInt("PRODUCT_ID");
+				String prouct_Name = rs.getString("PRODUCT_NAME");
+				String prouct_Color = rs.getString("COLOR");
+				int prouct_Price = rs.getInt("PRICE");
+				String prouct_Dital = rs.getString("DITAL");
+				int prouct_Category_ID = rs.getInt("CATEGORY_ID");
+				int prouct_Status = rs.getInt("PRODUCT_STATUS");
+//				Timestamp prouct_Time = rs.getTimestamp("MODIFY_DATE");
+
+				product = new Product(id, prouct_Name, prouct_Color, prouct_Price, prouct_Dital, prouct_Category_ID,
+						prouct_Status);
+				prouctList.add(product);
+			}
+			return prouctList;
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+
+		return prouctList;
+	}
 
 	@Override
 	public List<Product> getLikeProduct(String user_id) {
@@ -104,7 +163,6 @@ public class Product_DAO_Interface implements Product_DAO {
 
 		List<Product> prouctList = new ArrayList<Product>();
 		Product product = null;
-		System.out.println("333");
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ps.setString(1, user_id);
@@ -446,5 +504,8 @@ public class Product_DAO_Interface implements Product_DAO {
 
 		return prouctList;
 	}
+
+	
+	
 
 }

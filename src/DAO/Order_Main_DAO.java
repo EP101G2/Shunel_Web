@@ -15,7 +15,7 @@ public interface Order_Main_DAO {
 //	Order_Main findById(int Order_ID);
 	List<Order_Main> getAll();
 	int getStatus(int status);
-	int updataOrder(int oM_ID);
+	int updataOrder(int oM_ID,Order_Main order_Main);
 	Order_Main findById(String account_ID);
 	byte[] getImage(int id);
 	List<Order_Main> getOrderMains(String account_ID, int status);

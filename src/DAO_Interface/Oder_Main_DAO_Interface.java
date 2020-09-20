@@ -253,16 +253,20 @@ public class Oder_Main_DAO_Interface implements Order_Main_DAO {
 	}
 //update order status
 	@Override
-	public int updataOrder(int oM_ID) {
+	public int updataOrder(int oM_ID,Order_Main order_Main) {
 		// TODO Auto-generated method stub
 		System.out.println("===================1==================");
 		int Count = 0;
-		String sql = "UPDATE ORDER_MAIN SET ORDER_STATUS = 1 WHERE ORDER_ID = ?;";
+		String sql = "UPDATE ORDER_MAIN SET ORDER_STATUS = 1 ,RECRIVER =?,ADDRESS = ?,PHONE =? WHERE ORDER_ID = ?;";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);
 				
 				){
-			ps.setInt(1, oM_ID);
+			ps.setString(1, order_Main.getOrder_Main_Receiver());
+			ps.setString(2, order_Main.getOrder_Main_Address());
+			ps.setString(3, order_Main.getOrder_Main_Phone());
+			ps.setInt(4, oM_ID);
+			
 			System.out.println("===================1=================="+ps.toString());
 			Count = ps.executeUpdate();
 		} catch (Exception e) {

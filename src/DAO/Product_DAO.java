@@ -9,6 +9,10 @@ import Bean.Product;
 import Bean.Shopping_Cart;
 
 public interface Product_DAO {
+	
+	
+	int insertHistory(String accountID, int Product_ID);
+	
 	String getAddress();
 	
 	int insertAddress(String string);
@@ -20,6 +24,9 @@ public interface Product_DAO {
 	int delete(int id);
 
 	Product findById(int prouct_id);
+	
+	List<Product> getHisctory(String user_id);
+
 
 	List<Product> getTOP5Product();
 

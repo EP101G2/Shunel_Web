@@ -158,6 +158,14 @@ public class Prouct_Servlet extends HttpServlet {
 		String action = jsonObject.get("action").getAsString();
 
 		switch (action) {
+		
+		case "InsertHistory":{
+			String accountID = jsonObject.get("userid").getAsString();
+			int productID = Integer.parseInt(jsonObject.get("productID").getAsString());
+			int count = product_DAO.insertHistory(accountID, productID);
+			writeText(response, String.valueOf(count));
+			break;
+		}
 		case "getAddress":{
 			
 			writeText(response, product_DAO.getAddress());
@@ -270,7 +278,16 @@ public class Prouct_Servlet extends HttpServlet {
 			writeText(response, jsonObject2.toString());
 			break;
 		}
-
+		
+		case "getHisctoryProduct":{
+			String user_id = jsonObject.get("id").getAsString();
+			List<Product> proucts = product_DAO.getHisctory(user_id);
+			writeText(response, gson.toJson(proucts));
+			
+			break;
+		}
+		
+		
 		case "getLikeProduct": {
 			String user_id = jsonObject.get("id").getAsString();
 			List<Product> proucts = product_DAO.getLikeProduct(user_id);
@@ -341,7 +358,7 @@ public class Prouct_Servlet extends HttpServlet {
 			System.out.println("ID_Json = " + ID_Json);
 
 			Shopping_Cart shopping_Cart = gson.fromJson(ID_Json, Shopping_Cart.class);
-			System.out.println("shopping_Cart" + shopping_Cart.getAccount_ID());
+//			System.out.println("shopping_Cart" + shopping_Cart.getAccount_ID());
 			int count = 0;
 			count = shopping_Card_DAO.insert(shopping_Cart);
 			writeText(response, String.valueOf(count));
