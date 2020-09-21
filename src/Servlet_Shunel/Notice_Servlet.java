@@ -206,6 +206,12 @@ public class Notice_Servlet extends HttpServlet {
 			FirebaseCloudMsg.getInstance().FCMsendMsg(notice_DAO.getOneTokenFromOrderMain(order_ID), newChatT, newChatD,
 					0,1);
 			break;
+			
+		case "getOrder_detail":
+			int orderID = jsonObject.get("orderID").getAsInt();
+			Product getOrderDetail = notice_DAO.getOrderDetail(orderID);
+			writeText(response, gson.toJson(getOrderDetail));
+			break;
 		}
 
 	}

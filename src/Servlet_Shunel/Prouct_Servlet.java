@@ -446,7 +446,7 @@ public class Prouct_Servlet extends HttpServlet {
 //			String content ="您的訂單已成立，訂單編號為";
 
 //			System.out.println("orderid======================="+orderid);
-			notice = notice_DAO.putGoodsNotice(orderid);
+			notice = notice_DAO.putGoodsNotice(orderid,order_Main.getAccount_ID());
 			token = notice_DAO.getOneTokenFromOrderMain(String.valueOf(orderid));
 			sendFirebase = notice_DAO.TitleAndDetail(1, String.valueOf(orderid));
 			String title = sendFirebase.getNotice_Title();
