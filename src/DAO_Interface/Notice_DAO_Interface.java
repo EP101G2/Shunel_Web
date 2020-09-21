@@ -15,6 +15,7 @@ import com.sun.source.tree.WhileLoopTree;
 
 import Bean.Like;
 import Bean.Notice;
+import Bean.Order_Detail;
 import Bean.Product;
 import DAO.Notice_DAO;
 import Servlet_Shunel.ServiceLocator;
@@ -385,9 +386,8 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return count;
 	}
-	
-	
-	//針對單一商品推
+
+	// 針對單一商品推
 	@Override
 	public int sendSaleNAndProduct(String notice_title, String notice_content, int product_ID) {
 		int count = 0;
@@ -431,7 +431,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		List<String> tokenList = new ArrayList<String>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
-			
+
 			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -471,10 +471,10 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	// 發送單一對象訂單成立訊息(order_main)
 	// 亭葳
 	@Override
-	public int putGoodsNotice(int order_id) {
+	public int putGoodsNotice(int order_id, String account_id) {
 		int count = 0;
 
-		String sql = "INSERT INTO Shunel.NOTICE ( NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CATEGORY_ID, CATEGORY_MESSAGE_ID ) VALUES ( ? , ? , ?, ? );";
+		String sql = "INSERT INTO Shunel.NOTICE ( NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CATEGORY_ID, CATEGORY_MESSAGE_ID, ACCOUNT_ID ) VALUES ( ? , ? , ?, ?  , ?);";
 
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -482,6 +482,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 			ps.setString(2, "您的訂單編號為  " + order_id + " ，將於付款後出貨");
 			ps.setInt(3, 1);
 			ps.setInt(4, order_id);
+			ps.setString(5, account_id);
 			System.out.print(ps.toString());
 			count = ps.executeUpdate();
 		} catch (SQLException e) {
@@ -489,8 +490,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return count;
 	}
-	
-	
+
 	@Override
 	public int putGoodsAgainNotice(String order_id) {
 		int count = 0;
@@ -509,8 +509,6 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return count;
 	}
-	
-	
 
 	// 發送付款通過訊息
 	// 亭葳
@@ -570,9 +568,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return count;
 	}
-	
-	
-	
+
 	// 發送單一對象訂單取消訊息(order_main)
 	// 亭葳
 	@Override
@@ -591,8 +587,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return count;
 	}
-	
-	
+
 	// 發送單一對象退貨訊息(order_main)
 	// 亭葳
 	@Override
@@ -611,7 +606,6 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return count;
 	}
-
 
 	// 亭葳
 	// 從訂單總表連到USER_ACCOUNT去取Token
@@ -650,30 +644,33 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 		return str;
 	}
-	
-	
 
-//	@Override
-//	public Product findByNoticeMessageId(int prouct_id) {
-//		String sql = " SELECT PRODUCT_NAME, COLOR, DITAL FROM Shunel.PRODUCT WHERE PRODUCT_ID = ?;";
-//		Product product = null;
-//		try (Connection connection = dataSource.getConnection();
-//				PreparedStatement ps = connection.prepareStatement(sql);) {
-//			ps.setInt(1, prouct_id);
-//			ResultSet rs = ps.executeQuery();
-//			while (rs.next()) {
-//				System.out.println("--------");
-//				String PRODUCT_NAME = rs.getString("PRODUCT_NAME");
-//				String COLOR = rs.getString("COLOR");
-//				String DITAL = rs.getString("DITAL");
-//				product = new Product(PRODUCT_NAME, COLOR, DITAL);
-//			}
-//			return product;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return product;
-//	}
+	@Override
+	public Product getOrderDetail(int orderID) {
+		String sql = "select  od.PRODUCT_ID , pd.PRODUCT_NAME from Shunel.ORDER_DETAIL  od join Shunel.PRODUCT PD where od.PRODUCT_ID = pd.PRODUCT_ID and ORDER_ID = ? limit 1;";
+
+		Product product = null; 
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql)) {
+			ps.setInt(1,orderID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				 product = new Product(); 
+				System.out.println("--------");
+				int PRODUCT_ID = rs.getInt(1);
+				String PRODUCT_NAME = rs.getString(2);
+				product.setProduct_ID(PRODUCT_ID);
+				product.setProduct_Name(PRODUCT_NAME);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return product;
+		
+
+	}
 
 	@Override
 	public List<String> getOneToken(List<String> Account_ID) {

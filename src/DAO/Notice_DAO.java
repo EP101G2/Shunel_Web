@@ -3,13 +3,13 @@ package DAO;
 import java.util.List;
 
 import Bean.Notice;
+import Bean.Order_Detail;
 import Bean.Product;
 
 public interface Notice_DAO {
 	int insert(Notice notice);
 	
 	//訂單成立時把order_id 及 NOTICE_CATEGORY_ID = 3 放入Notice 表格中
-	int putGoodsNotice(int order_id);
 	
 	//找到Notice表格中的 order_id，並對其發送個人通知
 	int sendGoodsNotice(String order_id);
@@ -70,6 +70,12 @@ public interface Notice_DAO {
 	int goodsFinishNotice(String order_id);
 
 	int putGoodsAgainNotice(String order_id);
+
+	int putGoodsNotice(int order_id, String account_id);
+
+
+
+	Product getOrderDetail(int orderID);
 
 //	int sendScheduleToFront(String notice_Title, String notice_Detail, int notice_category, int category_Message_ID);
 

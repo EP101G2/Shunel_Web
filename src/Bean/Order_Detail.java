@@ -23,6 +23,12 @@ public class Order_Detail implements Serializable {
 		this.product_Name = product_Name;
 	}
 	
+	
+	public Order_Detail() {
+		
+	}
+	
+	
 	public Order_Detail(int order_ID, int order_Detail_Amount, int product_ID, int order_Detail_Buy_Price,
 			String color) {
 		this.order_ID = order_ID;
