@@ -180,6 +180,41 @@ public class User_Account_Servlet extends HttpServlet {
 			break;
 		}
 
+		case "google": {
+			String result = "";
+			String user = jsonObject.get("user").getAsString();
+
+			User_Account uaFromAndroid = gson.fromJson(user, User_Account.class);
+			// 字串 要解析成的類型 就變成ＵＳＥＲＡＣＣＯＵＮＴ的物件
+			String id = uaFromAndroid.getAccount_ID();
+			User_Account uaFromDB = account_DAO.login(id);
+
+			JsonObject jsonObject2 = new JsonObject();
+			if (uaFromDB != null) {
+				if (!uaFromAndroid.getTOKEN().equals(uaFromDB.getTOKEN())) { // 如果註冊過會去安著拿ＴＯＫＥＮ去跟ＤＢ做比對
+					b = new Uesr_Account_DAO_Interface().updateToken(uaFromAndroid.getAccount_ID(),
+							uaFromAndroid.getTOKEN());// 更新Token
+				}
+				jsonObject2.addProperty("User", gson.toJson(uaFromDB)); // 包了兩層
+				result = jsonObject2.toString();
+			} else { // 沒註冊過跑的地方
+				uaFromAndroid.setAccount_Phone(""); // 送去ＤＡＯ
+				uaFromAndroid.setAccount_Password("");
+				uaFromAndroid.setAccount_Address("");
+				int count = account_DAO.insert(uaFromAndroid);
+				if (count == 1) {
+					jsonObject2.addProperty("User", gson.toJson(uaFromAndroid)); // 包了兩層
+					result = jsonObject2.toString();
+				} else {
+					result = String.valueOf(count);
+				}
+			}
+
+			writeText(response, result);
+
+		}
+			break;
+			
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
 		}
