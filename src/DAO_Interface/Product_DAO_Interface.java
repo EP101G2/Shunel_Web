@@ -110,9 +110,11 @@ public class Product_DAO_Interface implements Product_DAO {
 				int PRODUCT_ID = rs.getInt("PRODUCT_ID");
 				String PRODUCT_NAME = rs.getString("PRODUCT_NAME");
 				String COLOR = rs.getString("COLOR");
+				int PRICE = rs.getInt("PRICE");
+				int PRODUCT_STATUS = rs.getInt("PRODUCT_STATUS");
 				String DITAL = rs.getString("DITAL");
 				int prouct_Status = rs.getInt("PRODUCT_STATUS");
-				product = new Product(PRODUCT_ID,PRODUCT_NAME, COLOR, DITAL,prouct_Status);
+				product = new Product(PRODUCT_ID, PRODUCT_NAME, COLOR, PRICE, DITAL, PRODUCT_STATUS, prouct_Status);
 			}
 			return product;
 		} catch (SQLException e) {

@@ -8,13 +8,13 @@ import Bean.Product;
 
 public interface Notice_DAO {
 	int insert(Notice notice);
-	
-	//訂單成立時把order_id 及 NOTICE_CATEGORY_ID = 3 放入Notice 表格中
-	
-	//找到Notice表格中的 order_id，並對其發送個人通知
+
+	// 訂單成立時把order_id 及 NOTICE_CATEGORY_ID = 3 放入Notice 表格中
+
+	// 找到Notice表格中的 order_id，並對其發送個人通知
 	int sendGoodsNotice(String order_id);
-	
-	int sendProductNotice(int product_id,String product_name);
+
+	int sendProductNotice(int product_id, String product_name);
 
 	int update(Notice notice);
 
@@ -26,19 +26,17 @@ public interface Notice_DAO {
 
 	List<Notice> getSaleAll();
 
-	
 	List<String> getToken();
 
 	Notice getLastSaleN();
-
 
 	Notice getLastSystemN();
 
 	int sendSaleN(String notice_title, String notice_content);
 
 	int sendSystemN(String notice_title, String notice_content);
-	
-	String  getOneTokenFromOrderMain(String order_ID);
+
+	String getOneTokenFromOrderMain(String order_ID);
 
 	Notice TitleAndDetail(int CATEGORY_ID, String GATEGORY_MESSAGE_ID);
 
@@ -47,7 +45,6 @@ public interface Notice_DAO {
 	List<String> getAllLike(int product_ID);
 
 	List<String> getOneToken(List<String> Account_ID);
-
 
 	String getProduct_Name(int product_ID);
 
@@ -73,20 +70,12 @@ public interface Notice_DAO {
 
 	int putGoodsNotice(int order_id, String account_id);
 
-
+	int changeNoticeStatus(int status, String account_id);
 
 	Product getOrderDetail(int orderID);
 
 //	int sendScheduleToFront(String notice_Title, String notice_Detail, int notice_category, int category_Message_ID);
 
-
 //	Product findByNoticeMessageId(int prouct_id);
 
-
-	
-
-	
-
-	
-	
 }

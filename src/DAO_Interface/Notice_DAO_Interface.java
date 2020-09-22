@@ -698,4 +698,24 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		return allToken;
 	}
 
+	@Override
+	public int changeNoticeStatus(int status, String account_id) {
+		int count = 0;
+		String sql = "UPDATE Shunel.USER_ACCOUNT SET NOTICE_STATUS = ? WHERE (ACCOUNT_ID = ? );";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, status);
+			ps.setString(2, account_id);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+//	public int getNoticeStatus(String account_id) {
+//		
+//	}
+
 };
