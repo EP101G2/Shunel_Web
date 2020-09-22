@@ -212,6 +212,20 @@ public class Notice_Servlet extends HttpServlet {
 			Product getOrderDetail = notice_DAO.getOrderDetail(orderID);
 			writeText(response, gson.toJson(getOrderDetail));
 			break;
+			
+		case "changeNoticeStatus":
+			System.out.println("123");
+			int status = jsonObject.get("status").getAsInt();
+			getAccount_ID = jsonObject.get("account_id").getAsString();
+			int changeNoticeStatus  = notice_DAO.changeNoticeStatus(status, getAccount_ID);
+			writeText(response, String.valueOf(changeNoticeStatus));
+			break;
+			
+		case "getNoticeStatus":
+			getAccount_ID = jsonObject.get("account_id").getAsString(); 
+		    status = notice_DAO.getNoticeStatus(getAccount_ID);
+		    writeText(response, String.valueOf(status));
+			break;
 		}
 
 	}

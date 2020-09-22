@@ -427,7 +427,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	// 取全部人的Token
 	@Override
 	public List<String> getToken() {
-		String sql = "SELECT  TOKEN FROM Shunel.USER_ACCOUNT where 1=1 ;";
+		String sql = "SELECT  TOKEN FROM Shunel.USER_ACCOUNT where  NOTICE_STATUS = 1 AND 1=1 ;";
 		List<String> tokenList = new ArrayList<String>();
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
@@ -612,7 +612,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	@Override
 	public String getOneTokenFromOrderMain(String order_ID) {
 		String str = "";
-		String sql = "SELECT TOKEN FROM Shunel.USER_ACCOUNT ua join ORDER_MAIN om on ua.ACCOUNT_ID = om.ACCOUNT_ID where ORDER_ID = ?;";
+		String sql = "SELECT TOKEN FROM Shunel.USER_ACCOUNT ua join ORDER_MAIN om on ua.ACCOUNT_ID = om.ACCOUNT_ID where  NOTICE_STATUS = 1  AND ORDER_ID = ?;";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ps.setString(1, order_ID);
@@ -630,7 +630,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	@Override
 	public String getAccountToken(String Account_ID) {
 		String str = "";
-		String sql = "SELECT TOKEN FROM Shunel.USER_ACCOUNT where ACCOUNT_ID = ? ;";
+		String sql = "SELECT TOKEN FROM Shunel.USER_ACCOUNT where NOTICE_STATUS = 1 AND ACCOUNT_ID = ? ;";
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql);) {
 			ps.setString(1, Account_ID);
@@ -676,7 +676,7 @@ public class Notice_DAO_Interface implements Notice_DAO {
 	public List<String> getOneToken(List<String> Account_ID) {
 		String str = "";
 		List<String> allToken = new ArrayList<String>();
-		String sql = "SELECT TOKEN FROM Shunel.USER_ACCOUNT where ACCOUNT_ID = ?;";
+		String sql = "SELECT TOKEN FROM Shunel.USER_ACCOUNT where NOTICE_STATUS = 1 AND ACCOUNT_ID = ?;";
 		String account_id = "";
 		for (int i = 0; i < Account_ID.size(); i++) {
 
@@ -696,6 +696,41 @@ public class Notice_DAO_Interface implements Notice_DAO {
 		}
 
 		return allToken;
+	}
+
+	@Override
+	public int changeNoticeStatus(int status, String account_id) {
+		System.out.println("123");
+		int count = 0;
+		String sql = "UPDATE Shunel.USER_ACCOUNT SET NOTICE_STATUS = ? WHERE ACCOUNT_ID = ? ;";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setInt(1, status);
+			ps.setString(2, account_id);
+			System.out.print(ps.toString());
+			count = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	@Override
+	public int getNoticeStatus(String account_id) {
+		int status = 1;
+		String sql = "SELECT NOTICE_STATUS FROM Shunel.USER_ACCOUNT where ACCOUNT_ID = ?";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+			ps.setString(1, account_id);
+			System.out.print(ps.toString());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				System.out.println("--------");
+				status = rs.getInt(1);
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return status;
 	}
 
 };
