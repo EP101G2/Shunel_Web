@@ -252,36 +252,36 @@ public class Orders_Servlet extends HttpServlet {
 			int status = jsonObject.get("status").getAsInt();
 			int status1 = 0;
 			String account_ID = jsonObject.get("Account_ID").getAsString();
+			System.out.println("1---");
+
 			if (status == 0) {
+				System.out.println("2---");
 				status1 = jsonObject.get("status1").getAsInt();
 
 				List<Order_Main> orderShortMainMainList;
 				System.out.print("input accountId & status: " + account_ID + ", " + status);
 				orderShortMainMainList = order_Main_DAO.getOrderMains(account_ID, status);
+				
 				if (status1 != 0) {
 					orderShortMainMainList1 = order_Main_DAO.getOrderMains(account_ID, status1);
 					orderShortMainMainList.addAll(orderShortMainMainList1);
+					System.out.println("getOrderMains---");
 				}
+				
+				System.out.println("3---");
 				System.out.println("orderShortMainMainList" + gson.toJson(orderShortMainMainList));
 				writeText(response, gson.toJson(orderShortMainMainList));
-				break;
-
+			} else {
+				System.out.println("--else block--");
+				System.out.print("input accountId & status: " + account_ID + ", " + status);
+				List<Order_Main> orderMainSList = order_Main_DAO.getOrderMains(account_ID, status);
+				writeText(response, gson.toJson(orderMainSList));
 			}
+			
+			
+			System.out.println("4---");
+			break;
 		}
-////		get short order detail list insert here(banned!!
-//		case "getOrderDetailShort": {
-//			int order_ID = jsonObject.get("Order_ID").getAsInt(); // check if "Order_ID" matches the "Order_ID" in client
-//			List<Order_Main> orderShortDetailList = order_Main_DAO.getShortOrderDetails(order_ID);
-//			writeText(response, gson.toJson(orderShortDetailList));
-//		}  
-////		get product id by order id
-//		case "getProductForOrders": {
-//			int Order_ID = jsonObject.get("order_Id").getAsInt();
-//			System.out.print("getProductForOrders where orderId: "+Order_ID);
-//			List<Order_Detail> orderedProductList = order_Detail_DAO.getProductForOrders(Order_ID);
-//			writeText(response, gson.toJson(orderedProductList));
-//			break;
-//		}//banned!!
 
 //		get ordered product by order id(back and front)
 		case "getOrderedProducts": {
