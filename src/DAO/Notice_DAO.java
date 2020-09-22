@@ -74,6 +74,8 @@ public interface Notice_DAO {
 
 	Product getOrderDetail(int orderID);
 
+	int getNoticeStatus(String account_id);
+
 //	int sendScheduleToFront(String notice_Title, String notice_Detail, int notice_category, int category_Message_ID);
 
 //	Product findByNoticeMessageId(int prouct_id);
