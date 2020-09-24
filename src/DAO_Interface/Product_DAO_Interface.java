@@ -161,7 +161,7 @@ public class Product_DAO_Interface implements Product_DAO {
 
 	@Override
 	public List<Product> getLikeProduct(String user_id) {
-		String sql = "Select * From Shunel.LIKE join Shunel.PRODUCT on Shunel.LIKE.PRODUCT_ID  = Shunel.PRODUCT.PRODUCT_ID Where Shunel.LIKE.ACCOUNT_ID = ?";
+		String sql = "Select * From Shunel.LIKE join Shunel.PRODUCT on Shunel.LIKE.PRODUCT_ID  = Shunel.PRODUCT.PRODUCT_ID Where Shunel.LIKE.ACCOUNT_ID = ?  && Shunel.PRODUCT.PRODUCT_STATUS != 0 ; ";
 
 		List<Product> prouctList = new ArrayList<Product>();
 		Product product = null;
